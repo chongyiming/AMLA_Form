@@ -11,16 +11,17 @@
             font-weight: bold;
             font-size: 14px;
             flex: 1;
-            padding: 10px;
-            text-align: center;
+            padding: 5px;
             border-bottom: 1px solid #CCCCCC;
             border-right: 1px solid #CCCCCC;
             display: flex;
             align-items: center;
+            justify-content: center;
         }
 
         .table_label {
-            text-align: left;
+            justify-content: left;
+
         }
 
         .people-grid {

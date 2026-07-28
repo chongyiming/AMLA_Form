@@ -11,7 +11,7 @@
             height: 1123px;
             padding-left: 20px;
             padding-right: 20px;
-
+            padding-bottom: 10px;
             margin: auto;
             box-sizing: border-box;
 
@@ -40,7 +40,6 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             margin-top: 10px;
-            gap: 5px;
 
 
         }

@@ -244,6 +244,11 @@
                     name="{{ $row['input'] ?? '' }}"
                     placeholder="{{ $row['placeholder'] ?? '' }}"
                     value="{{ session('form_data.' . ($row['input'] ?? '')) ?? old($row['input'] ?? '') }}">
+                <!-- @error($row['input'])
+                <div style="color:red;">
+                    {{ $message }}
+                </div>
+                @enderror -->
                 @endif
 
                 @endif
@@ -266,6 +271,7 @@
                     style="border-left: 1px solid #CCCCCC;"
                     data-i18n="{{ $children['placeholder']??'' }}"
                     data-i18n-target="placeholder">
+
                 @endif
                 @endforeach
                 @endif
