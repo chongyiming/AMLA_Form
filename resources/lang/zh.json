@@ -84,5 +84,24 @@
   "messages.other_equivalent_documents_legal_person": "其他类型法人的同等文件",
   "messages.authorisation_represent_person": "授权任何人代表该",
   "messages.letter_of_authority_directors_resolution": "授权书或董事会决议书",
-  "messages.please_specify": "请注明"
+  "messages.please_specify": "请注明",
+  "messages.trxno": "交易编号",
+  "messages.searchTrxNo": "搜索交易号",
+    "messages.selectBranch": "选择分行",
+    "messages.salesDate": "销售日期",
+    "messages.search": "搜索",
+    "messages.totalAmount": "总金额",
+    "messages.customer": "客户",
+    "messages.salesperson": "销售员",
+    "messages.cashier": "收银员",
+    "messages.searchTrx": "搜索交易号",
+    "messages.searchAmount": "搜索金额",
+    "messages.searchCustomer": "搜索客户",
+    "messages.searchSalesperson": "搜索销售员",
+    "messages.searchCashier": "搜索收银员",
+     "messages.print": "打印",
+    "messages.create": "新增",
+    "messages.clear": "清除",
+    "messages.submit": "提交"
+
 }

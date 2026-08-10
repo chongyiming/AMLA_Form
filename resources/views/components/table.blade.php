@@ -6,102 +6,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        .table_title {
-            background-color: #F1F1F1;
-            font-weight: bold;
-            font-size: 14px;
-            flex: 1;
+        .trxTable {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .trxTable th {
             padding: 5px;
-            border-bottom: 1px solid #CCCCCC;
-            border-right: 1px solid #CCCCCC;
+            border: 1px solid #ddd;
+            background-color: #f8f8f8;
+        }
+
+        .trxTable td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .trxTable .search {
+            width: 90%;
+            border: none;
+            outline: none;
+            font-size: 11px;
+            background: transparent;
+        }
+
+        .column-switch-wrap {
+            width: 100%;
+            gap: 10px;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
+            gap: 5px
         }
 
-        .table_label {
-            justify-content: left;
-
-        }
-
-        .people-grid {
-            display: grid;
-            grid-template-columns: 20% 30% 20% 30%;
-        }
-
-        .people-grid input {
-            outline: none;
-            border: none;
-            border-right: 1px solid #CCCCCC;
-            border-bottom: 1px solid #CCCCCC;
-            font-size: 14px;
-
-        }
+        .column-switch {
+            border-radius: 6px;
+            background-color: white;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            height: 30px;
 
 
-        .people-grid textarea {
-            outline: none;
-            border: none;
-            border-right: 1px solid #CCCCCC;
-            border-bottom: 1px solid #CCCCCC;
-            font-size: 14px;
-
-        }
-
-        .full-width {
-            grid-column: 2 / 5;
-            min-height: 80px;
-            resize: none;
         }
     </style>
 </head>
 
 <body>
-    <label class='table_title'>
-        <span data-i18n="{{$field['label']}}"></span>
+    <table border="1" class="trxTable">
+        <thead>
+            <tr>
+                @foreach($columns as $column)
+                <th data-i18n="{{ $column['label'] }}"></th>
+                @endforeach
+            </tr>
+            <tr>
+                @foreach($columns as $column)
+                <th>
+                    <input
+                        type="text"
+                        class="search"
+                        onkeyup="filterTable()"
+                        data-i18n="{{ $column['placeholder'] }}"
+                        data-i18n-target="placeholder">
+                </th>
+                @endforeach
+            </tr>
+        </thead>
+        <tbody id="trxTableBody">
+            @foreach($rows ?? [] as $row)
+            <tr>
+                @foreach($columns as $column)
+                <td>
+                    @if(isset($column['field']))
+                    {{data_get($row, $column['field'])}}
+                    @else
+                    <div class="column-switch-wrap">
+                        <button type="button" class="column-switch" style="border: 1px solid #17a2b8; color:#17a2b8;">Edit</button>
+                        <form action="/transactions/{{ $row->form_id }}/delete" method="POST">
+                            @csrf
+                            <button type="submit" class="column-switch" style="width:100%;border:1px solid #dc3545; color:#dc3545;">Delete</button>
+                        </form>
+                    </div>
+                    @endif
+                </td>
+                @endforeach
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 
-    </label>
-    <div class="people-grid">
-        <label class="table_title">&nbsp;</label>
-        @foreach ($field['columns'] as $column)
-        <label class="table_title">
-            <span data-i18n="{{$column['label'] }}"></span>
-        </label>
-        @endforeach
-
-        @foreach ($field['rows'] as $row)
-        <label class="table_title table_label">
-            <span data-i18n="{{$row['label'] }}"></span>
-        </label>
-
-        @foreach ($field['columns'] as $column)
-        @if (($column['type'] ?? 'text') === 'textarea')
-        <textarea
-            name="{{ $row['input'] }}[{{ $column['input'] }}]">{{ old(
-        $row['input'].'.'.$column['input'],
-        session('form_data.'.$row['input'].'.'.$column['input'])
-    ) }}</textarea>
-        @else
-        <input
-            type="{{ $column['type'] ?? 'text' }}"
-            name="{{ $row['input'] }}[{{ $column['input'] }}]"
-            value="{{ old(
-        $row['input'].'.'.$column['input'],
-        session('form_data.'.$row['input'].'.'.$column['input'])
-    ) }}">
-        @endif
-        @endforeach
-        @endforeach
-        @foreach ($field['extra_fields'] ?? [] as $extra)
-        <label class="table_title table_label">
-            <span data-i18n="{{$extra['label'] }}"></span>
-
-        </label>
-        <textarea
-            class="full-width"
-            name="{{ $extra['input'] }}">{{ session('form_data.'.$extra['input']) ?? old($extra['input']) }}</textarea>
-        @endforeach
-    </div>
 
 
 

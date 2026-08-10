@@ -7,8 +7,8 @@
     <title>Document</title>
     <style>
         .container {
-            width: 794px;
-            height: 1123px;
+            width: 750px;
+            height: 1104px;
             padding-left: 20px;
             padding-right: 20px;
             padding-bottom: 10px;
@@ -18,7 +18,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             display: flex;
             flex-direction: column;
-
+            margin-top: 30px;
         }
 
         h4 {
@@ -28,6 +28,7 @@
         .header_Text {
             font-size: 20px;
             text-align: center;
+            margin-top: 10px;
         }
 
         .header_Text2 {
@@ -83,11 +84,10 @@
 
     <!-- <form action="/page1" method="POST">
         @csrf -->
-    <div class="container">
+    <div class="container" id="container">
 
-        <h4 data-i18n="messages.formNo1"></h4>
-
-        <img src="images/image.png" style="width: 200px;margin: auto">
+        <h4 data-i18n="messages.formNo1" style="margin-bottom: 0;"></h4>
+        <img src="{{ asset('images/image.png') }}" style="width: 150px;margin: 0 auto">
         <div class='header_Text'>@lang('messages.customerDueDiligenceForm')</div>
         <div class='header_Text2'>@lang('messages.customerDueDiligenceForm2')</div>
         <x-card
@@ -101,7 +101,7 @@
             <div class="row">
                 <label data-i18n="messages.branch"></label>
 
-                <input type="text" name="branch_name" value="{{ session('form_data.branch_name') ?? old('branch_name') }}">
+                <input type="text" name="branch_name" value="{{ old('branch_name', $form1->branch_name ?? '') }}">
 
             </div>
 
@@ -113,12 +113,15 @@
 
             <div class="row">
                 <label data-i18n="messages.preparer"></label>
-                <input type="text" name="preparer_name" value="{{ session('form_data.preparer_name') ?? old('preparer_name') }}">
+                <!-- <input type="text" name="preparer_name" value="{{  old('preparer_name', $form1->preparer_name ?? '') }}"> -->
+                <div style="width:50%">
+                    <x-searchable-dropdown :preparer="$preparer" name="preparer_name" :form1="$form1"></x-searchable-dropdown>
+                </div>
             </div>
 
             <div class="row">
                 <label data-i18n="messages.date"></label>
-                <input type="text" name="date" value="{{ session('form_data.date') ?? old('date') }}" placeholder='yyyy-mm-dd'>
+                <input type="text" name="date" value="{{  old('date', $form1->date ?? '') }}" placeholder='yyyy-mm-dd'>
 
             </div>
         </div>
@@ -283,7 +286,8 @@
             'type' => 'text',
         ],
 
-]" />
+]"
+            :form1="$form1" />
 
         <div class='footer'>Version 4: Dated 25/05/2026</div>
 

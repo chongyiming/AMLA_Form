@@ -120,7 +120,7 @@
                                 type="checkbox"
                                 onclick="{{ $row['onclick'] }}"
                                 data-fields='@json($row["copy_checkbox"]["fields"])'
-                                {{ old($row['input']) ? 'checked' : '' }}
+                                {{ old($row['input'], data_get($form1, $row['input'])) ? 'checked' : '' }}
                                 style="width:14px; height:14px;align-self:center">
                         </div>
 
@@ -146,13 +146,13 @@
                 @if(($row['direction'] ?? '') === 'column')
                 <div style="flex:1">
                     @if(($row['type'] ?? 'text') === 'textarea')
-                    <textarea name="{{ $row['input'] ?? '' }}" placeholder="{{ $row['placeholder'] ?? '' }}">{{ old($row['input'] ?? '') }}</textarea>
+                    <textarea name="{{ $row['input'] ?? '' }}" placeholder="{{ $row['placeholder'] ?? '' }}">{{ old($row['input'], $form1->$row['input'] ?? '') }}</textarea>
                     @else
                     <input style="border-bottom: 1px solid #CCCCCC;box-sizing:border-box;"
                         type="{{ $row['type'] ?? 'text' }}"
                         name="{{ $row['input'] ?? '' }}"
                         placeholder="{{ $row['placeholder'] ?? '' }}"
-                        value="{{ session('form_data.' . ($row['input'] ?? '')) ?? old($row['input'] ?? '') }}">
+                        value="{{ old($row['input'], $form1->{$row['input']} ?? '') }}">
 
                     @if(!empty($row['childrens']))
                     @foreach($row['childrens'] as $child)
@@ -160,7 +160,7 @@
                         type=" {{ $child['type'] ?? 'text' }}"
                         name="{{ $child['input'] ?? '' }}"
                         placeholder="{{ $child['placeholder'] ?? '' }}"
-                        value="{{ session('form_data.' . ($row['input'] ?? '')) ?? old($child['input'] ?? '') }}"
+                        value="{{  old($child['input'], $form1->{$child['input']} ?? '') }}"
                         style="box-sizing:border-box;">
                     @endforeach
                     @endif
@@ -169,7 +169,7 @@
                 @else
 
                 @if(($row['type'] ?? 'text') === 'textarea')
-                <textarea name="{{ $row['input'] ?? '' }}" placeholder="{{ $row['placeholder'] ?? '' }}">{{ session('form_data.' . ($row['input'] ?? '')) ?? old($row['input'] ?? '') }}</textarea>
+                <textarea name="{{ $row['input'] ?? '' }}" placeholder="{{ $row['placeholder'] ?? '' }}">{{ old($row['input'], $form1->{$row['input']} ?? '') }}</textarea>
                 @elseif(($row['type'] ?? 'text') === 'radio')
                 <div style="padding:5px">
                     @php
@@ -182,9 +182,10 @@
                                 type="radio"
                                 name="{{ $row['input'] }}"
                                 value="{{ $value }}"
-                                {{ (session('form_data.' . $row['input']) ?? old($row['input'])) == $value ? 'checked' : '' }}
+                                {{ old($row['input'], data_get($form1, $row['input'])) == $value ? 'checked' : '' }}
                                 style="width:14px; height:14px; vertical-align:middle; margin:0;"
                                 @if($otherInputName)
+                                data-other-input="{{ $otherInputName }}"
                                 onchange="showOther(this, '{{ $otherInputName }}')"
                                 @endif>
 
@@ -196,7 +197,7 @@
                         <input
                             type="text"
                             name="{{ $row['other_input']['input'] }}"
-                            value="{{ old($row['other_input']['input']) }}"
+                            value="{{ old($row['other_input']['input'], data_get($form1, $row['other_input']['input'])) ?? '' }}"
                             style="display:none;border:1px solid #CCCCCC;margin-top:10px"
                             data-i18n="{{ $row['other_input']['placeholder'] }}"
                             data-i18n-target="placeholder">
@@ -210,8 +211,7 @@
                     @foreach($row['options'] as $value => $label)
                     <option
                         value="{{ $value }}"
-                        {{ (session('form_data.' . $row['input']) ?? old($row['input'])) == $value ? 'selected' : '' }}>
-
+                        {{ old($row['input'], data_get($form1, $row['input'])) == $value ? 'selected' : '' }}>
                         <!-- {{ $label }} -->
                         <span data-i18n="{{$label}}"></span>
 
@@ -230,7 +230,8 @@
                         <input
                         type="{{ $column['type'] }}"
                         name="{{ $row['input'] }}[{{ $i }}][{{ $column['input'] }}]"
-                        value="{{ session('form_data.' . $row['input'] . '.' . $i . '.' . $column['input']) ?? old($row['input'] . '.' . $i . '.' . $column['input']) }}" style="
+                        value="{{ old($row['input'] . '.' . $i . '.' . $column['input'], data_get($form1, $row['input'] . '.' . $i . '.' . $column['input'])) }}"
+                        style="
                     box-sizing:border-box;
                     border-top:1px solid #CCCCCC;
                     border-left:1px solid #CCCCCC;
@@ -243,7 +244,7 @@
                     type="{{ $row['type'] ?? 'text' }}"
                     name="{{ $row['input'] ?? '' }}"
                     placeholder="{{ $row['placeholder'] ?? '' }}"
-                    value="{{ session('form_data.' . ($row['input'] ?? '')) ?? old($row['input'] ?? '') }}">
+                    value="{{ old($row['input'], $form1->{$row['input']} ?? '') }}">
                 <!-- @error($row['input'])
                 <div style="color:red;">
                     {{ $message }}
@@ -262,12 +263,12 @@
                 </label>
                 @endif
                 @if(($children['type'] ?? 'text') === 'textarea')
-                <textarea name="{{ $children['input'] ?? '' }}" placeholder="{{ $children['placeholder'] ?? '' }}">{{ old($children['input'] ?? '') }}</textarea>
+                <textarea name="{{ $children['input'] ?? '' }}" placeholder="{{ $children['placeholder'] ?? '' }}">{{ old($children['input'] ?? '', data_get($form1, $children['input'] ?? '')) }}</textarea>
                 @else
                 <input
                     type="{{ $children['type'] ?? 'text' }}"
                     name="{{ $children['input'] ?? '' }}"
-                    value="{{ session('form_data.' . ($row['input'] ?? '')) ?? old($children['input'] ?? '') }}"
+                    value="{{ old($children['input'] ?? '', data_get($form1, $children['input'] ?? '')) }}"
                     style="border-left: 1px solid #CCCCCC;"
                     data-i18n="{{ $children['placeholder']??'' }}"
                     data-i18n-target="placeholder">
@@ -277,7 +278,7 @@
                 @endif
             </div>
             @else
-            <x-table :field="$row" />
+            <x-form-table :field="$row" :form1="$form1" />
             @endif
             @endforeach
         </div>

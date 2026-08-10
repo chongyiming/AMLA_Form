@@ -14,8 +14,8 @@
 
     <!-- <form action="/page2" method="POST">
         @csrf -->
-    <div class="container">
-        <h4 data-i18n="messages.formNo1"></h4>
+    <div class="container" id="container">
+        <h4 data-i18n="messages.formNo1" style="margin-bottom: 0;"></h4>
         <!-- <ul class="dropdown">
                 <li><a href="locale/en">English</a></li>
                 <li><a href="locale/zh">中文</a></li>
@@ -230,7 +230,7 @@
                     'label' => 'messages.type_of_ownership_control_relationship',
                     'input' => 'nominee_type',
                     'type' => 'text',
-                                        'row' => '2'
+                    'row' => '2'
 
 
                 ],
@@ -250,7 +250,7 @@
 
         ],
 
-]" />
+]" :form1="$form1" />
         <div class='footer'>Version 4: Dated 25/05/2026</div>
 
 

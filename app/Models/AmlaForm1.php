@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class AmlaForm1 extends Model
 {
     //
-    protected $table = 'istr_amla_form1';
+    // protected $table = 'istr_amla_form1';
+    protected $table = 'istr_AMLAForm1';
+    protected $primaryKey = 'form_id';
     public $timestamps = false;
     protected $fillable = [
         'form_id',

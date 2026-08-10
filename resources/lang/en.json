@@ -95,5 +95,37 @@
 
     "messages.authorisation_represent_person": "Authorisation for any person to represent the",
     "messages.letter_of_authority_directors_resolution": "Letter of authority or directors' resolution",
-    "messages.please_specify": "Please specify"
+    "messages.please_specify": "Please specify",
+    "messages.trxno": "Trx No",
+    "messages.searchTrxNo": "Search Trx No",
+    "messages.selectBranch": "Select Branch",
+    "messages.salesDate": "Sales Date",
+    "messages.search": "Search",
+    "messages.totalAmount": "Total Amount",
+    "messages.customer": "Customer",
+    "messages.salesperson": "Salesperson",
+    "messages.cashier": "Cashier",
+    "messages.searchTrx": "Search Trx",
+    "messages.searchAmount": "Search Amount",
+    "messages.searchCustomer": "Search Customer",
+    "messages.searchSalesperson": "Search Salesperson",
+    "messages.searchCashier": "Search Cashier",
+ "messages.print": "Print",
+    "messages.create": "Create",
+    "messages.clear": "Clear",
+        "messages.update": "Update",
+    "messages.submit": "Submit",
+    "messages.no": "No",
+    "messages.docNo": "Doc No",
+    "messages.customerName": "Customer Name",
+    "messages.preparerName": "Preparer Name",
+        "messages.createdDate": "Created Date",
+        "messages.status": "Status",
+        "messages.review": "Review",
+                "messages.attachment": "Attachment",
+                "messages.action": "Action"
+
+
+
+
 }

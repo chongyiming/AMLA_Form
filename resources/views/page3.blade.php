@@ -14,11 +14,11 @@
 
     <!-- <form action="/page3" method="POST">
         @csrf -->
-    <div class="container">
-        <h4 data-i18n="messages.formNo1"></h4>
-        <!-- <ul class="dropdown">
-                <li><a href="locale/en">English</a></li>
-                <li><a href="locale/zh">中文</a></li>
+    <div class="container" id="container">
+        <h4 data-i18n="messages.formNo1" style="margin-bottom: 0;"></h4>
+        <!-- <ul class=" dropdown">
+            <li><a href="locale/en">English</a></li>
+            <li><a href="locale/zh">中文</a></li>
             </ul> -->
         <x-form
             title='messages.for_legal_arrangement'
@@ -231,7 +231,7 @@
 
         ]
 
-]" />
+]" :form1="$form1" />
         <div class='footer'>Version 4: Dated 25/05/2026</div>
 
 

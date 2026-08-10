@@ -95,5 +95,5 @@ return [
 
     'authorisation_represent_person' => '授权任何人代表',
     'letter_of_authority_directors_resolution' => '授权书或董事会决议书',
-    'please_specify' => '请注明'
+    'please_specify' => '请注明',
 ];

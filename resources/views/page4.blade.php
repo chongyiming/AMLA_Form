@@ -14,13 +14,13 @@
 
     <!-- <form action="/page4" method="POST">
         @csrf -->
-    <div class="container">
-        <h4 data-i18n="messages.formNo1"></h4>
+    <div class="container" id="container">
+        <h4 data-i18n="messages.formNo1" style="margin-bottom: 0;"></h4>
         <!-- <ul class="dropdown">
                 <li><a href="locale/en">English</a></li>
                 <li><a href="locale/zh">中文</a></li>
             </ul> -->
-        <h1 data-i18n="messages.person_transacting_on_behalf"></h1>
+        <h2 data-i18n="messages.person_transacting_on_behalf" style="text-align: center;margin-top:10px"></h2>
         <x-form :rows="[
         [
             'label' => 'messages.full_name',
@@ -113,9 +113,9 @@
             'input' => 'transacting_contact',
             'type' => 'text',
         ],
-]" />
+]" :form1="$form1" />
 
-        <x-statement
+        <x-form-statement
             title='messages.verification_for_office_use'
             :columns="[
         [

@@ -95,5 +95,6 @@ return [
 
     'authorisation_represent_person' => 'Authorisation for any person to represent the',
     'letter_of_authority_directors_resolution' => 'Letter of authority or directors\' resolution',
-    'please_specify' => 'Please specify'
+    'please_specify' => 'Please specify',
+
 ];

@@ -54,6 +54,8 @@
         <h2>Created Successful</h2>
         <p>Information has been submitted successfully.</p>
     </div>
+    <x-menu-sidebar></x-menu-sidebar>
+
 </body>
 
 </html>

@@ -20,7 +20,7 @@
         }
 
         .statement_content {
-            margin-top: 30px;
+            margin-top: 10px;
             border: 1px solid #CCCCCC;
             display: grid;
             grid-template-columns: 50% 50%;
@@ -45,6 +45,7 @@
         .white_bullet {
             list-style-type: circle;
             margin-left: 14px;
+            font-size: 12px;
         }
     </style>
 </head>
@@ -74,7 +75,7 @@
                     <ul>
                         <li>
                             <!-- {!! $section['description'] !!} -->
-                            <span data-i18n="{{ $section['description'] }}" data-i18n-html></span>
+                            <span data-i18n="{{ $section['description'] }}" data-i18n-html style="font-size: 12px;"></span>
                         </li>
                     </ul>
 
