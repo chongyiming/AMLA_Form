@@ -119,11 +119,29 @@
     "messages.docNo": "Doc No",
     "messages.customerName": "Customer Name",
     "messages.preparerName": "Preparer Name",
-        "messages.createdDate": "Created Date",
-        "messages.status": "Status",
-        "messages.review": "Review",
-                "messages.attachment": "Attachment",
-                "messages.action": "Action"
+    "messages.createdDate": "Created Date",
+    "messages.status": "Status",
+    "messages.review": "Review",
+    "messages.attachment": "Attachment",
+    "messages.action": "Action",
+    "messages.edit": "Edit",
+    "messages.delete": "Delete",
+    "messages.close": "Close",
+    "messages.createForm":"Create Form",
+    "messages.home":"Home",
+    "messages.actions":"Actions",
+    "messages.customerDueDiligenceFormV3": "Customer Due Diligence Form 客户尽职调查表表格_V3",
+    "messages.customerRiskProfilingFormV5": "Customer Risk Profiling Form 顾客风险分析表格_V5",
+    "messages.enhancedCustomerDueDiligenceFormV2": "Enhanced Customer Due Diligence Form 增强客户尽职调查表格_V2",
+    "messages.suspiciousTransactionIndividual": "Suspicious Transaction Report - Individual 可疑交易报告 - 个人",
+    "messages.suspiciousTransactionNonIndividual": "Suspicious Transaction Report - Non Individual 可疑交易报告 - 非个人",
+    "messages.suspiciousTransactionLegalArrangement": "Suspicious Transaction Report - Legal Arrangement 可疑交易报告 - 法律安排",
+    "messages.view": "View"
+
+
+
+
+
 
 
 

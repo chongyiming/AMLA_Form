@@ -6,42 +6,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        if (typeof jQuery === 'undefined') {
+            document.write('<script src="https://code.jquery.com/jquery-3.7.1.min.js"><\/script>');
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
             $(".js-example-basic-single").select2({
                 width: '100%'
             });
+
+            $(".no-border").next(".select2-container")
+                .find(".select2-selection--single")
+                .css("border", "none");
         });
     </script>
 
     <style>
+        .select2-container--disabled .select2-selection {
+            background-color: white !important;
+            border: none !important;
+        }
+
+        .select2-container--disabled .select2-selection--single .select2-selection__arrow {
+            display: none;
+
+        }
+
         .select2-container .select2-selection--single {
-            height: 34.4px;
+            height: 23px;
             border: 1px solid #CCCCCC;
             border-radius: 4px;
+            z-index: -1;
+            flex: 1
         }
 
         .select2-container .select2-selection--single .select2-selection__rendered {
-            line-height: 34.4px;
+            line-height: 23px;
+
         }
 
         .select2-container .select2-selection--single .select2-selection__arrow {
-            height: 34.4px;
+            height: 23px;
+
         }
     </style>
 </head>
 
 <body>
-    <select class="js-example-basic-single" name="{{ $name }}">
+
+    <select class="js-example-basic-single {{ $border === 'none' ? 'no-border' : '' }}" name="{{ $name }}">
         @php
         $selectedValue = old($name, $form1->$name ?? '');
         @endphp
-        @foreach ($preparer as $user)
-        <option value="{{ $user->USERNAME }}"
-            {{ $selectedValue == $user->USERNAME ? 'selected' : '' }}>
-            {{ $user->USERNAME }}
+
+        @foreach ($options as $option)
+        <option value="{{ $option->$field }}"
+            {{ $selectedValue == $option->$field ? 'selected' : '' }}>
+            {{ $option->$field }}
         </option>
         @endforeach
     </select>

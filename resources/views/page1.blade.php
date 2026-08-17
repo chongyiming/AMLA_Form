@@ -8,9 +8,7 @@
     <style>
         .container {
             width: 750px;
-            height: 1104px;
-            padding-left: 20px;
-            padding-right: 20px;
+            height: 1070px;
             padding-bottom: 10px;
             margin: auto;
             box-sizing: border-box;
@@ -18,7 +16,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             display: flex;
             flex-direction: column;
-            margin-top: 30px;
+            margin-top: 10px;
         }
 
         h4 {
@@ -26,13 +24,13 @@
         }
 
         .header_Text {
-            font-size: 20px;
+            font-size: 15px;
             text-align: center;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .header_Text2 {
-            font-size: 20px;
+            font-size: 15px;
             text-align: center;
             font-weight: 300;
         }
@@ -49,7 +47,7 @@
             display: flex;
             align-items: center;
             margin-bottom: 10px;
-            font-size: 14px;
+            font-size: 10px;
         }
 
         .row label {
@@ -58,8 +56,8 @@
 
         .row input {
             width: 50%;
-            font-size: 14px;
-            padding: 8px 10px;
+            font-size: 10px;
+            padding: 3px 5px;
             border: 1px solid #CCCCCC;
             border-radius: 4px;
             box-sizing: border-box;
@@ -68,9 +66,10 @@
         }
 
 
+
         .footer {
             margin-top: auto;
-            font-size: 14px;
+            font-size: 10px;
         }
 
         h1 {
@@ -87,7 +86,8 @@
     <div class="container" id="container">
 
         <h4 data-i18n="messages.formNo1" style="margin-bottom: 0;"></h4>
-        <img src="{{ asset('images/image.png') }}" style="width: 150px;margin: 0 auto">
+        <!-- <div data-i18n="messages.formNo1" style="margin-bottom: 0;"></div> -->
+        <img src="{{ asset('/image.png') }}" style="width: 150px;margin: 0 auto">
         <div class='header_Text'>@lang('messages.customerDueDiligenceForm')</div>
         <div class='header_Text2'>@lang('messages.customerDueDiligenceForm2')</div>
         <x-card
@@ -107,15 +107,20 @@
 
             <div class="row">
                 <label data-i18n="messages.formNo"></label>
-                <input type="text">
+                <input type="text" name="doc_no" value="{{ old('doc_no', $form->doc_no ?? '') }}">
 
             </div>
 
             <div class="row">
                 <label data-i18n="messages.preparer"></label>
                 <!-- <input type="text" name="preparer_name" value="{{  old('preparer_name', $form1->preparer_name ?? '') }}"> -->
-                <div style="width:50%">
-                    <x-searchable-dropdown :preparer="$preparer" name="preparer_name" :form1="$form1"></x-searchable-dropdown>
+                <div style="width:53%;display:flex;padding-left:0">
+                    <x-searchable-dropdown
+                        :options="$preparer"
+                        name="preparer_name"
+                        field="USERNAME"
+                        :form1="$form1"
+                        border="show" />
                 </div>
             </div>
 
@@ -240,7 +245,9 @@
         [
             'label' => 'messages.nationality',
             'input' => 'nationality',
-            'type' => 'text',
+            'type' => 'select',
+            'source' => 'countries',
+            'field' => 'Country_Name',
         ],
         [
             'label' => 'messages.rank_reference',
@@ -250,7 +257,9 @@
         [
             'label' => 'messages.occupation_type',
             'input' => 'occupation_status',
-            'type' => 'text',
+            'type' => 'select',
+            'source' => 'occupationType',
+            'field' => 'Occupation_Name',
             'childrens' => [
                 [
                     'input' => 'occupation_type',
@@ -287,7 +296,7 @@
         ],
 
 ]"
-            :form1="$form1" />
+            :form1="$form1" :countries="$countries" :occupationType="$occupationType" />
 
         <div class='footer'>Version 4: Dated 25/05/2026</div>
 

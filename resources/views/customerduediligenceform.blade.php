@@ -17,10 +17,7 @@
 
         }
 
-        .page_container {
-            display: block;
 
-        }
 
 
 
@@ -56,6 +53,8 @@
             padding: 10px;
             gap: 10px;
             background-color: white;
+            z-index: 1;
+
 
         }
 
@@ -70,7 +69,7 @@
         .locale-switch {
             border: none;
             background: transparent;
-            padding: 6px 14px;
+            padding: 3px 7px;
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.15s ease, color 0.15s ease;
@@ -218,14 +217,6 @@
                 display: inline-block;
             }
 
-            .trx-no {
-                display: none;
-            }
-
-
-            .panel-switch {
-                display: none;
-            }
 
             .small-width-trx-no {
                 display: flex;
@@ -235,7 +226,6 @@
         }
 
         @media print {
-
             body * {
                 visibility: hidden;
             }
@@ -261,6 +251,8 @@
                 box-shadow: none
             }
 
+
+
         }
     </style>
 
@@ -277,27 +269,41 @@
 
             </div>
             <div class="header-dropdown">
-                <button type="button" class="header-panel-switch">
+                <!-- <button type="button" class="header-panel-switch">
                     Actions
-                </button>
-                <div class="header-dropdown-menu">
+                </button> -->
+                <x-button type="button" data-i18n="messages.actions" id="actions">
+                </x-button>
+                <div class=" header-dropdown-menu">
                     <div class="small-width-trx-no">
                         <label>
                             <span data-i18n="messages.trxno"></span>
                         </label>
-                        <input type="text" class="panel-input" name="trx_no" readonly onclick="openTrxModal()" value="{{ old('trx_no') }}">
+                        <input type="text" class="panel-input" name="trx_no" readonly onclick="openTrxModal()" value="{{ old('trx_no', $form->trx_no ?? '') }}">
                     </div>
                     <div style="display: flex;justify-content: space-between;gap:10px">
 
                         @if($state == 0)
-                        <button type="submit" style="border: 1px solid #59c45e;color:#59c45e;background-color:white" data-i18n="messages.create"></button>
-                        <button type="button" style="border: 1px solid #dc2626;color:#dc2626;background-color:white" onclick="clearForm()" data-i18n="messages.clear"></button>
+                        <!-- <button type="submit" style="border: 1px solid #59c45e;color:#59c45e;background-color:white" data-i18n="messages.create"></button> -->
+                        <x-button type="submit" data-i18n="messages.create" style="border: 1px solid #59c45e;color:#59c45e;background-color:white">
+                        </x-button>
+                        <!-- <button type="button" style="border: 1px solid #dc2626;color:#dc2626;background-color:white" onclick="clearForm()" data-i18n="messages.clear"></button> -->
+                        <x-button type="button" style="border: 1px solid #dc2626;color:#dc2626;background-color:white" onclick="clearForm()" data-i18n="messages.clear">
+                        </x-button>
                         @elseif($state ==1)
-                        <button type="button" style="border: 1px solid #007bff;color:#007bff;background-color:white" data-i18n="messages.update"></button>
-                        <button type="button" style="border: 1px solid #dc2626;color:#dc2626;background-color:white" onclick="clearForm()" data-i18n="messages.clear"></button>
-                        <button type="submit" style="border: 1px solid #59c45e;color:#59c45e;background-color:white" data-i18n="messages.submit"></button>
+                        <!-- <button type="button" style="border: 1px solid #007bff;color:#007bff;background-color:white" data-i18n="messages.update"></button> -->
+                        <x-button type="submit" style="border: 1px solid #007bff;color:#007bff;background-color:white" data-i18n="messages.update" formaction="/update/{{ $form1->form_id }}">
+                        </x-button>
+                        <!-- <button type="button" style="border: 1px solid #dc2626;color:#dc2626;background-color:white" onclick="clearForm()" data-i18n="messages.clear"></button> -->
+                        <x-button type="button" style="border: 1px solid #dc2626;color:#dc2626;background-color:white" onclick="clearForm()" data-i18n="messages.clear">
+                        </x-button>
+                        <!-- <button type="submit" formaction="/submit/{{ $form1->form_id }}" style="border: 1px solid #59c45e;color:#59c45e;background-color:white" data-i18n="messages.submit"></button> -->
+                        <x-button type="submit" formaction="/submit/{{ $form1->form_id }}" style="border: 1px solid #59c45e;color:#59c45e;background-color:white" data-i18n="messages.submit">
+                        </x-button>
                         @elseif($state ==2)
-                        <button id="dropdown-print" type="button" style="background-color:white" data-i18n="messages.print"></button>
+                        <!-- <button id="dropdown-print" type="button" style="background-color:white" data-i18n="messages.print"></button> -->
+                        <x-button id="dropdown-print" type="button" style="background-color:white" data-i18n="messages.print">
+                        </x-button>
                         @endif
 
                     </div>
@@ -309,33 +315,33 @@
 
         </div>
 
-        <div class="page_container">
-            <div class="a4_container">
-                @if ($errors->any())
-                <div>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li style='color:red'>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
-                <div id="print-area">
-                    @include('page1')
-                    @include('page2')
-                    @include('page3')
-                    @include('page4')
-                </div>
-                <a href="#" class="to-top">
-                    <img src="images/up-arrows.png" style="width: 30px;height: 30px;">
-                </a>
-                <!-- <button class="submit-button" type="submit" data-i18n="messages.submit"></button> -->
-
+        <div class="a4_container">
+            @if ($errors->any())
+            <div>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li style='color:red'>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+            <br>
+            <div id="print-area" style="width:100%;padding:0">
+                @include('page1')
+                @include('page2')
+                @include('page3')
+                @include('page4')
 
             </div>
-            <x-sidepanel :form1="$form1" :form="$form" :state="$state"></x-sidepanel>
+            <a href="#" class="to-top">
+                <img src="{{ asset('up-arrows.png') }}" style="width: 30px;height: 30px;">
+            </a>
+            <!-- <button class="submit-button" type="submit" data-i18n="messages.submit"></button> -->
+
 
         </div>
+        <x-sidepanel :form1="$form1" :form="$form" :state="$state"></x-sidepanel>
+
 
 
     </form>
@@ -395,16 +401,6 @@
             }
         })
 
-        // function showOther(radio, inputName) {
-        //     let other = document.getElementsByName(inputName)[0];
-
-        //     if (radio.value === 'other') {
-        //         other.style.display = 'block';
-        //     } else {
-        //         other.style.display = 'none';
-        //         other.value = '';
-        //     }
-        // }
 
         function showOther(radio, inputName) {
             let other = document.getElementsByName(inputName)[0];
@@ -457,7 +453,7 @@
             });
         }
 
-        const dropdownBtn = document.querySelector('.header-panel-switch');
+        const dropdownBtn = document.getElementById('actions');
         const dropdownMenu = document.querySelector('.header-dropdown-menu');
 
         dropdownBtn.addEventListener('click', function() {
@@ -486,14 +482,197 @@
         const state = @json($state);
 
         if (state == 2) {
-            document.querySelectorAll('input, textarea, select, button').forEach(element => {
-                element.disabled = true;
+            const fieldsToDisable = [
+                '[name="trx_no"]',
+                '[name="branch_name"]',
+                '[name="preparer_name"]',
+                '[name="doc_no"]',
+                '[name="date"]',
+                '[name="full_name"]',
+                '[name="nric_passport"]',
+                '[name="dob"]',
+
+                '[name="residential_add"]',
+                '[name="residential_town"]',
+                '[name="residential_state"]',
+                '[name="residential_postcode"]',
+
+                '[name="mailing_add"]',
+                '[name="mailing_town"]',
+                '[name="mailing_state"]',
+                '[name="mailing_postcode"]',
+
+
+
+                '[name="rank_reference"]',
+                '[name="employer"]',
+
+                '[name="nature_of_business_select"]',
+                '[name="nature_of_business_text"]',
+
+                '[name="contact_number"]',
+
+                '[name="transaction_purpose"]',
+                '[name="business_name"]',
+                '[name="brn"]',
+                '[name="business_type"]',
+                '[name="other_text"]',
+
+
+                '[name="registered_address"]',
+                '[name="registered_town"]',
+                '[name="registered_state"]',
+                '[name="registered_postcode"]',
+
+                '[name="principal_address"]',
+                '[name="principal_town"]',
+                '[name="principal_state"]',
+                '[name="principal_postcode"]',
+
+                '[name="principle_business"]',
+
+                '[name="contact_no_2"]',
+
+                '[name="director_name"]',
+
+
+
+
+                '[name="senior_name"]',
+                '[name="senior_type"]',
+                '[name="arrangement_name"]',
+                '[name="arrangement_registration"]',
+                '[name="arrangement_type"]',
+                '[name="arrangement_other_text"]',
+
+
+                '[name="arrangement_address"]',
+                '[name="arrangement_town"]',
+                '[name="arrangement_state"]',
+                '[name="arrangement_postcode"]',
+
+                '[name="principal_address_arrangement"]',
+                '[name="principal_town_arrangement"]',
+                '[name="principal_state_arrangement"]',
+                '[name="principal_postcode_arrangement"]',
+
+
+                '[name="principle_activity"]',
+
+                '[name="contact_no_3"]',
+
+
+
+
+                '[name="trust_text"]',
+                '[name="transacting_name"]',
+                '[name="transacting_nric_passport"]',
+                '[name="transacting_dob"]',
+
+                '[name="transacting_address"]',
+                '[name="transacting_town"]',
+                '[name="transacting_state"]',
+                '[name="transacting_postcode"]',
+
+
+                '[name="transacting_employer"]',
+                '[name="transacting_contact"]',
+                'input[type="checkbox"]'
+            ];
+
+            fieldsToDisable.forEach(selector => {
+                document.querySelectorAll(selector).forEach(el => {
+                    el.disabled = true;
+                    el.style.border = 'none';
+                    el.style.background = 'transparent';
+                });
             });
 
-            document.querySelectorAll('input, textarea, select').forEach(element => {
-                element.style.border = 'none';
-                element.style.background = 'transparent';
+            const remainBorder = [
+                '[name="occupation_type"]',
+                '[name="transacting_occupation_status"]',
+                '[name="residential_country"]',
+                '[name="mailing_country"]',
+                '[name="registered_country"]',
+                '[name="principal_country"]',
+                '[name="arrangement_country"]',
+                '[name="principal_country_arrangement"]',
+                '[name="transacting_country"]',
+                '[name^="shareholder["][name$="[shareholder_name]"]',
+                '[name^="shareholder["][name$="[share_type]"]',
+                '[name^="shareholder["][name$="[share_percent]"]',
+                '[name^="nominee["][name$="[nominee_name]"]',
+                '[name^="nominee["][name$="[nominee_type]"]',
+
+                '[name="settlor[name]"]',
+                '[name="settlor[id]"]',
+                '[name="settlor[address]"]',
+
+                '[name="trustee[name]"]',
+                '[name="trustee[id]"]',
+                '[name="trustee[address]"]',
+
+                '[name="protector[name]"]',
+                '[name="protector[id]"]',
+                '[name="protector[address]"]',
+
+                '[name="beneficiary_class_of_beneficiary[name]"]',
+                '[name="beneficiary_class_of_beneficiary[id]"]',
+                '[name="beneficiary_class_of_beneficiary[address]"]',
+
+                '[name="other_bo_information[name]"]',
+                '[name="other_bo_information[id]"]',
+                '[name="other_bo_information[address]"]',
+
+
+
+            ]
+
+            remainBorder.forEach(selector => {
+                document.querySelectorAll(selector).forEach(el => {
+                    el.disabled = true;
+                    el.style.background = 'transparent';
+                });
             });
+
+
+            const dropdownBorder = [
+                '[name="nationality"]',
+                '[name="occupation_status"]',
+                '[name="country_incorp"]',
+                '[name="transaction_purpose_2"]',
+                '[name="country_registration"]',
+                '[name="transaction_purpose_3"]',
+                '[name="transacting_nationality"]',
+
+                '[name="transacting_occupation"]',
+
+            ]
+
+
+            dropdownBorder.forEach(selector => {
+                $(selector).each(function() {
+                    $(this).prop('disabled', true).trigger('change');
+                });
+            });
+
+
+            // const removeDropdownBorder = [
+            //     '[name="preparer_name"]',
+            // ];
+
+            // removeDropdownBorder.forEach(selector => {
+            //     document.querySelectorAll(selector).forEach(el => {
+            //         el.disabled = true;
+
+            //         // remove border on the select2 rendered container
+            //         const container = el.nextElementSibling; // .select2-container
+            //         if (container) {
+            //             container.querySelector('.select2-selection--single')
+            //                 .style.border = 'none';
+            //         }
+            //     });
+            // });
         }
     </script>
 </body>

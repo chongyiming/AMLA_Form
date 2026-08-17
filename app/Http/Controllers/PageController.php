@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AmlaAttachment;
 use Illuminate\Http\Request;
 use App\Models\AmlaForm1;
 use App\Models\AmlaForm;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class PageController extends Controller
 {
@@ -21,11 +23,57 @@ class PageController extends Controller
             ->select('USERNAME')
             ->where('USERISACTIVE', '1')
             ->get();
+        $countries = collect([
+            (object) ['Country_Name' => 'Malaysia'],
+            (object) ['Country_Name' => 'Singapore'],
+            (object) ['Country_Name' => 'Indonesia'],
+            (object) ['Country_Name' => 'Thailand'],
+            (object) ['Country_Name' => 'Brunei'],
+        ]);
+        $purpose_of_trx = collect([
+            (object) ['Purpose_Name' => 'Purchase of Goods'],
+            (object) ['Purpose_Name' => 'Payment for Services'],
+            (object) ['Purpose_Name' => 'Business Investment'],
+            (object) ['Purpose_Name' => 'Loan Repayment'],
+            (object) ['Purpose_Name' => 'Salary Payment'],
+            (object) ['Purpose_Name' => 'Property Purchase'],
+            (object) ['Purpose_Name' => 'Property Rental'],
+            (object) ['Purpose_Name' => 'Transfer to Family'],
+            (object) ['Purpose_Name' => 'Personal Expenses'],
+            (object) ['Purpose_Name' => 'Savings'],
+            (object) ['Purpose_Name' => 'Donation'],
+            (object) ['Purpose_Name' => 'Other'],
+        ]);
+        $occupation_type = collect([
+            (object) ['Occupation_Name' => 'Business Owner'],
+            (object) ['Occupation_Name' => 'Company Director'],
+            (object) ['Occupation_Name' => 'Manager'],
+            (object) ['Occupation_Name' => 'Executive'],
+            (object) ['Occupation_Name' => 'Engineer'],
+            (object) ['Occupation_Name' => 'Accountant'],
+            (object) ['Occupation_Name' => 'Doctor'],
+            (object) ['Occupation_Name' => 'Lawyer'],
+            (object) ['Occupation_Name' => 'Teacher'],
+            (object) ['Occupation_Name' => 'Government Employee'],
+            (object) ['Occupation_Name' => 'Private Sector Employee'],
+            (object) ['Occupation_Name' => 'Self-Employed'],
+            (object) ['Occupation_Name' => 'Professional'],
+            (object) ['Occupation_Name' => 'Student'],
+            (object) ['Occupation_Name' => 'Retired'],
+            (object) ['Occupation_Name' => 'Homemaker'],
+            (object) ['Occupation_Name' => 'Unemployed'],
+            (object) ['Occupation_Name' => 'Freelancer'],
+            (object) ['Occupation_Name' => 'Consultant'],
+            (object) ['Occupation_Name' => 'Other'],
+        ]);
         return view('customerduediligenceform', [
             'state' => 0,
             'form1' => null,
             'form' => null,
-            'preparer' => $preparer
+            'preparer' => $preparer,
+            'countries' => $countries,
+            'purposeOfTrx' => $purpose_of_trx,
+            'occupationType' => $occupation_type
         ]);
     }
 
@@ -35,6 +83,49 @@ class PageController extends Controller
             ->select('USERNAME')
             ->where('USERISACTIVE', '1')
             ->get();
+        $countries = collect([
+            (object) ['Country_Name' => 'Malaysia'],
+            (object) ['Country_Name' => 'Singapore'],
+            (object) ['Country_Name' => 'Indonesia'],
+            (object) ['Country_Name' => 'Thailand'],
+            (object) ['Country_Name' => 'Brunei'],
+        ]);
+        $purpose_of_trx = collect([
+            (object) ['Purpose_Name' => 'Purchase of Goods'],
+            (object) ['Purpose_Name' => 'Payment for Services'],
+            (object) ['Purpose_Name' => 'Business Investment'],
+            (object) ['Purpose_Name' => 'Loan Repayment'],
+            (object) ['Purpose_Name' => 'Salary Payment'],
+            (object) ['Purpose_Name' => 'Property Purchase'],
+            (object) ['Purpose_Name' => 'Property Rental'],
+            (object) ['Purpose_Name' => 'Transfer to Family'],
+            (object) ['Purpose_Name' => 'Personal Expenses'],
+            (object) ['Purpose_Name' => 'Savings'],
+            (object) ['Purpose_Name' => 'Donation'],
+            (object) ['Purpose_Name' => 'Other'],
+        ]);
+        $occupation_type = collect([
+            (object) ['Occupation_Name' => 'Business Owner'],
+            (object) ['Occupation_Name' => 'Company Director'],
+            (object) ['Occupation_Name' => 'Manager'],
+            (object) ['Occupation_Name' => 'Executive'],
+            (object) ['Occupation_Name' => 'Engineer'],
+            (object) ['Occupation_Name' => 'Accountant'],
+            (object) ['Occupation_Name' => 'Doctor'],
+            (object) ['Occupation_Name' => 'Lawyer'],
+            (object) ['Occupation_Name' => 'Teacher'],
+            (object) ['Occupation_Name' => 'Government Employee'],
+            (object) ['Occupation_Name' => 'Private Sector Employee'],
+            (object) ['Occupation_Name' => 'Self-Employed'],
+            (object) ['Occupation_Name' => 'Professional'],
+            (object) ['Occupation_Name' => 'Student'],
+            (object) ['Occupation_Name' => 'Retired'],
+            (object) ['Occupation_Name' => 'Homemaker'],
+            (object) ['Occupation_Name' => 'Unemployed'],
+            (object) ['Occupation_Name' => 'Freelancer'],
+            (object) ['Occupation_Name' => 'Consultant'],
+            (object) ['Occupation_Name' => 'Other'],
+        ]);
         $form = AmlaForm::where('form_id', $form_id)->first();
 
         $form1 = AmlaForm1::where('form_id', $form_id)->first();
@@ -100,7 +191,11 @@ class PageController extends Controller
             'state' => $state,
             'form' => $form,
             'form1' => $form1,
-            'preparer' => $preparer
+            'preparer' => $preparer,
+            'countries' => $countries,
+            'purposeOfTrx' => $purpose_of_trx,
+            'occupationType' => $occupation_type
+
         ]);
     }
 
@@ -114,6 +209,49 @@ class PageController extends Controller
             ->select('USERNAME')
             ->where('USERISACTIVE', '1')
             ->get();
+        $countries = collect([
+            (object) ['Country_Name' => 'Malaysia'],
+            (object) ['Country_Name' => 'Singapore'],
+            (object) ['Country_Name' => 'Indonesia'],
+            (object) ['Country_Name' => 'Thailand'],
+            (object) ['Country_Name' => 'Brunei'],
+        ]);
+        $purpose_of_trx = collect([
+            (object) ['Purpose_Name' => 'Purchase of Goods'],
+            (object) ['Purpose_Name' => 'Payment for Services'],
+            (object) ['Purpose_Name' => 'Business Investment'],
+            (object) ['Purpose_Name' => 'Loan Repayment'],
+            (object) ['Purpose_Name' => 'Salary Payment'],
+            (object) ['Purpose_Name' => 'Property Purchase'],
+            (object) ['Purpose_Name' => 'Property Rental'],
+            (object) ['Purpose_Name' => 'Transfer to Family'],
+            (object) ['Purpose_Name' => 'Personal Expenses'],
+            (object) ['Purpose_Name' => 'Savings'],
+            (object) ['Purpose_Name' => 'Donation'],
+            (object) ['Purpose_Name' => 'Other'],
+        ]);
+        $occupation_type = collect([
+            (object) ['Occupation_Name' => 'Business Owner'],
+            (object) ['Occupation_Name' => 'Company Director'],
+            (object) ['Occupation_Name' => 'Manager'],
+            (object) ['Occupation_Name' => 'Executive'],
+            (object) ['Occupation_Name' => 'Engineer'],
+            (object) ['Occupation_Name' => 'Accountant'],
+            (object) ['Occupation_Name' => 'Doctor'],
+            (object) ['Occupation_Name' => 'Lawyer'],
+            (object) ['Occupation_Name' => 'Teacher'],
+            (object) ['Occupation_Name' => 'Government Employee'],
+            (object) ['Occupation_Name' => 'Private Sector Employee'],
+            (object) ['Occupation_Name' => 'Self-Employed'],
+            (object) ['Occupation_Name' => 'Professional'],
+            (object) ['Occupation_Name' => 'Student'],
+            (object) ['Occupation_Name' => 'Retired'],
+            (object) ['Occupation_Name' => 'Homemaker'],
+            (object) ['Occupation_Name' => 'Unemployed'],
+            (object) ['Occupation_Name' => 'Freelancer'],
+            (object) ['Occupation_Name' => 'Consultant'],
+            (object) ['Occupation_Name' => 'Other'],
+        ]);
         $form = AmlaForm::where('form_id', $form_id)->first();
 
         $form1 = AmlaForm1::where('form_id', $form_id)->first();
@@ -179,7 +317,11 @@ class PageController extends Controller
             'state' => $state,
             'form' => $form,
             'form1' => $form1,
-            'preparer' => $preparer
+            'preparer' => $preparer,
+            'countries' => $countries,
+            'purposeOfTrx' => $purpose_of_trx,
+            'occupationType' => $occupation_type
+
         ]);
     }
 
@@ -332,6 +474,7 @@ class PageController extends Controller
             'trx_no' => 'nullable|string',
             'sales_date' => 'nullable|date',
             'branch_name' => 'nullable|string',
+            'doc_no' => 'nullable|string'
         ]);
 
         $shareholders = $data['shareholder'] ?? [];
@@ -543,6 +686,7 @@ class PageController extends Controller
             'trx_no' => 'nullable|string',
             'sales_date' => 'nullable|date',
             'branch_name' => 'nullable|string',
+            'doc_no' => 'nullable|string'
         ]);
 
         $shareholders = $data['shareholder'] ?? [];
@@ -750,6 +894,7 @@ class PageController extends Controller
             'trx_no' => 'nullable|string',
             'sales_date' => 'nullable|date',
             'branch_name' => 'nullable|string',
+            'doc_no' => 'nullable|string'
         ]);
 
         $shareholders = $data['shareholder'] ?? [];
@@ -813,5 +958,42 @@ class PageController extends Controller
         );
 
         return redirect("/createdForm/{$form_id}/1");
+    }
+
+    public function uploadImages(Request $request, $form_id)
+    {
+        $validator = Validator::make($request->all(), [
+            'images' => 'required|array',
+            'images.*' => 'image|mimes:jpg,jpeg,png,webp',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+        if ($request->hasFile('images')) {
+
+            foreach ($request->file('images') as $image) {
+
+                $path = $image->store('photos', 'public');
+
+                AmlaAttachment::create([
+                    'form_id' => $form_id,
+                    'form_type' => 1,
+                    'file_name' => $path,
+                    'createdAt' => now()
+                ]);
+
+                $paths[] = $path;
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Images uploaded successfully.',
+            'paths' => $paths,
+        ]);
     }
 }

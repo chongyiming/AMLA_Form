@@ -13,6 +13,7 @@
             background: rgba(0, 0, 0, 0.5);
             justify-content: center;
             align-items: center;
+
         }
 
         .modal-content {
@@ -29,7 +30,7 @@
 
         }
 
-        .modal-switch {
+        /* .modal-switch {
             right: 0;
             padding: 7px 16px;
             border-radius: 6px;
@@ -45,7 +46,7 @@
                 border-color 0.15s ease,
                 box-shadow 0.15s ease,
                 transform 0.1s ease;
-        }
+        } */
 
         .modal-input {
             padding: 7px 16px;
@@ -86,10 +87,16 @@
                     <label class="modal-label" data-i18n="messages.salesDate">
                     </label>
                     <input type="date" id="salesDate" name="sales_date" class="modal-input" value="{{ old('sales_date', data_get($form, 'sales_date') ? \Carbon\Carbon::parse(data_get($form, 'sales_date'))->format('Y-m-d') : '') }}">
-                    <button type="button" class="modal-switch" onclick="searchTrx()" data-i18n="messages.search"></button>
+                    <!-- <button type="button" class="modal-switch" onclick="searchTrx()" data-i18n="messages.search"></button> -->
+
+                    <x-button
+                        type="button"
+                        onclick="searchTrx()"
+                        data-i18n="messages.search"></x-button>
+
                 </div>
                 <div class="table-container">
-                    <x-table
+                    <x-searchable-table
                         :columns="[
                     [ 'field'=>'trx_no',
                     'label'=>'messages.trxno',
@@ -115,16 +122,33 @@
                     'label'=>'messages.cashier',
                     'placeholder'=>'messages.searchCashier'
                     ]
-                    ]"></x-table>
+                    ]"></x-searchable-table>
                 </div>
 
                 <div style="display: flex; justify-content: space-between; margin-top: 30px;">
-                    <button type="button" class="modal-switch" onclick="clearTrxModal()">
+                    <!-- <button type="button" class="modal-switch" onclick="clearTrxModal()">
                         Clear
-                    </button>
-                    <button type="button" class="modal-switch" onclick="closeTrxModal()">
+                    </button> -->
+                    <div style="width:100px">
+                        <x-button
+                            type="button"
+                            onclick="clearTrxModal()"
+                            data-i18n="messages.clear"></x-button>
+                    </div>
+
+
+
+                    <!-- <button type="button" class="modal-switch" onclick="closeTrxModal()">
                         Close
-                    </button>
+                    </button> -->
+                    <div style="width:100px">
+
+                        <x-button
+                            type="button"
+                            onclick="closeTrxModal()"
+                            data-i18n="messages.close"></x-button>
+                    </div>
+
                 </div>
             </div>
 
@@ -201,26 +225,7 @@
             });
         }
 
-        function filterTable() {
-            const table = document.querySelector(".trxTable");
-            const filters = table.querySelectorAll("thead tr:nth-child(2) input");
-            const rows = table.querySelectorAll("tbody tr");
 
-            rows.forEach(row => {
-                let show = true;
-
-                filters.forEach((input, index) => {
-                    const filter = input.value.toLowerCase().trim();
-                    const cell = row.cells[index].textContent.toLowerCase();
-
-                    if (filter && !cell.includes(filter)) {
-                        show = false;
-                    }
-                });
-
-                row.style.display = show ? "" : "none";
-            });
-        }
 
         function clearTrxModal() {
             const modal = document.getElementById("trxModal");

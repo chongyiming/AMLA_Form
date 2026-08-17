@@ -77,23 +77,15 @@
             'label' => 'messages.nationality',
             'input' => 'transacting_nationality',
             'type' => 'select',
-            'options' => [
-                'malaysia' => 'Malaysia',
-                'singapore' => 'Singapore',
-                'indonesia' => 'Indonesia',
-                'thailand' => 'Thailand',
-            ],
+            'source' => 'countries',
+            'field' => 'Country_Name',
         ],
         [
             'label' => 'messages.occupation_type',
             'input' => 'transacting_occupation',
             'type' => 'select',
-            'options' => [
-                'malaysia' => 'Malaysia',
-                'singapore' => 'Singapore',
-                'indonesia' => 'Indonesia',
-                'thailand' => 'Thailand',
-            ],
+            'source' => 'occupationType',
+            'field' => 'Occupation_Name',
             'childrens' => [
                 [
                     'input' => 'transacting_occupation_status',
@@ -113,7 +105,7 @@
             'input' => 'transacting_contact',
             'type' => 'text',
         ],
-]" :form1="$form1" />
+]" :form1="$form1" :countries="$countries" :purposeOfTrx="$purposeOfTrx" :occupationType="$occupationType" />
 
         <x-form-statement
             title='messages.verification_for_office_use'

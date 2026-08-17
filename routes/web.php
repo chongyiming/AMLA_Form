@@ -14,32 +14,26 @@ Route::get('/lang/{locale}.json', function ($locale) {
     return response()->file(resource_path("lang/{$locale}.json"));
 });
 Route::get('/', [HomeController::class, 'show']);
-
 Route::get(
     '/pdsp_customer_due_diligence_form',
     [TableController::class, 'index']
-)->name('pdsp_customer_due_diligence_form');
+);
 Route::get('/customerduediligenceform/{form_id}', [PageController::class, 'customerduediligenceform']);
-
-// Route::get('/customerduediligenceform', [PageController::class, 'customerduediligenceform'])
-//     ->name('customerriskprofilingform');
-// Route::get('/customerduediligenceform', [PageController::class, 'customerduediligenceform'])
-//     ->name('enhancedcustomerduediligenceform');
-// Route::get('/customerduediligenceform', [PageController::class, 'customerduediligenceform'])
-//     ->name('suspicioustransactionreportindividual');
-// Route::get('/customerduediligenceform', [PageController::class, 'customerduediligenceform'])
-//     ->name('suspicioustransactionreportnonindividual');
-// Route::get('/customerduediligenceform', [PageController::class, 'customerduediligenceform'])
-//     ->name('suspicioustransactionreportlegalarrangement');
 Route::post('/create', [PageController::class, 'create']);
-// Route::post('/new', [TableController::class, 'new']);
 Route::get('/createForm', [PageController::class, 'createForm']);
 Route::get('/createdForm/{form_id}/{state}', [PageController::class, 'createdForm']);
 Route::get('/submittedForm/{form_id}/{state}', [PageController::class, 'submittedForm']);
-
 Route::post('/submit/{form_id}', [PageController::class, 'submit']);
 Route::post('/update/{form_id}', [PageController::class, 'update']);
-Route::post('/transactions/{form_id}/delete', [TableController::class, 'delete']);
+Route::post('/{form_id}/delete', [TableController::class, 'delete']);
+Route::get('/{form_id}/edit', [TableController::class, 'edit']);
+Route::get('/{form_id}/attachments_modal', [TableController::class, 'attachments_modal']);
+Route::get('/attachments/{form_id}', [TableController::class, 'attachments']);
+Route::post('/deleteImage/{id}', [TableController::class, 'deleteImage']);
+Route::post('/generate-exe', [TableController::class, 'generateExe']);
+Route::post('/uploadImages/{form_id}', [PageController::class, 'uploadImages']);
+Route::get('/certReceipt-image', [TableController::class, 'showCertReceiptImage']);
+Route::post('/uploadCertReceiptImages', [TableController::class, 'uploadCertReceiptImages']);
 
 Route::get('/success', function () {
     return view('success');

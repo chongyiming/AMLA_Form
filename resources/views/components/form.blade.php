@@ -9,8 +9,8 @@
         .form_title {
             color: white;
             background-color: #2E74B5;
-            padding: 10px;
-            font-size: 14px;
+            padding: 5px;
+            font-size: 13px;
             font-weight: bold;
         }
 
@@ -38,12 +38,12 @@
 
 
         .form_row_label {
-            width: 205px;
+            width: 250px;
             padding: 5px;
             border-right: 1px solid #CCCCCC;
             background-color: #F1F1F1;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13px;
             display: flex;
             align-items: center;
         }
@@ -53,7 +53,7 @@
             border: none;
             padding: 5px;
             outline: none;
-            font-size: 14px;
+            font-size: 13px;
             width: 100%;
         }
 
@@ -62,7 +62,7 @@
             border: none;
             padding: 5px;
             outline: none;
-            font-size: 14px;
+            font-size: 13px;
             resize: none;
 
 
@@ -111,7 +111,7 @@
                     </label>
 
                     <label style="flex:1" class="form_row_label">
-                        <div style="flex-direction: row;display:flex">
+                        <div style="flex-direction: row;display:flex;gap:10px">
 
                             <!-- ({{ $row['copy_checkbox']['label'] }}) -->
                             <span data-i18n="{{$row['copy_checkbox']['label'] }}"></span>
@@ -154,6 +154,7 @@
                         placeholder="{{ $row['placeholder'] ?? '' }}"
                         value="{{ old($row['input'], $form1->{$row['input']} ?? '') }}">
 
+
                     @if(!empty($row['childrens']))
                     @foreach($row['childrens'] as $child)
                     <input
@@ -176,7 +177,7 @@
                     $otherInputName = $row['other_input']['input'];
                     @endphp
                     @foreach($row['options'] as $value => $label)
-                    <div style="margin-bottom:3px;">
+                    <div>
                         <label style="cursor:pointer;">
                             <input
                                 type="radio"
@@ -198,7 +199,7 @@
                             type="text"
                             name="{{ $row['other_input']['input'] }}"
                             value="{{ old($row['other_input']['input'], data_get($form1, $row['other_input']['input'])) ?? '' }}"
-                            style="display:none;border:1px solid #CCCCCC;margin-top:10px"
+                            style="display:none;border:1px solid #CCCCCC;"
                             data-i18n="{{ $row['other_input']['placeholder'] }}"
                             data-i18n-target="placeholder">
                         @endif
@@ -206,21 +207,18 @@
                     @endforeach
                 </div>
                 @elseif(($row['type'] ?? 'text') === 'select')
-                <select name="{{ $row['input'] }}" style="flex:1;border:none;font-size: 14px;padding:5px;outline:none">
-                    <option value="" data-i18n='messages.please_select_from_this_dropdown_list'></option>
-                    @foreach($row['options'] as $value => $label)
-                    <option
-                        value="{{ $value }}"
-                        {{ old($row['input'], data_get($form1, $row['input'])) == $value ? 'selected' : '' }}>
-                        <!-- {{ $label }} -->
-                        <span data-i18n="{{$label}}"></span>
+                <div style="flex:1;border:none;font-size: 13px;padding:5px;outline:none">
+                    <x-searchable-dropdown
+                        :options="${$row['source']}"
+                        :name="$row['input']"
+                        :field="$row['field']"
+                        :form1="$form1"
+                        border="none" />
+                </div>
 
-                    </option>
-                    @endforeach
-                </select>
                 @elseif(($row['type'] ?? 'text') === 'grid')
                 @foreach($row['columns'] as $column)
-                <div style="flex:1;">
+                <div style="flex: {{ $column['space'] ?? 1 }};">
                     <label class="form_row_label column_label">
                         <!-- {{ $column['label'] }} -->
                         <span data-i18n="{{$column['label'] }}"></span>
@@ -232,10 +230,10 @@
                         name="{{ $row['input'] }}[{{ $i }}][{{ $column['input'] }}]"
                         value="{{ old($row['input'] . '.' . $i . '.' . $column['input'], data_get($form1, $row['input'] . '.' . $i . '.' . $column['input'])) }}"
                         style="
-                    box-sizing:border-box;
-                    border-top:1px solid #CCCCCC;
-                    border-left:1px solid #CCCCCC;
-                ">
+                box-sizing:border-box;
+                border-top:1px solid #CCCCCC;
+                border-left:1px solid #CCCCCC;
+            ">
                         @endfor
                 </div>
                 @endforeach
@@ -246,10 +244,10 @@
                     placeholder="{{ $row['placeholder'] ?? '' }}"
                     value="{{ old($row['input'], $form1->{$row['input']} ?? '') }}">
                 <!-- @error($row['input'])
-                <div style="color:red;">
-                    {{ $message }}
-                </div>
-                @enderror -->
+            <div style="color:red;">
+                {{ $message }}
+            </div>
+            @enderror -->
                 @endif
 
                 @endif

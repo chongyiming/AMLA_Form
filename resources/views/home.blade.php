@@ -26,11 +26,7 @@
         }
 
         .form-choice {
-            padding: 10px;
-            text-decoration: none;
-            border-radius: 5px;
-            cursor: pointer;
-
+            height: 50px;
         }
     </style>
 
@@ -42,24 +38,36 @@
 
         <h4>Choose the form:</h4>
         <div class="form-choice-box">
-            <a href="{{ route('pdsp_customer_due_diligence_form') }}" class="form-choice" style="border: 1px solid #007bff;background-color:#007bff;color: white;">
-                Customer Due Diligence Form 客户尽职调查表表格_V3
-            </a>
-            <a href="" class="form-choice" style="border: 1px solid #6c757d; background-color:#6c757d;color: white;">
-                Customer Risk Profiling Form 顾客风险分析表格_V5
-            </a>
-            <a href="" class="form-choice" style="border: 1px solid #28a745;background-color:#28a745;color: white;">
-                Enhanced Customer Due Diligence Form 增强客户尽职调查表格_V2
-            </a>
-            <a href="" class="form-choice" style="border: 1px solid #dc3545; background-color:#dc3545;color: white;">
-                Suspicious Transaction Report - Individual 可疑交易报告 - 个人
-            </a>
-            <a href="" class="form-choice" style="border: 1px solid #ffc107; background-color:#ffc107;color: white;">
-                Suspicious Transaction Report - Non Individual 可疑交易报告 - 非个人
-            </a>
-            <a href="" class="form-choice" style="border: 1px solid #17a2b8; background-color:#17a2b8;color: white;">
-                Suspicious Transaction Report - Legal Arrangement 可疑交易报告 - 法律安排
-            </a>
+            <div class="form-choice">
+                <x-button style="border: 1px solid #007bff;background-color:#007bff;color: white;" onclick="window.location.href='/pdsp_customer_due_diligence_form'" data-i18n="messages.customerDueDiligenceFormV3">
+                </x-button>
+            </div>
+
+            <div class="form-choice">
+                <x-button style="border: 1px solid #6c757d; background-color:#6c757d;color: white;" data-i18n="messages.customerRiskProfilingFormV5">
+                </x-button>
+            </div>
+
+            <div class="form-choice">
+                <x-button style="border: 1px solid #28a745;background-color:#28a745;color: white;" data-i18n="messages.enhancedCustomerDueDiligenceFormV2">
+                </x-button>
+            </div>
+
+            <div class="form-choice">
+                <x-button style="border: 1px solid #dc3545; background-color:#dc3545;color: white;" data-i18n="messages.suspiciousTransactionIndividual">
+                </x-button>
+            </div>
+
+            <div class="form-choice">
+                <x-button style="border: 1px solid #ffc107; background-color:#ffc107;color: white;" data-i18n="messages.suspiciousTransactionNonIndividual">
+                </x-button>
+            </div>
+
+            <div class="form-choice">
+                <x-button style="border: 1px solid #17a2b8; background-color:#17a2b8;color: white;" data-i18n="messages.suspiciousTransactionLegalArrangement">
+                </x-button>
+            </div>
+
         </div>
 
     </div>
@@ -68,5 +76,36 @@
 
 
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedLocale = localStorage.getItem('locale') || 'en';
+        loadLocale(savedLocale);
+    });
+
+    async function loadLocale(lang) {
+        const res = await fetch(`/lang/${lang}.json`);
+        translations = await res.json();
+        applyTranslations();
+        localStorage.setItem('locale', lang);
+        fetch(`/locale/${lang}`);
+    }
+
+    function applyTranslations() {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.dataset.i18n;
+            const text = translations[key] ?? key;
+            const targetAttr = el.dataset.i18nTarget;
+            const isHtml = el.hasAttribute('data-i18n-html');
+            if (targetAttr) {
+                el.setAttribute(targetAttr, text);
+            } else if (isHtml) {
+                el.innerHTML = text;
+            } else {
+                el.textContent = text;
+            }
+        });
+    }
+</script>
 
 </html>

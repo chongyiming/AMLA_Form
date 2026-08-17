@@ -18,7 +18,7 @@
             align-items: center;
         }
 
-        .header-switch {
+        /* .header-switch {
             padding: 7px 16px;
             border-radius: 6px;
             background-color: white;
@@ -34,7 +34,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-        }
+        } */
 
         .simple-pagination nav {
             margin-top: 10px;
@@ -62,19 +62,26 @@
     <x-menu-sidebar></x-menu-sidebar>
     <div class="header">
         <h1>{{ $branch->Branch_Code }} Customer Due Diligence Form</h1>
-        <a href="/createForm" class="header-switch">Create Form</a>
+        <div style="width:200px">
+            <x-button
+                type="button"
+                onclick="window.location.href = '/createForm'"
+                data-i18n="messages.createForm"
+                style="border: 1px solid #59c45e;color: #59c45e;"></x-button>
+        </div>
+
     </div>
     <div>
 
 
-        <x-table
+        <x-searchable-table
             :columns="[
                 [ 'field'=>'form_id',
                 'label'=>'messages.no',
                 'placeholder'=>'messages.no'
                 ],
                 [
-                'field'=>'docNo',
+                'field'=>'doc_no',
                 'label'=>'messages.docNo',
                 'placeholder'=>'messages.docNo'
                 ],
@@ -118,7 +125,7 @@
                 'placeholder'=>'messages.action'
                 ]
                 ]"
-            :rows="$forms"></x-table>
+            :rows="$forms"></x-searchable-table>
         <div class="simple-pagination">
             {{ $forms->onEachSide(5)->links() }}
         </div>

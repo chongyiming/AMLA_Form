@@ -55,12 +55,8 @@
             'label' => 'messages.country_of_registration',
             'input' => 'country_registration',
             'type' => 'select',
-            'options' => [
-                'malaysia' => 'Malaysia',
-                'singapore' => 'Singapore',
-                'indonesia' => 'Indonesia',
-                'thailand' => 'Thailand',
-            ],
+            'source' => 'countries',
+            'field' => 'Country_Name',
 
         ],
         [
@@ -170,12 +166,8 @@
             'label' => 'messages.purpose_of_transaction',
             'input' => 'transaction_purpose_3',
             'type' => 'select',
-            'options' => [
-                'malaysia' => 'Malaysia',
-                'singapore' => 'Singapore',
-                'indonesia' => 'Indonesia',
-                'thailand' => 'Thailand',
-            ],
+            'source' => 'purposeOfTrx',
+            'field' => 'Purpose_Name',
 
         ],
         [
@@ -231,7 +223,7 @@
 
         ]
 
-]" :form1="$form1" />
+]" :form1="$form1" :countries="$countries" :purposeOfTrx="$purposeOfTrx" />
         <div class='footer'>Version 4: Dated 25/05/2026</div>
 
 

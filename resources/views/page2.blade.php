@@ -14,7 +14,8 @@
 
     <!-- <form action="/page2" method="POST">
         @csrf -->
-    <div class="container" id="container">
+
+    <div class="container" id="container" style="margin-top:30px">
         <h4 data-i18n="messages.formNo1" style="margin-bottom: 0;"></h4>
         <!-- <ul class="dropdown">
                 <li><a href="locale/en">English</a></li>
@@ -59,12 +60,9 @@
             'label' => 'messages.country_of_incorporation_registration',
             'input' => 'country_incorp',
             'type' => 'select',
-            'options' => [
-                'malaysia' => 'Malaysia',
-                'singapore' => 'Singapore',
-                'indonesia' => 'Indonesia',
-                'thailand' => 'Thailand',
-            ],
+            'source' => 'countries',
+            'field' => 'Country_Name',
+            
 
         ],
         [
@@ -174,13 +172,8 @@
             'label' => 'messages.purpose_of_transaction',
             'input' => 'transaction_purpose_2',
             'type' => 'select',
-            'options' => [
-                'malaysia' => 'Malaysia',
-                'singapore' => 'Singapore',
-                'indonesia' => 'Indonesia',
-                'thailand' => 'Thailand',
-            ],
-
+            'source' => 'purposeOfTrx',
+            'field' => 'Purpose_Name',
         ],
         [
             'label' => 'messages.name_of_directors_partners',
@@ -224,13 +217,16 @@
                     'label' => 'messages.name',
                     'input' => 'nominee_name',
                     'type' => 'text',
-                    'row' => '2'
+                    'row' => '2',
+                    'space' => '40'
                 ],
                 [
                     'label' => 'messages.type_of_ownership_control_relationship',
                     'input' => 'nominee_type',
                     'type' => 'text',
-                    'row' => '2'
+                    'row' => '2',
+                    'space' => '60'
+
 
 
                 ],
@@ -250,7 +246,7 @@
 
         ],
 
-]" :form1="$form1" />
+]" :form1="$form1" :countries="$countries" :purposeOfTrx="$purposeOfTrx" />
         <div class='footer'>Version 4: Dated 25/05/2026</div>
 
 

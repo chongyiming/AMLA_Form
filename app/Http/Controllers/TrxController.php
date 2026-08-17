@@ -14,6 +14,7 @@ class TrxController extends Controller
     {
         $branches = DB::table('Company_Setup_Workstation')
             ->select('Branch_Code')
+            ->distinct()
             ->get();
 
         return response()->json($branches);
