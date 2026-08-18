@@ -14,8 +14,8 @@
         .statement_title {
             color: white;
             background-color: #2E74B5;
-            padding: 14px;
-            font-size: 14px;
+            padding: 7px;
+            font-size: 12px;
             font-weight: bold;
         }
 
@@ -35,7 +35,7 @@
             padding: 5px;
             background-color: #F1F1F1;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 12px;
             display: flex;
             align-items: center;
             border-bottom: 1px solid #CCCCCC;
@@ -45,7 +45,7 @@
         .white_bullet {
             list-style-type: circle;
             margin-left: 14px;
-            font-size: 12px;
+            font-size: 10px;
         }
     </style>
 </head>
