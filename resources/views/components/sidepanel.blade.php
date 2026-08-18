@@ -27,7 +27,7 @@
 
 
         .panel-input {
-            width: 180px;
+            width: 200px;
             font-size: 14px;
             padding: 8px 10px;
             border: 1px solid #CCCCCC;
@@ -37,12 +37,11 @@
         }
 
 
-        .button-wrapper {
-            width: 100px;
+        .sidepanel_button_container {
             display: flex;
-            justify-content: flex-end;
+            flex-direction: column;
+            gap: 10px
         }
-
 
 
         @media (max-width: 1415px) {
@@ -51,10 +50,9 @@
                 display: none;
             }
 
-            .button-wrapper {
-                display: none;
+            .sidepanel_button_container {
+                display: none
             }
-
 
         }
     </style>
@@ -69,66 +67,36 @@
             <input type="text" class="panel-input" name="trx_no" readonly onclick="openTrxModal()" value="{{ old('trx_no', data_get($form, 'trx_no')) }}">
         </div>
         <x-modal :form1="$form1" :form="$form"></x-modal>
-        @if($state ==0)
-        <!-- <button type="submit" class="panel-switch" style="border: 1px solid #59c45e;color:#59c45e" data-i18n="messages.create"></button> -->
-        <div class="button-wrapper">
+        <div class="sidepanel_button_container">
+            @if($state ==0)
 
-            <x-button type="submit"
-                style="border: 1px solid #59c45e;color:#59c45e"
-                data-i18n="messages.create"></x-button>
-        </div>
+            <button type="submit" class="btn btn-outline-success" data-i18n="messages.create" style="width:100px"></button>
 
-        <!-- <button type="button" class="panel-switch" style="border: 1px solid #dc2626;color:#dc2626" onclick="clearForm()" data-i18n="messages.clear"></button> -->
-        <div class="button-wrapper">
-            <x-button type="button"
-                style="border: 1px solid #dc2626;color:#dc2626"
-                onclick="clearForm()"
-                data-i18n="messages.clear"></x-button>
-        </div>
+            <button type="button" class="btn btn-outline-danger" onclick="clearForm()"
+                data-i18n="messages.clear" style="width:100px"></button>
 
-        @elseif($state ==1)
-        <!-- <form method="POST" action="/update">
-            @csrf -->
-        <!-- <button type="submit" class="panel-switch" formaction="/update/{{ $form1->form_id }}" style="border: 1px solid #007bff;color:#007bff" data-i18n="messages.update"></button> -->
-        <div class="button-wrapper">
-            <x-button type="submit"
-                style="border: 1px solid #007bff;color:#007bff"
-                formaction="/update/{{ $form1->form_id }}"
-                data-i18n="messages.update"></x-button>
 
-        </div>
+            @elseif($state ==1)
 
-        <!-- </form> -->
-        <!-- <button type="button" class="panel-switch" style="border: 1px solid #dc2626;color:#dc2626" onclick="clearForm()" data-i18n="messages.clear"></button> -->
-        <div class="button-wrapper">
-            <x-button type="button"
-                style="border: 1px solid #dc2626;color:#dc2626"
-                onclick="clearForm()"
-                data-i18n="messages.clear"></x-button>
+            <button type="submit" class="btn btn-outline-primary" formaction="/update/{{ $form1->form_id }}"
+                data-i18n="messages.update" style="width:100px"></button>
+
+            <button type="button" class="btn btn-outline-danger" onclick="clearForm()"
+                data-i18n="messages.clear" style="width:100px"></button>
+
+            <button type="submit" class="btn btn-outline-success" formaction="/submit/{{ $form1->form_id }}"
+                data-i18n="messages.submit" style="width:100px">Success</button>
+
+
+            @elseif($state ==2)
+
+            <button type="button" class="btn btn-outline-success" id="panel-print" data-i18n="messages.print" style="width:100px">Success</button>
+
+            @endif
+
+
 
         </div>
-
-        <!-- <button type="submit" class="panel-switch" formaction="/submit/{{ $form1->form_id }}" style="border: 1px solid #59c45e;color:#59c45e" data-i18n="messages.submit"></button> -->
-        <div class="button-wrapper">
-            <x-button type="submit"
-                style="border: 1px solid #59c45e;color:#59c45e"
-                formaction="/submit/{{ $form1->form_id }}"
-                data-i18n="messages.submit"></x-button>
-
-        </div>
-
-        @elseif($state ==2)
-        <!-- <button id="panel-print" type="button" class="panel-switch" data-i18n="messages.print">Print</button> -->
-        <div class="button-wrapper">
-            <x-button
-                id="panel-print"
-                type="button"
-                data-i18n="messages.print"></x-button>
-
-        </div>
-
-        @endif
-
 
 
     </div>

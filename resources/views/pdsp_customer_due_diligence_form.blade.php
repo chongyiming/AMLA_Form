@@ -16,44 +16,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        /* .header-switch {
-            padding: 7px 16px;
-            border-radius: 6px;
-            background-color: white;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            width: 150px;
-            height: 20px;
-            border: 1px solid #59c45e;
-            color: #59c45e;
-            text-align: center;
-            text-decoration: none;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        } */
-
-        .simple-pagination nav {
-            margin-top: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .simple-pagination nav a,
-        .simple-pagination nav span {
-
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            text-align: center;
-            padding: 10px;
-            width: 80px;
-            text-decoration: none;
-
+            padding-left: 10px;
+            padding-right: 10px
         }
     </style>
 </head>
@@ -62,18 +26,16 @@
     <x-menu-sidebar></x-menu-sidebar>
     <div class="header">
         <h1>{{ $branch->Branch_Code }} Customer Due Diligence Form</h1>
-        <div style="width:200px">
-            <x-button
-                type="button"
-                onclick="window.location.href = '/createForm'"
-                data-i18n="messages.createForm"
-                style="border: 1px solid #59c45e;color: #59c45e;"></x-button>
-        </div>
+        <button type="button" class="btn btn-outline-success" onclick="window.location.href = '/createForm'"
+            data-i18n="messages.createForm"></button>
+
 
     </div>
-    <div>
+    <div style="margin-top:10px;padding-left:10px;padding-right:10px">
 
-
+        <div class="simple-pagination">
+            {{ $forms->onEachSide(5)->links() }}
+        </div>
         <x-searchable-table
             :columns="[
                 [ 'field'=>'form_id',
@@ -126,9 +88,7 @@
                 ]
                 ]"
             :rows="$forms"></x-searchable-table>
-        <div class="simple-pagination">
-            {{ $forms->onEachSide(5)->links() }}
-        </div>
+
     </div>
 
 

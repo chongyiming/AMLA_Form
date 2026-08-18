@@ -23,7 +23,7 @@
         }
 
         .trxTable .search {
-            width: 90%;
+            width: 100%;
             border: none;
             outline: none;
             font-size: 11px;
@@ -32,21 +32,9 @@
 
         .column-switch-wrap {
             width: 100%;
-            gap: 10px;
+            gap: 5px;
             display: flex;
             flex-direction: column;
-            gap: 5px
-        }
-
-        .column-switch {
-            border-radius: 6px;
-            background-color: white;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            height: 30px;
-
-
         }
     </style>
 </head>
@@ -81,11 +69,6 @@
 
                     @if($column['field'] === 'uuid')
                     <x-heroicon-o-bars-3 style="width: 16px; height: 16px;cursor:pointer" onclick="openAttachmentsModal('{{ $row->form_id }}')" />
-
-
-
-                    <!-- <button type="button" class="btn btn-outline-primary" data-i18n="messages.actions" onclick="window.location.href='/{{ $row->form_id }}/edit'">Primary</button> -->
-
                     @else
                     {{ data_get($row, $column['field']) }}
                     @endif
@@ -96,38 +79,24 @@
                         @if($row->status === 'New')
                         <form action="/{{ $row->form_id }}/edit" method="GET">
                             @csrf
-                            <!-- <button type="submit" class="column-switch" style="width:100%;border: 1px solid #17a2b8; color:#17a2b8;">Edit</button> -->
+                            <button type="submit" class="btn btn-outline-primary" data-i18n="messages.edit" style="width: 100%;"></button>
 
-                            <x-button
-                                type="submit"
-                                style="width:100%;border: 1px solid #17a2b8; color:#17a2b8;font-size:12px"
-                                data-i18n="messages.edit"></x-button>
                         </form>
                         <form action="/{{ $row->form_id }}/delete" method="POST">
                             @csrf
-                            <!-- <button type="submit" class="column-switch" style="width:100%;border:1px solid #dc3545; color:#dc3545;">Delete</button> -->
-                            <x-button
-                                type="submit"
-                                style="width:100%;border:1px solid #dc3545;color:#dc3545;font-size:12px"
-                                data-i18n="messages.delete"></x-button>
+
+                            <button type="submit" class="btn btn-outline-danger" data-i18n="messages.delete" style="width: 100%;"></button>
+
                         </form>
                         @else
                         <form action="/submittedForm/{{ $row->form_id }}/2" method="GET">
                             @csrf
-                            <!-- <button type="submit" class="column-switch" style="width:100%;border: 1px solid #17a2b8; color:#17a2b8;">Edit</button> -->
-                            <x-button
-                                type="submit"
-                                style="width:100%;border: 1px solid #17a2b8; color:#17a2b8;font-size:12px"
-                                data-i18n="messages.view"></x-button>
+                            <button type="submit" class="btn btn-outline-primary" data-i18n="messages.view" style="width: 100%;"></button>
                         </form>
                         <form action="/{{ $row->form_id }}/delete" method="POST">
                             @csrf
-                            <!-- <button type="submit" class="column-switch" style="width:100%;border:1px solid #dc3545; color:#dc3545;">Delete</button> -->
-                            <x-button
-                                type="submit"
-                                style="width:100%;border:1px solid #dc3545;color:#dc3545;font-size:12px"
-                                data-i18n="messages.delete"
-                                disabled></x-button>
+                            <button type="submit" class="btn btn-outline-danger" data-i18n="messages.delete" style="width: 100%;" disabled></button>
+
                         </form>
                         @endif
                     </div>

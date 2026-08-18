@@ -24,11 +24,8 @@
             flex-direction: column;
             gap: 20px
         }
-
-        .form-choice {
-            height: 50px;
-        }
     </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 </head>
 
@@ -38,36 +35,13 @@
 
         <h4>Choose the form:</h4>
         <div class="form-choice-box">
-            <div class="form-choice">
-                <x-button style="border: 1px solid #007bff;background-color:#007bff;color: white;" onclick="window.location.href='/pdsp_customer_due_diligence_form'" data-i18n="messages.customerDueDiligenceFormV3">
-                </x-button>
-            </div>
 
-            <div class="form-choice">
-                <x-button style="border: 1px solid #6c757d; background-color:#6c757d;color: white;" data-i18n="messages.customerRiskProfilingFormV5">
-                </x-button>
-            </div>
-
-            <div class="form-choice">
-                <x-button style="border: 1px solid #28a745;background-color:#28a745;color: white;" data-i18n="messages.enhancedCustomerDueDiligenceFormV2">
-                </x-button>
-            </div>
-
-            <div class="form-choice">
-                <x-button style="border: 1px solid #dc3545; background-color:#dc3545;color: white;" data-i18n="messages.suspiciousTransactionIndividual">
-                </x-button>
-            </div>
-
-            <div class="form-choice">
-                <x-button style="border: 1px solid #ffc107; background-color:#ffc107;color: white;" data-i18n="messages.suspiciousTransactionNonIndividual">
-                </x-button>
-            </div>
-
-            <div class="form-choice">
-                <x-button style="border: 1px solid #17a2b8; background-color:#17a2b8;color: white;" data-i18n="messages.suspiciousTransactionLegalArrangement">
-                </x-button>
-            </div>
-
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/pdsp_customer_due_diligence_form'" data-i18n="messages.customerDueDiligenceFormV3"></button>
+            <button type="button" class="btn btn-secondary" data-i18n="messages.customerRiskProfilingFormV5"></button>
+            <button type="button" class="btn btn-success" data-i18n="messages.enhancedCustomerDueDiligenceFormV2"></button>
+            <button type="button" class="btn btn-danger" data-i18n="messages.suspiciousTransactionIndividual"></button>
+            <button type="button" class="btn btn-warning" data-i18n="messages.suspiciousTransactionNonIndividual"></button>
+            <button type="button" class="btn btn-info" data-i18n="messages.suspiciousTransactionLegalArrangement"></button>
         </div>
 
     </div>

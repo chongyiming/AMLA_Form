@@ -27,7 +27,7 @@
 
         }
     </style>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/strap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script>
         if (typeof jQuery === 'undefined') {
             document.write('<script src="https://code.jquery.com/jquery-3.7.1.min.js"><\/script>');
@@ -259,7 +259,7 @@
             });
 
             const data = await response.json();
-
+            console.log(data)
             const rawJson = data.output.join('\n');
             const paths = JSON.parse(rawJson);
 
@@ -267,35 +267,42 @@
                 ...paths.GoldCert,
                 ...paths.Receipt
             ];
+            if (allFiles.length == 0) {
+                document.getElementById('certReceiptSection').style.display = 'flex'
+            }
+
             const pngPaths = allFiles.filter(path => path.endsWith('.png'));
             await saveCertReceiptToAttachments(pngPaths, form_id)
 
-            const images = pngPaths.map(path => {
-                const encodedPath = encodeURIComponent(path);
+            const response1 = await fetch(`/attachments/${form_id}`);
+            const data1 = await response1.json();
+            if (data1.certReceipts.length > 0) {
+                document.getElementById('certReceiptSection').style.display = 'none'
+            }
 
+            const images = data1.certReceipts.map(item => {
+                const path = item.file_name;
 
                 return `
-<div class="border border-secondary" style="width: 220px;padding:10px">
-    <div>
-        <img 
-            src="/certReceipt-image?path=${encodedPath}" 
-            style="width: 200px;"
-        >
-    </div>
+            <div class="border border-secondary" style="width: 220px;padding:10px">
+                    <img 
+                        src="/storage/${path}" 
+                        style="width: 200px;"
+                    >
 
-    <div class="text-break">
-        ${path.replace('photos/', '')}
-    </div>
-</div>
-`;
+                <div class="text-break">
+                    ${path.replace('photos/', '')}
+                </div>
+            </div>
+            `;
             });
 
             document.getElementById('certImage').innerHTML = images.join('');
+
         }
 
 
         async function saveCertReceiptToAttachments(pngPaths, form_id) {
-            console.log(pngPaths)
             const response = await fetch('/uploadCertReceiptImages', {
                 method: 'POST',
                 headers: {
@@ -308,7 +315,6 @@
             });
 
             const data = await response.json();
-            console.log(data)
         }
     </script>
 </body>

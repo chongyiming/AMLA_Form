@@ -32,7 +32,6 @@ Route::get('/attachments/{form_id}', [TableController::class, 'attachments']);
 Route::post('/deleteImage/{id}', [TableController::class, 'deleteImage']);
 Route::post('/generate-exe', [TableController::class, 'generateExe']);
 Route::post('/uploadImages/{form_id}', [PageController::class, 'uploadImages']);
-Route::get('/certReceipt-image', [TableController::class, 'showCertReceiptImage']);
 Route::post('/uploadCertReceiptImages', [TableController::class, 'uploadCertReceiptImages']);
 
 Route::get('/success', function () {

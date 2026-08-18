@@ -30,24 +30,6 @@
 
         }
 
-        /* .modal-switch {
-            right: 0;
-            padding: 7px 16px;
-            border-radius: 6px;
-            background-color: white;
-            font-size: 14px;
-            font-weight: 500;
-            border: 1px solid #ddd;
-            cursor: pointer;
-            width: 100px;
-            transition:
-                background-color 0.15s ease,
-                color 0.15s ease,
-                border-color 0.15s ease,
-                box-shadow 0.15s ease,
-                transform 0.1s ease;
-        } */
-
         .modal-input {
             padding: 7px 16px;
             border-radius: 6px;
@@ -61,7 +43,7 @@
         }
 
         .table-container {
-            width: 600px;
+            width: 100%;
             max-height: 300px;
             overflow-y: auto;
             border: 1px solid #ccc;
@@ -87,12 +69,9 @@
                     <label class="modal-label" data-i18n="messages.salesDate">
                     </label>
                     <input type="date" id="salesDate" name="sales_date" class="modal-input" value="{{ old('sales_date', data_get($form, 'sales_date') ? \Carbon\Carbon::parse(data_get($form, 'sales_date'))->format('Y-m-d') : '') }}">
-                    <!-- <button type="button" class="modal-switch" onclick="searchTrx()" data-i18n="messages.search"></button> -->
+                    <button type="button" class="btn btn-outline-dark" onclick="searchTrx()"
+                        data-i18n="messages.search"></button>
 
-                    <x-button
-                        type="button"
-                        onclick="searchTrx()"
-                        data-i18n="messages.search"></x-button>
 
                 </div>
                 <div class="table-container">
@@ -126,28 +105,13 @@
                 </div>
 
                 <div style="display: flex; justify-content: space-between; margin-top: 30px;">
-                    <!-- <button type="button" class="modal-switch" onclick="clearTrxModal()">
-                        Clear
-                    </button> -->
-                    <div style="width:100px">
-                        <x-button
-                            type="button"
-                            onclick="clearTrxModal()"
-                            data-i18n="messages.clear"></x-button>
-                    </div>
 
 
+                    <button type="button" class="btn btn-outline-dark" onclick="clearTrxModal()"
+                        data-i18n="messages.clear"></button>
+                    <button type="button" class="btn btn-outline-dark" onclick="closeTrxModal()"
+                        data-i18n="messages.close"></button>
 
-                    <!-- <button type="button" class="modal-switch" onclick="closeTrxModal()">
-                        Close
-                    </button> -->
-                    <div style="width:100px">
-
-                        <x-button
-                            type="button"
-                            onclick="closeTrxModal()"
-                            data-i18n="messages.close"></x-button>
-                    </div>
 
                 </div>
             </div>

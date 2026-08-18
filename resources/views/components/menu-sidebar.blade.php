@@ -15,25 +15,6 @@
             z-index: 10;
         }
 
-        /* .sidebar_button {
-            display: flex;
-            justify-content: center;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-left: 10px;
-            padding-right: 10px;
-            border-radius: 5px;
-            text-decoration: none;
-            align-items: center;
-            border: 1px solid #17a2b8;
-            color: #17a2b8;
-            background-color: white;
-            cursor: pointer;
-        }
-
-        .sidebar_button:hover {
-            background: #f5f5f5;
-        } */
 
         .sidebar {
             position: fixed;
@@ -83,59 +64,36 @@
             display: block;
         }
     </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
 </head>
 
 <body>
     <div class="side_panel">
-        <!-- <button type="button" class="sidebar_button" id="menuBtn">
-            <x-heroicon-o-bars-3 style="width: 24px; height: 24px;" />
-        </button> -->
         <div style="width:50px">
-            <x-button type="button" id="menuBtn" style="border: 1px solid #17a2b8;color: #17a2b8;">
-                <x-heroicon-o-bars-3 style="width: 16px; height: 16px;" />
-            </x-button>
-        </div>
+            <button type="button" class="btn btn-outline-primary" id="menuBtn"> <x-heroicon-o-bars-3 style="width: 16px; height: 16px;" />
+            </button>
 
-        <!-- <a href="/" class="sidebar_button">Home</a> -->
+        </div>
         <div style="width:70px">
-            <x-button type="button" style="border: 1px solid #17a2b8;color: #17a2b8;" onclick="window.location.href='/'" data-i18n="messages.home">
-            </x-button>
+            <button type="button" class="btn btn-outline-primary" onclick="window.location.href='/'" data-i18n="messages.home">
+            </button>
         </div>
 
     </div>
 
     <div class="sidebar" id="sidebar">
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/pdsp_customer_due_diligence_form'" data-i18n="messages.customerDueDiligenceFormV3"></button>
 
-        <div>
-            <x-button style="border: 1px solid #007bff;background-color:#007bff;color: white;" onclick="window.location.href='/pdsp_customer_due_diligence_form'" data-i18n="messages.customerDueDiligenceFormV3">
-            </x-button>
-        </div>
+        <button type="button" class="btn btn-secondary" data-i18n="messages.customerRiskProfilingFormV5"></button>
 
-        <div>
-            <x-button style="border: 1px solid #6c757d; background-color:#6c757d;color: white;" data-i18n="messages.customerRiskProfilingFormV5">
-            </x-button>
-        </div>
+        <button type="button" class="btn btn-success" data-i18n="messages.enhancedCustomerDueDiligenceFormV2"></button>
 
+        <button type="button" class="btn btn-danger" data-i18n="messages.suspiciousTransactionIndividual"></button>
 
-        <div>
-            <x-button style="border: 1px solid #28a745;background-color:#28a745;color: white;" data-i18n="messages.enhancedCustomerDueDiligenceFormV2">
-            </x-button>
-        </div>
+        <button type="button" class="btn btn-warning" data-i18n="messages.suspiciousTransactionNonIndividual"></button>
 
-        <div>
-            <x-button style="border: 1px solid #dc3545; background-color:#dc3545;color: white;" data-i18n="messages.suspiciousTransactionIndividual">
-            </x-button>
-        </div>
-
-        <div>
-            <x-button style="border: 1px solid #ffc107; background-color:#ffc107;color: white;" data-i18n="messages.suspiciousTransactionNonIndividual">
-            </x-button>
-        </div>
-
-        <div>
-            <x-button style="border: 1px solid #17a2b8; background-color:#17a2b8;color: white;" data-i18n="messages.suspiciousTransactionLegalArrangement">
-            </x-button>
-        </div>
+        <button type="button" class="btn btn-info" data-i18n="messages.suspiciousTransactionLegalArrangement"></button>
     </div>
 
     <script>

@@ -50,7 +50,7 @@
 
             display: flex;
             justify-content: flex-end;
-            padding: 10px;
+            padding: 15px;
             gap: 10px;
             background-color: white;
             z-index: 1;
@@ -226,6 +226,7 @@
         }
 
         @media print {
+
             body * {
                 visibility: hidden;
             }
@@ -246,12 +247,9 @@
                 padding-left: 0;
                 padding-right: 0;
                 padding-bottom: 0;
-
                 margin-top: 0;
-                box-shadow: none
+                box-shadow: none;
             }
-
-
 
         }
     </style>
@@ -269,11 +267,9 @@
 
             </div>
             <div class="header-dropdown">
-                <!-- <button type="button" class="header-panel-switch">
-                    Actions
-                </button> -->
-                <x-button type="button" data-i18n="messages.actions" id="actions">
-                </x-button>
+
+                <button type="button" class="btn btn-outline-dark" data-i18n="messages.actions" id="actions"></button>
+
                 <div class=" header-dropdown-menu">
                     <div class="small-width-trx-no">
                         <label>
@@ -284,26 +280,19 @@
                     <div style="display: flex;justify-content: space-between;gap:10px">
 
                         @if($state == 0)
-                        <!-- <button type="submit" style="border: 1px solid #59c45e;color:#59c45e;background-color:white" data-i18n="messages.create"></button> -->
-                        <x-button type="submit" data-i18n="messages.create" style="border: 1px solid #59c45e;color:#59c45e;background-color:white">
-                        </x-button>
-                        <!-- <button type="button" style="border: 1px solid #dc2626;color:#dc2626;background-color:white" onclick="clearForm()" data-i18n="messages.clear"></button> -->
-                        <x-button type="button" style="border: 1px solid #dc2626;color:#dc2626;background-color:white" onclick="clearForm()" data-i18n="messages.clear">
-                        </x-button>
+
+                        <button type="submit" class="btn btn-outline-success" data-i18n="messages.create">Success</button>
+                        <button type="button" class="btn btn-outline-danger" onclick="clearForm()" data-i18n="messages.clear"></button>
+
                         @elseif($state ==1)
-                        <!-- <button type="button" style="border: 1px solid #007bff;color:#007bff;background-color:white" data-i18n="messages.update"></button> -->
-                        <x-button type="submit" style="border: 1px solid #007bff;color:#007bff;background-color:white" data-i18n="messages.update" formaction="/update/{{ $form1->form_id }}">
-                        </x-button>
-                        <!-- <button type="button" style="border: 1px solid #dc2626;color:#dc2626;background-color:white" onclick="clearForm()" data-i18n="messages.clear"></button> -->
-                        <x-button type="button" style="border: 1px solid #dc2626;color:#dc2626;background-color:white" onclick="clearForm()" data-i18n="messages.clear">
-                        </x-button>
-                        <!-- <button type="submit" formaction="/submit/{{ $form1->form_id }}" style="border: 1px solid #59c45e;color:#59c45e;background-color:white" data-i18n="messages.submit"></button> -->
-                        <x-button type="submit" formaction="/submit/{{ $form1->form_id }}" style="border: 1px solid #59c45e;color:#59c45e;background-color:white" data-i18n="messages.submit">
-                        </x-button>
+
+                        <button type="submit" class="btn btn-outline-primary" data-i18n="messages.update" formaction="/update/{{ $form1->form_id }}"></button>
+                        <button type="button" class="btn btn-outline-danger" onclick="clearForm()" data-i18n="messages.clear"></button>
+                        <button type="submit" class="btn btn-outline-success" formaction="/submit/{{ $form1->form_id }}" data-i18n="messages.submit"></button>
+
                         @elseif($state ==2)
-                        <!-- <button id="dropdown-print" type="button" style="background-color:white" data-i18n="messages.print"></button> -->
-                        <x-button id="dropdown-print" type="button" style="background-color:white" data-i18n="messages.print">
-                        </x-button>
+                        <button type="button" class="btn btn-outline-dark" id="dropdown-print" data-i18n="messages.print"></button>
+
                         @endif
 
                     </div>
@@ -312,10 +301,9 @@
             </div>
             <x-menu-sidebar></x-menu-sidebar>
 
-
         </div>
 
-        <div class="a4_container">
+        <div class="a4_container" id="a4_container">
             @if ($errors->any())
             <div>
                 <ul>

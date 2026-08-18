@@ -36,7 +36,6 @@ class TableController extends Controller
 
     public function edit($form_id)
     {
-        // dd($form_id);
         return redirect("/createdForm/{$form_id}/1");
     }
 
@@ -46,7 +45,8 @@ class TableController extends Controller
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
             ->select('t1.*', 't2.*')
             ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
-            ->simplePaginate(5);
+            ->orderBy('t1.form_id', 'desc')
+            ->paginate(4);
         $branch = DB::table('Company_Setup_Workstation')
             ->select('Branch_Code')
             ->where('Branch_Code', 'LIKE', 'P%')
@@ -118,13 +118,6 @@ class TableController extends Controller
             'success' => $returnCode === 0,
             'output' => $output
         ]);
-    }
-
-    public function showCertReceiptImage(Request $request)
-    {
-        $path = $request->query('path');
-
-        return response()->file($path);
     }
 
     public function uploadCertReceiptImages(Request $request)
