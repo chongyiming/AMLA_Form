@@ -67,9 +67,16 @@
                 <td>
                     @if(isset($column['field']))
 
-                    @if($column['field'] === 'uuid')
-                    <x-heroicon-o-bars-3 style="width: 16px; height: 16px;cursor:pointer" onclick="openAttachmentsModal('{{ $row->form_id }}')" />
+                    @if($column['field'] === 'uuid' && $row->status === 'Submitted')
+                    <!-- <x-heroicon-o-exclamation-circle style="width: 16px; height: 16px;cursor:pointer" onclick="openAttachmentsModal('{{ $row->form_id }}')" /> -->
+                    <button type="button" class="btn btn-success" onclick="openAttachmentsModal('{{ $row->form_id }}')"></button>
+
+                    @elseif($column['field'] === 'uuid' && $row->status === 'New')
+                    <!-- <x-heroicon-o-bars-3 style="width: 16px; height: 16px;cursor:pointer" onclick="openAttachmentsModal('{{ $row->form_id }}')" /> -->
+                    <button type="button" class="btn btn-primary" onclick="openAttachmentsModal('{{ $row->form_id }}')"></button>
+
                     @else
+
                     {{ data_get($row, $column['field']) }}
                     @endif
 

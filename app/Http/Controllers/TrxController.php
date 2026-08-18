@@ -24,7 +24,7 @@ class TrxController extends Controller
     {
         $trxDate = $request->sales_date;
 
-        if ($request->branch != 'PEOS') {
+        if ($request->branch != 'BBCU') {
 
             $sql = "
     SELECT FORMAT(TrxDate, 'hh:mm:ss tt') AS TrxDate, TrxNo,

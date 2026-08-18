@@ -20,10 +20,6 @@
             margin-top: 10px;
         }
 
-        h4 {
-            text-align: end;
-        }
-
         .header_Text {
             font-size: 15px;
             text-align: center;
@@ -82,12 +78,9 @@
 
 <body>
 
-    <!-- <form action="/page1" method="POST">
-        @csrf -->
     <div class="container" id="container">
+        <p class="fs-6 text-end" data-i18n="messages.formNo1">Form No1</p>
 
-        <h4 data-i18n="messages.formNo1" style="margin-bottom: 0;"></h4>
-        <!-- <div data-i18n="messages.formNo1" style="margin-bottom: 0;"></div> -->
         <img src="{{ asset('/image.png') }}" style="width: 150px;margin: 0 auto">
         <div class='header_Text'>@lang('messages.customerDueDiligenceForm')</div>
         <div class='header_Text2'>@lang('messages.customerDueDiligenceForm2')</div>
@@ -114,7 +107,6 @@
 
             <div class="row">
                 <label data-i18n="messages.preparer"></label>
-                <!-- <input type="text" name="preparer_name" value="{{  old('preparer_name', $form1->preparer_name ?? '') }}"> -->
                 <div style="width:53%;display:flex;padding-left:0">
                     <x-searchable-dropdown
                         :options="$preparer"
@@ -306,7 +298,6 @@
     <script>
 
     </script>
-    <!-- </form> -->
 </body>
 
 </html>

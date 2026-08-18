@@ -176,7 +176,6 @@
             const formId = form.querySelector('[name="form_id"]').value;
             const response1 = await fetch(`/attachments/${formId}`);
             const data1 = await response1.json();
-
             const tbody = document.querySelector('#attachmentImages tbody');
 
             tbody.innerHTML = '';
@@ -194,9 +193,11 @@
                 </td>
             <td>${attachment.createdAt}</td>
             <td>
-                         <button type="button" class="btn btn-danger" onclick="deleteAttachment(${attachment.id})">Delete</button>
-
-            </td>
+    ${data1.form_status[0].status !== 'Submitted'
+        ? `<button type="button" class="btn btn-danger" onclick="deleteAttachment(${attachment.id})">Delete</button>`
+        : ''
+    }
+</td>
         </tr>
     `;
 
