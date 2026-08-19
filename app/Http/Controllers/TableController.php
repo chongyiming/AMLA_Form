@@ -56,7 +56,7 @@ class TableController extends Controller
             )
             ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
             ->orderBy('t1.form_id', 'desc')
-            ->paginate(4);
+            ->paginate(10);
         $branch = DB::table('Company_Setup_Workstation')
             ->select('Branch_Code')
             ->where('Branch_Code', 'LIKE', 'P%')

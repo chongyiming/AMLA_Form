@@ -12,12 +12,12 @@
         }
 
         .header {
-            margin-top: 100px;
+            margin-top: 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-left: 10px;
-            padding-right: 10px
+            padding-left: 20px;
+            padding-right: 20px
         }
     </style>
     <link rel="shortcut icon" sizes="114x114" href="{{ asset('/form.png') }}">
@@ -33,7 +33,7 @@
 
 
     </div>
-    <div style="margin-top:10px;padding-left:10px;padding-right:10px">
+    <div style="margin-top:10px;padding-left:20px;padding-right:20px;padding-bottom: 50px;">
 
         <div class="simple-pagination">
             {{ $forms->onEachSide(5)->links() }}
