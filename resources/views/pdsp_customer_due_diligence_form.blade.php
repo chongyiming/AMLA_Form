@@ -20,6 +20,8 @@
             padding-right: 10px
         }
     </style>
+    <link rel="shortcut icon" sizes="114x114" href="{{ asset('/form.png') }}">
+
 </head>
 
 <body>

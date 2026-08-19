@@ -43,7 +43,17 @@ class TableController extends Controller
     {
         $forms = DB::table('istr_AMLAForm1 as t1')
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
-            ->select('t1.*', 't2.*')
+            ->select(
+                't1.*',
+                't2.*',
+                DB::raw("
+            (
+                SELECT COUNT(*)
+                FROM istr_AMLA_Attachment as a
+                WHERE a.form_id = t1.form_id
+            ) AS image_count
+        ")
+            )
             ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
             ->orderBy('t1.form_id', 'desc')
             ->paginate(4);

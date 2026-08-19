@@ -33,9 +33,5 @@ Route::post('/deleteImage/{id}', [TableController::class, 'deleteImage']);
 Route::post('/generate-exe', [TableController::class, 'generateExe']);
 Route::post('/uploadImages/{form_id}', [PageController::class, 'uploadImages']);
 Route::post('/uploadCertReceiptImages', [TableController::class, 'uploadCertReceiptImages']);
-
-Route::get('/success', function () {
-    return view('success');
-});
 Route::get('/branches', [TrxController::class, 'branches']);
 Route::get('/search-trx', [TrxController::class, 'search']);

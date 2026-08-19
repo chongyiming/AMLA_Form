@@ -81,7 +81,7 @@
     <div class="container" id="container">
         <p class="fs-6 text-end" data-i18n="messages.formNo1">Form No1</p>
 
-        <img src="{{ asset('/image.png') }}" style="width: 150px;margin: 0 auto">
+        <img src="{{ asset('/pk-logo.jpeg') }}" style="width: 150px;margin: 0 auto">
         <div class='header_Text'>@lang('messages.customerDueDiligenceForm')</div>
         <div class='header_Text2'>@lang('messages.customerDueDiligenceForm2')</div>
         <x-card

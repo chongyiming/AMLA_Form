@@ -15,11 +15,14 @@
             padding: 5px;
             border: 1px solid #ddd;
             background-color: #f8f8f8;
+            font-size: 14px;
         }
 
         .trxTable td {
-            padding: 10px;
+            padding: 5px;
             border: 1px solid #ddd;
+            font-size: 12px;
+
         }
 
         .trxTable .search {
@@ -68,13 +71,34 @@
                     @if(isset($column['field']))
 
                     @if($column['field'] === 'uuid' && $row->status === 'Submitted')
-                    <!-- <x-heroicon-o-exclamation-circle style="width: 16px; height: 16px;cursor:pointer" onclick="openAttachmentsModal('{{ $row->form_id }}')" /> -->
-                    <button type="button" class="btn btn-success" onclick="openAttachmentsModal('{{ $row->form_id }}')"></button>
 
-                    @elseif($column['field'] === 'uuid' && $row->status === 'New')
-                    <!-- <x-heroicon-o-bars-3 style="width: 16px; height: 16px;cursor:pointer" onclick="openAttachmentsModal('{{ $row->form_id }}')" /> -->
-                    <button type="button" class="btn btn-primary" onclick="openAttachmentsModal('{{ $row->form_id }}')"></button>
+                    <div class="position-relative d-inline" onclick="openAttachmentsModal('{{ $row->form_id }}')">
+                        <img src="{{ asset('/folder.png') }}"
+                            style="width: 40px; height: 40px; cursor: pointer;">
 
+                        <span class="position-absolute top-0 start-100 translate-middle badge bg-success">
+                            {{$row->image_count}}
+                        </span>
+                    </div>
+                    @elseif($column['field'] === 'uuid' && $row->status === 'New' && $row->image_count !== '0')
+                    <div class="position-relative d-inline" onclick="openAttachmentsModal('{{ $row->form_id }}')">
+                        <img src="{{ asset('/folder.png') }}"
+                            style="width: 40px; height: 40px; cursor: pointer;">
+
+                        <span class=" position-absolute top-0 start-100 translate-middle badge bg-primary">
+                            {{$row->image_count}}
+                        </span>
+                    </div>
+                    @elseif($column['field'] === 'uuid' && $row->status === 'New' && $row->image_count === '0')
+                    <span class="btn btn-danger pe-none" style="padding:0px;padding-left:3px;padding-right:3px;margin-right:10px">!</span>
+                    <div class="position-relative d-inline" onclick="openAttachmentsModal('{{ $row->form_id }}')">
+                        <img src="{{ asset('/folder.png') }}"
+                            style="width: 40px; height: 40px; cursor: pointer;">
+
+                        <span class="position-absolute top-0 start-100 translate-middle badge bg-danger">
+                            {{$row->image_count}}
+                        </span>
+                    </div>
                     @else
 
                     {{ data_get($row, $column['field']) }}
