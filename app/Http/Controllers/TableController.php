@@ -51,6 +51,7 @@ class TableController extends Controller
                 SELECT COUNT(*)
                 FROM istr_AMLA_Attachment as a
                 WHERE a.form_id = t1.form_id
+                AND a.deletedAt IS NULL
             ) AS image_count
         ")
             )

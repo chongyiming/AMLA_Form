@@ -22,13 +22,21 @@
     <table border="1" id="attachmentImages" style='width:100%'>
         <thead>
             <tr>
-                <th>#</th>
-                <th>File</th>
-                <th>Uploaded At</th>
-                <th>Action</th>
+
+                @foreach($columns as $column)
+                <th data-i18n="{{ $column['label'] }}">
+                </th>
+                @endforeach
             </tr>
         </thead>
         <tbody>
+            <tr>
+                @foreach($columns as $column)
+                <td style="overflow-wrap:anywhere">
+                    {{ $rows->{$column['field']} ?? '' }}
+                </td>
+                @endforeach
+            </tr>
         </tbody>
     </table>
 </body>

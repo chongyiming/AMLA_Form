@@ -40,6 +40,7 @@
             flex-direction: column;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -72,7 +73,7 @@
 
                     @if($column['field'] === 'uuid' && $row->status === 'Submitted')
 
-                    <div class="position-relative d-inline" onclick="openAttachmentsModal('{{ $row->form_id }}')">
+                    <div class="position-relative d-inline" data-bs-toggle="modal" data-bs-target="#exampleModal-{{ $row->form_id }}">
                         <img src="{{ asset('/folder.png') }}"
                             style="width: 40px; height: 40px; cursor: pointer;">
 
@@ -80,8 +81,9 @@
                             {{$row->image_count}}
                         </span>
                     </div>
+
                     @elseif($column['field'] === 'uuid' && $row->status === 'New' && $row->image_count !== '0')
-                    <div class="position-relative d-inline" onclick="openAttachmentsModal('{{ $row->form_id }}')">
+                    <div class="position-relative d-inline" data-bs-toggle="modal" data-bs-target="#exampleModal-{{ $row->form_id }}">
                         <img src="{{ asset('/folder.png') }}"
                             style="width: 40px; height: 40px; cursor: pointer;">
 
@@ -89,9 +91,10 @@
                             {{$row->image_count}}
                         </span>
                     </div>
+
                     @elseif($column['field'] === 'uuid' && $row->status === 'New' && $row->image_count === '0')
                     <span class="btn btn-danger pe-none" style="padding:0px;padding-left:3px;padding-right:3px;margin-right:10px">!</span>
-                    <div class="position-relative d-inline" onclick="openAttachmentsModal('{{ $row->form_id }}')">
+                    <div class="position-relative d-inline" data-bs-toggle="modal" data-bs-target="#exampleModal-{{ $row->form_id }}">
                         <img src="{{ asset('/folder.png') }}"
                             style="width: 40px; height: 40px; cursor: pointer;">
 
@@ -123,6 +126,7 @@
                         <form action="/submittedForm/{{ $row->form_id }}/2" method="GET">
                             @csrf
                             <button type="submit" class="btn btn-outline-primary" data-i18n="messages.view" style="width: 100%;"></button>
+
                         </form>
                         <form action="/{{ $row->form_id }}/delete" method="POST">
                             @csrf
@@ -139,7 +143,9 @@
             @endforeach
         </tbody>
     </table>
-    <x-attachments></x-attachments>
+    @foreach($rows ?? [] as $row)
+    <x-attachment-modal :row="$row"></x-attachment-modal>
+    @endforeach
 
 
 

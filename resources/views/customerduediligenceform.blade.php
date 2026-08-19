@@ -44,7 +44,7 @@
 
         }
 
-        .page_header {
+        /* .page_header {
             position: sticky;
             top: 0;
 
@@ -56,99 +56,12 @@
             z-index: 1;
 
 
-        }
-
-
-        .locale-switcher {
-            display: flex;
-            background: #f2f2f2;
-            border-radius: 6px;
-            width: 200px;
-        }
-
-        .locale-switch {
-            border: none;
-            background: transparent;
-            padding: 3px 7px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.15s ease, color 0.15s ease;
-            width: 100px;
-        }
+        } */
 
 
 
-        .locale-switch:hover {
-            background-color: #e6e6e6;
-        }
-
-        .locale-switch.active {
-            background-color: #4A90D9;
-            color: #fff;
-        }
-
-        .submit-button {
-            margin-top: 30px;
-            padding: 12px 28px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #fff;
-            background-color: #2563eb;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-        }
-
-        .submit-button:hover {
-            background-color: #1d4ed8;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        }
 
 
-        .header-dropdown {
-            position: relative;
-            display: none;
-        }
-
-        .header-panel-switch {
-            border: 1px solid #2563eb;
-            color: #2563eb;
-            background-color: white;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .header-dropdown-menu {
-            display: none;
-            position: absolute;
-            right: 0;
-            margin-top: 10px;
-
-            background: white;
-            border: 1px solid #ddd;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            padding: 10px;
-            border-radius: 10px;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .header-dropdown-menu.show {
-            display: flex;
-        }
-
-        .header-dropdown-menu button {
-            /* width: 90px; */
-            flex: 1;
-            padding: 8px 12px;
-            cursor: pointer;
-            text-align: center;
-            border-radius: 10px;
-
-        }
 
 
 
@@ -208,23 +121,6 @@
         }
 
 
-
-
-
-
-        @media (max-width: 1415px) {
-            .header-dropdown {
-                display: inline-block;
-            }
-
-
-            .small-width-trx-no {
-                display: flex;
-                flex-direction: column;
-                gap: 5px
-            }
-        }
-
         @media print {
 
             body * {
@@ -258,51 +154,11 @@
 </head>
 
 <body>
+    <x-menu-sidebar></x-menu-sidebar>
+
     <form method="POST" action="{{ $state == 0 ? '/create' : '/submit' }}">
         @csrf
 
-        <div class="page_header">
-            <div class="locale-switcher">
-                <button type="button" class="locale-switch" data-lang="en">English</button>
-                <button type="button" class="locale-switch" data-lang="zh">中文</button>
-
-            </div>
-            <div class="header-dropdown">
-
-                <button type="button" class="btn btn-outline-dark" data-i18n="messages.actions" id="actions"></button>
-
-                <div class=" header-dropdown-menu">
-                    <div class="small-width-trx-no">
-                        <label>
-                            <span data-i18n="messages.trxno"></span>
-                        </label>
-                        <input type="text" class="panel-input" name="trx_no" readonly onclick="openTrxModal()" value="{{ old('trx_no', $form->trx_no ?? '') }}">
-                    </div>
-                    <div style="display: flex;justify-content: space-between;gap:10px">
-
-                        @if($state == 0)
-
-                        <button type="submit" class="btn btn-outline-success" data-i18n="messages.create">Success</button>
-                        <button type="button" class="btn btn-outline-danger" onclick="clearForm()" data-i18n="messages.clear"></button>
-
-                        @elseif($state ==1)
-
-                        <button type="submit" class="btn btn-outline-primary" data-i18n="messages.update" formaction="/update/{{ $form1->form_id }}"></button>
-                        <button type="button" class="btn btn-outline-danger" onclick="clearForm()" data-i18n="messages.clear"></button>
-                        <button type="submit" class="btn btn-outline-success" formaction="/submit/{{ $form1->form_id }}" data-i18n="messages.submit"></button>
-
-                        @elseif($state ==2)
-                        <button type="button" class="btn btn-outline-dark" id="dropdown-print" data-i18n="messages.print"></button>
-
-                        @endif
-
-                    </div>
-
-                </div>
-            </div>
-            <x-menu-sidebar></x-menu-sidebar>
-
-        </div>
 
         <div class="a4_container" id="a4_container">
             @if ($errors->any())

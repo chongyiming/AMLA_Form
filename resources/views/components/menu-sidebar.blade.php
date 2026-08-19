@@ -6,6 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        .panel_header {
+            position: sticky;
+            top: 0;
+
+            display: flex;
+            justify-content: flex-end;
+            padding: 30px;
+            background-color: white;
+            z-index: 1;
+
+
+        }
+
         .side_panel {
             position: fixed;
             top: 10px;
@@ -13,7 +26,11 @@
             display: flex;
             gap: 10px;
             z-index: 10;
+            background-color: white;
+
         }
+
+
 
 
         .sidebar {
@@ -69,33 +86,34 @@
 </head>
 
 <body>
-    <div class="side_panel">
-        <div style="width:50px">
-            <button type="button" class="btn btn-outline-primary" id="menuBtn"> <x-heroicon-o-bars-3 style="width: 16px; height: 16px;" />
-            </button>
+    <div class="panel_header">
+        <div class="side_panel">
+            <div style="width:50px">
+                <button type="button" class="btn btn-outline-primary" id="menuBtn"> <x-heroicon-o-bars-3 style="width: 16px; height: 16px;" />
+                </button>
+
+            </div>
+            <div style="width:70px">
+                <button type="button" class="btn btn-outline-primary" onclick="window.location.href='/'" data-i18n="messages.home">
+                </button>
+            </div>
 
         </div>
-        <div style="width:70px">
-            <button type="button" class="btn btn-outline-primary" onclick="window.location.href='/'" data-i18n="messages.home">
-            </button>
+
+        <div class="sidebar" id="sidebar">
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/pdsp_customer_due_diligence_form'" data-i18n="messages.customerDueDiligenceFormV3"></button>
+
+            <button type="button" class="btn btn-secondary" data-i18n="messages.customerRiskProfilingFormV5"></button>
+
+            <button type="button" class="btn btn-success" data-i18n="messages.enhancedCustomerDueDiligenceFormV2"></button>
+
+            <button type="button" class="btn btn-danger" data-i18n="messages.suspiciousTransactionIndividual"></button>
+
+            <button type="button" class="btn btn-warning" data-i18n="messages.suspiciousTransactionNonIndividual"></button>
+
+            <button type="button" class="btn btn-info" data-i18n="messages.suspiciousTransactionLegalArrangement"></button>
         </div>
-
     </div>
-
-    <div class="sidebar" id="sidebar">
-        <button type="button" class="btn btn-primary" onclick="window.location.href='/pdsp_customer_due_diligence_form'" data-i18n="messages.customerDueDiligenceFormV3"></button>
-
-        <button type="button" class="btn btn-secondary" data-i18n="messages.customerRiskProfilingFormV5"></button>
-
-        <button type="button" class="btn btn-success" data-i18n="messages.enhancedCustomerDueDiligenceFormV2"></button>
-
-        <button type="button" class="btn btn-danger" data-i18n="messages.suspiciousTransactionIndividual"></button>
-
-        <button type="button" class="btn btn-warning" data-i18n="messages.suspiciousTransactionNonIndividual"></button>
-
-        <button type="button" class="btn btn-info" data-i18n="messages.suspiciousTransactionLegalArrangement"></button>
-    </div>
-
     <script>
         const menuBtn = document.getElementById('menuBtn');
         const sidebar = document.getElementById('sidebar');
@@ -105,10 +123,6 @@
         }
 
         menuBtn.addEventListener('click', toggleSidebar);
-
-        function returnHome() {
-
-        }
     </script>
 </body>
 
