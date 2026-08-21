@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+
+        }
+
         html {
             scroll-behavior: smooth;
         }
@@ -19,107 +24,6 @@
         }
 
 
-
-
-
-        .to-top {
-            background: white;
-            position: fixed;
-            bottom: 16px;
-            right: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: all .4s;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            padding: 14px;
-        }
-
-        .to-top.active {
-            bottom: 32px;
-            pointer-events: auto;
-            opacity: 1;
-
-        }
-
-        /* .page_header {
-            position: sticky;
-            top: 0;
-
-            display: flex;
-            justify-content: flex-end;
-            padding: 15px;
-            gap: 10px;
-            background-color: white;
-            z-index: 1;
-
-
-        } */
-
-
-
-
-
-
-
-
-
-
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            width: 600px;
-        }
-
-        .modal-label {
-            width: 100px;
-            align-items: center;
-            display: flex;
-
-        }
-
-        .modal-switch {
-            right: 0;
-            padding: 7px 16px;
-            border-radius: 6px;
-            background-color: white;
-            font-size: 14px;
-            font-weight: 500;
-            border: 1px solid #ddd;
-            cursor: pointer;
-            width: 100px;
-            transition:
-                background-color 0.15s ease,
-                color 0.15s ease,
-                border-color 0.15s ease,
-                box-shadow 0.15s ease,
-                transform 0.1s ease;
-        }
-
-        .modal-input {
-            padding: 7px 16px;
-            border-radius: 6px;
-            background-color: white;
-            font-size: 14px;
-            font-weight: 500;
-            width: 150px;
-            border: 1px solid #ddd;
-            flex: 1;
-
-        }
 
 
         @media print {
@@ -179,18 +83,55 @@
                 @include('page4')
 
             </div>
-            <a href="#" class="to-top">
-                <img src="{{ asset('up-arrows.png') }}" style="width: 30px;height: 30px;">
+
+            <a href="#" class="position-fixed bottom-0 end-0 border rounded-circle p-4 d-none" style="margin-right:20px;margin-bottom:120px;box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);cursor:pointer" id="to-top">
+                <img src=" {{ asset('up-arrows.png') }}" style="width: 25px;height: 25px;">
             </a>
-            <!-- <button class="submit-button" type="submit" data-i18n="messages.submit"></button> -->
+            @if (isset($row))
+            @if ($row->first()->status === "Submitted")
+            <div class="position-fixed bottom-0 end-0 border rounded-circle p-4"
+                style="margin-right:20px;margin-bottom:20px;box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);cursor:pointer"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal-{{ $row->first()->form_id }}">
+                <img src="{{ asset('/folder.png') }}"
+                    style="width: 25px; height: 25px; cursor: pointer;">
+
+                <span class="position-absolute top-0 start-100 translate-middle badge bg-success">
+                    {{$row->first()->image_count}}
+                </span>
+            </div>
+            @elseif ($row->first()->status === "New")
+            <div class="position-fixed bottom-0 end-0 border rounded-circle p-4"
+                style="margin-right:20px;margin-bottom:20px;box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);cursor:pointer"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal-{{ $row->first()->form_id }}">
+
+                <div class="position-relative d-inline">
+                    <img src="{{ asset('/folder.png') }}"
+                        style="width: 25px; height: 25px; cursor: pointer;">
+
+                    <span class="position-absolute top-0 start-100 translate-middle badge bg-danger">
+                        {{ $row->first()->image_count }}
+                    </span>
+                </div>
+            </div>
+            @endif
+            @endif
+            <x-sidepanel :form1="$form1" :form="$form" :state="$state"></x-sidepanel>
+
+
+
 
 
         </div>
-        <x-sidepanel :form1="$form1" :form="$form" :state="$state"></x-sidepanel>
+
 
 
 
     </form>
+    @if (isset($row) && $row->isNotEmpty())
+    <x-attachment-modal :row="$row->first()"></x-attachment-modal>
+    @endif
     <script>
         let translations = {};
 
@@ -237,13 +178,13 @@
 
 
 
-        const toTop = document.querySelector(".to-top");
+        const toTop = document.getElementById("to-top");
         window.addEventListener("scroll", () => {
             if (window.pageYOffset > 100) {
-                toTop.classList.add("active");
+                toTop.classList.remove("d-none");
 
             } else {
-                toTop.classList.remove("active")
+                toTop.classList.add("d-none")
             }
         })
 

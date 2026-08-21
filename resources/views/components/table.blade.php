@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+
+        }
+
         th {
             padding: 5px;
             border: 1px solid #ddd;
@@ -24,7 +29,7 @@
             <tr>
 
                 @foreach($columns as $column)
-                <th data-i18n="{{ $column['label'] }}">
+                <th>{{ $column['label'] }}
                 </th>
                 @endforeach
             </tr>

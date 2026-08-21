@@ -18,7 +18,7 @@ class PageController extends Controller
     public function createForm()
     {
         // dd(session('form_data'));
-        // dd(session()->all());
+        // dd(request()->all());
         $preparer = DB::table('SER_USERPROFILE')
             ->select('USERNAME')
             ->where('USERISACTIVE', '1')
@@ -79,6 +79,23 @@ class PageController extends Controller
 
     public function submittedForm($form_id, $state)
     {
+        $row = DB::table('istr_AMLAForm1 as t1')
+            ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
+            ->select(
+                't1.*',
+                't2.*',
+                DB::raw("
+            (
+                SELECT COUNT(*)
+                FROM istr_AMLA_Attachment as a
+                WHERE a.form_id = t1.form_id
+                AND a.deletedAt IS NULL
+            ) AS image_count
+        ")
+            )
+            ->where('t1.form_id', $form_id)
+            ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
+            ->get();
         $preparer = DB::table('SER_USERPROFILE')
             ->select('USERNAME')
             ->where('USERISACTIVE', '1')
@@ -194,7 +211,8 @@ class PageController extends Controller
             'preparer' => $preparer,
             'countries' => $countries,
             'purposeOfTrx' => $purpose_of_trx,
-            'occupationType' => $occupation_type
+            'occupationType' => $occupation_type,
+            'row' => $row
 
         ]);
     }
@@ -205,6 +223,24 @@ class PageController extends Controller
     public function createdForm($form_id, $state)
 
     {
+
+        $row = DB::table('istr_AMLAForm1 as t1')
+            ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
+            ->select(
+                't1.*',
+                't2.*',
+                DB::raw("
+            (
+                SELECT COUNT(*)
+                FROM istr_AMLA_Attachment as a
+                WHERE a.form_id = t1.form_id
+                AND a.deletedAt IS NULL
+            ) AS image_count
+        ")
+            )
+            ->where('t1.form_id', $form_id)
+            ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
+            ->get();
         $preparer = DB::table('SER_USERPROFILE')
             ->select('USERNAME')
             ->where('USERISACTIVE', '1')
@@ -320,7 +356,8 @@ class PageController extends Controller
             'preparer' => $preparer,
             'countries' => $countries,
             'purposeOfTrx' => $purpose_of_trx,
-            'occupationType' => $occupation_type
+            'occupationType' => $occupation_type,
+            'row' => $row
 
         ]);
     }
@@ -976,14 +1013,17 @@ class PageController extends Controller
         if ($request->hasFile('images')) {
 
             foreach ($request->file('images') as $image) {
+                // $filename = time() . '_' . $image->getClientOriginalName();
+                $filename = $image->getClientOriginalName();
 
-                $path = $image->store('photos', 'public');
+                $path = $image->storeAs('photos',  $filename, 'public');
+                $path = str_replace('photos/', '', $path);
 
                 AmlaAttachment::create([
                     'form_id' => $form_id,
                     'form_type' => 1,
                     'file_name' => $path,
-                    'createdAt' => now()
+                    'createdAt' => now(),
                 ]);
 
                 $paths[] = $path;

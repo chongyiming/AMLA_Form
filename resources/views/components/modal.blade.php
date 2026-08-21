@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -20,7 +25,7 @@
             background: white;
             padding: 20px;
             border-radius: 8px;
-            width: 600px;
+            width: 750px !important;
         }
 
         .modal-label {
@@ -56,21 +61,20 @@
 <body>
     <div id="trxModal" class="modal">
         <div class="modal-content">
-            <h3 data-i18n="messages.searchTrxNo"></h3>
+            <h3>Search Trx No</h3>
             <div style="display: flex;gap:10px;flex-direction:column">
                 <div style="display: flex;flex-direction:row;gap:10px;width:400px">
-                    <label class="modal-label" data-i18n="messages.branch">
+                    <label class="modal-label"> Branch
                     </label>
                     <select id="branch_name" name="branch" class="modal-input" data-old-value="{{ old('branch', data_get($form1, 'branch_name')) }}">
                     </select>
                 </div>
 
                 <div style="display: flex;flex-direction:row;gap:10px;width:400px">
-                    <label class="modal-label" data-i18n="messages.salesDate">
+                    <label class="modal-label">Sales Date
                     </label>
                     <input type="date" id="salesDate" name="sales_date" class="modal-input" value="{{ old('sales_date', data_get($form, 'sales_date') ? \Carbon\Carbon::parse(data_get($form, 'sales_date'))->format('Y-m-d') : '') }}">
-                    <button type="button" class="btn btn-outline-dark" onclick="searchTrx()"
-                        data-i18n="messages.search"></button>
+                    <button type="button" class="btn btn-outline-dark" onclick="searchTrx()">Search</button>
 
 
                 </div>
@@ -78,28 +82,28 @@
                     <x-searchable-table
                         :columns="[
                     [ 'field'=>'trx_no',
-                    'label'=>'messages.trxno',
-                    'placeholder'=>'messages.searchTrx'
+                    'label'=>'Trx No',
+                    'placeholder'=>'Search Trx'
                     ],
                     [
                     'field'=>'total_amount',
-                    'label'=>'messages.totalAmount',
-                    'placeholder'=>'messages.searchAmount'
+                    'label'=>'Total Amount',
+                    'placeholder'=>'Search Amount'
                     ],
                     [
                     'field'=>'customer_name',
-                    'label'=>'messages.customer',
-                    'placeholder'=>'messages.searchCustomer'
+                    'label'=>'Customer',
+                    'placeholder'=>'Search Customer'
                     ],
                     [
                     'field'=>'salesperson',
-                    'label'=>'messages.salesperson',
-                    'placeholder'=>'messages.searchSalesperson'
+                    'label'=>'Salesperson',
+                    'placeholder'=>'Search Salesperson'
                     ],
                     [
                     'field'=>'cashier',
-                    'label'=>'messages.cashier',
-                    'placeholder'=>'messages.searchCashier'
+                    'label'=>'Cashier',
+                    'placeholder'=>'Search Cashier'
                     ]
                     ]"></x-searchable-table>
                 </div>
@@ -107,10 +111,8 @@
                 <div style="display: flex; justify-content: space-between; margin-top: 30px;">
 
 
-                    <button type="button" class="btn btn-outline-dark" onclick="clearTrxModal()"
-                        data-i18n="messages.clear"></button>
-                    <button type="button" class="btn btn-outline-dark" onclick="closeTrxModal()"
-                        data-i18n="messages.close"></button>
+                    <button type="button" class="btn btn-outline-dark" onclick="clearTrxModal()">Clear</button>
+                    <button type="button" class="btn btn-outline-dark" onclick="closeTrxModal()">Close</button>
 
 
                 </div>
@@ -148,7 +150,7 @@
             const branches = await response.json();
             const select = document.getElementById('branch_name');
 
-            select.innerHTML = '<option value="" data-i18n="messages.selectBranch"></option>';
+            select.innerHTML = '<option value="">Select Branch</option>';
             applyTranslations();
             branches.forEach(branch => {
                 select.innerHTML += `

@@ -25,6 +25,11 @@
     </script>
 
     <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+
+        }
+
         .select2-container--disabled .select2-selection {
             background-color: white !important;
             border: none !important;

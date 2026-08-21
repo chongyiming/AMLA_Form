@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+
+        }
+
         .form_title {
             color: white;
             background-color: #2E74B5;

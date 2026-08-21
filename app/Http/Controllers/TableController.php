@@ -66,23 +66,7 @@ class TableController extends Controller
         return view('pdsp_customer_due_diligence_form', ['forms' => $forms, 'branch' => $branch]);
     }
 
-    public function attachments_modal($form_id)
-    {
-        $forms = DB::table('istr_AMLAForm1 as t1')
-            ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
-            ->select('t1.*', 't2.*')
-            ->where('t1.form_id', '=', $form_id)
-            ->get();
-        $branch = DB::table('Company_Setup_Workstation')
-            ->select('Branch_Code')
-            ->where('Branch_Code', 'LIKE', 'P%')
-            ->distinct()
-            ->first();
-        $attachments = AmlaAttachment::where('form_id', $form_id)
-            ->whereNull('deletedAt')
-            ->get();
-        return view('attachment-modal-body', ['forms' => $forms, 'branch' => $branch, 'attachments' => $attachments]);
-    }
+
 
     public function attachments($form_id)
     {
@@ -139,7 +123,7 @@ class TableController extends Controller
 
         foreach ($request->pngPaths as $sourcePath) {
 
-            $filename = basename($sourcePath); // e.g. "20260817141353_..._GoldCert_CS_01.png"
+            $filename = basename($sourcePath);
             $destination = 'photos/' . $filename;
 
             Storage::disk('public')->put($destination, file_get_contents($sourcePath));
@@ -147,7 +131,7 @@ class TableController extends Controller
             AmlaAttachment::create([
                 'form_id' => $form_id,
                 'form_type' => 1,
-                'file_name' => $destination,
+                'file_name' => $filename,
                 'createdAt' => now(),
             ]);
 

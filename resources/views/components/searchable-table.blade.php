@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+
+        }
+
         .trxTable {
             border-collapse: collapse;
             width: 100%;
@@ -50,7 +55,7 @@
         <thead>
             <tr>
                 @foreach($columns as $column)
-                <th data-i18n="{{ $column['label'] }}"></th>
+                <th>{{ $column['label'] }}</th>
                 @endforeach
             </tr>
             <tr>
@@ -60,8 +65,7 @@
                         type="text"
                         class="search"
                         onkeyup="filterTable()"
-                        data-i18n="{{ $column['placeholder'] }}"
-                        data-i18n-target="placeholder">
+                        placeholder="{{ $column['placeholder'] }}">
                 </th>
                 @endforeach
             </tr>
@@ -109,34 +113,37 @@
                     {{ data_get($row, $column['field']) }}
                     @endif
 
-                    @else
+                    @elseif ($column['label'] === 'Action')
 
                     <div class="column-switch-wrap">
                         @if($row->status === 'New')
                         <form action="/{{ $row->form_id }}/edit" method="GET">
                             @csrf
-                            <button type="submit" class="btn btn-outline-primary" data-i18n="messages.edit" style="width: 100%;"></button>
+                            <button type="submit" class="btn btn-outline-primary" style="width: 100%;">Edit</button>
 
                         </form>
                         <form action="/{{ $row->form_id }}/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this attachment?\n\n您确定要删除此附件吗?');">
                             @csrf
 
-                            <button type="submit" class="btn btn-outline-danger" data-i18n="messages.delete" style="width: 100%;"></button>
+                            <button type="submit" class="btn btn-outline-danger" style="width: 100%;">Delete</button>
 
                         </form>
                         @else
                         <form action="/submittedForm/{{ $row->form_id }}/2" method="GET">
                             @csrf
-                            <button type="submit" class="btn btn-outline-primary" data-i18n="messages.view" style="width: 100%;"></button>
+                            <button type="submit" class="btn btn-outline-primary" style="width: 100%;">View</button>
 
                         </form>
                         <form action="/{{ $row->form_id }}/delete" method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-outline-danger" data-i18n="messages.delete" style="width: 100%;" disabled></button>
+                            <button type="submit" class="btn btn-outline-danger" style="width: 100%;" disabled>Delete</button>
 
                         </form>
                         @endif
                     </div>
+
+                    @else
+                    <div>{{ $loop->parent->iteration}}</div>
                     @endif
 
                 </td>

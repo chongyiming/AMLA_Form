@@ -33,8 +33,7 @@
     <x-menu-sidebar></x-menu-sidebar>
     <div class="header">
         <h1>{{ $branch->Branch_Code }} Customer Due Diligence Form</h1>
-        <button type="button" class="btn btn-outline-success" onclick="window.location.href = '/createForm'"
-            data-i18n="messages.createForm"></button>
+        <button type="button" class="btn btn-outline-success" onclick="window.location.href = '/createForm'">Create Form</button>
 
 
     </div>
@@ -45,53 +44,53 @@
         </div>
         <x-searchable-table
             :columns="[
-                [ 'field'=>'form_id',
-                'label'=>'messages.no',
-                'placeholder'=>'messages.no'
+                [ 
+                'label'=>'No',
+                'placeholder'=>'No'
                 ],
                 [
                 'field'=>'doc_no',
-                'label'=>'messages.docNo',
-                'placeholder'=>'messages.docNo'
+                'label'=>'Doc No',
+                'placeholder'=>'Doc No'
                 ],
                 [
                 'field'=>'trx_no',
-                'label'=>'messages.trxno',
-                'placeholder'=>'messages.trxno'
+                'label'=>'Trx No',
+                'placeholder'=>'Trx No'
                 ],
                 [
                 'field'=>'full_name',
-                'label'=>'messages.customerName',
-                'placeholder'=>'messages.customerName'
+                'label'=>'Customer Name',
+                'placeholder'=>'Customer Name'
                 ],
                 [
                 'field'=>'preparer_name',
-                'label'=>'messages.preparerName',
-                'placeholder'=>'messages.preparerName'
+                'label'=>'Preparer Name',
+                'placeholder'=>'Preparer Name'
                 ],
                 [
                 'field'=>'created_date',
-                'label'=>'messages.createdDate',
-                'placeholder'=>'messages.createdDate'
+                'label'=>'Created Date',
+                'placeholder'=>'Created Date'
                 ],
                 [
                 'field'=>'status',
-                'label'=>'messages.status',
-                'placeholder'=>'messages.status'
+                'label'=>'Status',
+                'placeholder'=>'Status'
                 ],
                 [
                 'field'=>'reviewed_date',
-                'label'=>'messages.review',
-                'placeholder'=>'messages.review'
+                'label'=>'Review',
+                'placeholder'=>'Review'
                 ],
                 [
                 'field'=>'uuid',
-                'label'=>'messages.attachment',
-                'placeholder'=>'messages.attachment'
+                'label'=>'Attachment',
+                'placeholder'=>'Attachment'
                 ],
                 [
-                'label'=>'messages.action',
-                'placeholder'=>'messages.action'
+                'label'=>'Action',
+                'placeholder'=>'Action'
                 ]
                 ]"
             :rows="$forms"></x-searchable-table>
@@ -102,37 +101,5 @@
 
 </body>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const savedLocale = localStorage.getItem('locale') || 'en';
-        loadLocale(savedLocale);
-    });
-
-    async function loadLocale(lang) {
-        const res = await fetch(`/lang/${lang}.json`);
-        translations = await res.json();
-        applyTranslations();
-        localStorage.setItem('locale', lang);
-        fetch(`/locale/${lang}`);
-    }
-
-    function applyTranslations() {
-
-
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            const key = el.dataset.i18n;
-            const text = translations[key] ?? key;
-            const targetAttr = el.dataset.i18nTarget;
-            const isHtml = el.hasAttribute('data-i18n-html');
-            if (targetAttr) {
-                el.setAttribute(targetAttr, text);
-            } else if (isHtml) {
-                el.innerHTML = text;
-            } else {
-                el.textContent = text;
-            }
-        });
-    }
-</script>
 
 </html>

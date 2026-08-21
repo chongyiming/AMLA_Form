@@ -27,7 +27,6 @@ Route::post('/submit/{form_id}', [PageController::class, 'submit']);
 Route::post('/update/{form_id}', [PageController::class, 'update']);
 Route::post('/{form_id}/delete', [TableController::class, 'delete']);
 Route::get('/{form_id}/edit', [TableController::class, 'edit']);
-Route::get('/{form_id}/attachments_modal', [TableController::class, 'attachments_modal']);
 Route::get('/attachments/{form_id}', [TableController::class, 'attachments']);
 Route::post('/deleteImage/{id}', [TableController::class, 'deleteImage']);
 Route::post('/generate-exe', [TableController::class, 'generateExe']);

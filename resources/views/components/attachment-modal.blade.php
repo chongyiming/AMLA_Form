@@ -12,6 +12,12 @@
             document.write('<script src="https://code.jquery.com/jquery-3.7.1.min.js"><\/script>');
         }
     </script>
+    <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+
+        }
+    </style>
 </head>
 
 <body>
@@ -26,13 +32,13 @@
                 <div class="modal-body">
 
                     <x-table :columns="[
-                            ['field'=>'form_id','label'=>'messages.no'],
-                            ['field'=>'doc_no','label'=>'messages.docNo'],
-                            ['field'=>'trx_no','label'=>'messages.trxno'],
-                            ['field'=>'full_name','label'=>'messages.customerName'],
-                            ['field'=>'preparer_name','label'=>'messages.preparerName'],
-                            ['field'=>'created_date','label'=>'messages.createdDate'],
-                            ['field'=>'status','label'=>'messages.status'],
+                            ['field'=>'form_id','label'=>'No'],
+                            ['field'=>'doc_no','label'=>'Doc No'],
+                            ['field'=>'trx_no','label'=>'Trx No'],
+                            ['field'=>'full_name','label'=>'Customer Name'],
+                            ['field'=>'preparer_name','label'=>'Preparer Name'],
+                            ['field'=>'created_date','label'=>'Created Date'],
+                            ['field'=>'status','label'=>'Status'],
                         ]" :rows="$row"></x-table>
                     <h4 style="margin-top:30px">Document (Receipt + Gold Cert)</h4>
                     <div id="certReceiptSection-{{ $row->form_id }}" style="display:flex;gap:10px;align-items:center">
@@ -168,9 +174,11 @@
                 method: 'POST',
                 body: formData,
             });
-
+            console.log(response.json())
             if (!response.ok) {
                 errorDiv.innerHTML = 'Only image files are allowed.';
+                document.getElementById("imageSpinner-" + formId).classList.add('d-none');
+                document.getElementById("uploadImagesButton-" + formId).style.display = 'flex'
                 return;
             }
 
@@ -193,7 +201,7 @@
             const isSubmitted = data.form_status?.[0]?.status === 'Submitted';
 
             data.attachments.forEach((attachment) => {
-                const fileName = attachment.file_name.replace('photos/', '');
+                const fileName = 'photos/' + attachment.file_name;
                 const deleteBtn = isSubmitted ?
                     '' :
                     `<button type="button" class="btn btn-danger btn-sm" onclick="if (confirm('Are you sure you want to delete this attachment?\\n\\n您确定要删除此附件吗?')) deleteAttachment(${attachment.id}, '${formId}')">Delete</button>`;
@@ -204,8 +212,8 @@
                 <td style="overflow-wrap:anywhere">
                     <div style="display:flex;flex-direction:column">
                         
-    ${fileName}
-                        <img src="/storage/${attachment.file_name}" style="width:200px;height:200px;">
+    ${attachment.file_name}
+                        <img src="/storage/${fileName}" style="width:200px;height:200px;">
                     </div>
                 </td>
                 <td style="overflow-wrap:anywhere">${attachment.createdAt}</td>
@@ -218,17 +226,16 @@
             if (data.certReceipts.length > 0) {
                 document.getElementById('certReceiptSection-' + formId).style.display = 'none';
             }
-
             const images = data.certReceipts.map(item => {
-                const path = item.file_name;
+                const path = 'photos/' + item.file_name;
+
                 return `
-        <div class="border border-secondary" style="width: 220px;padding:10px">
+        <div class="border border-secondary" style="width: 220px; padding: 10px">
             <img src="/storage/${path}" style="width: 200px;">
-            <div class="text-break">${path.replace('photos/', '')}</div>
+            <div class="text-break">${item.file_name}</div>
         </div>
     `;
             });
-
             document.getElementById('certImage-' + formId).innerHTML = images.join('');
         }
 
@@ -271,30 +278,8 @@
             const pngPaths = allFiles.filter(path => path.endsWith('.png'));
             await saveCertReceiptToAttachments(pngPaths, formId)
 
-            const response1 = await fetch(`/attachments/${formId}`);
-            const data1 = await response1.json();
-            if (data1.certReceipts.length > 0) {
-                document.getElementById('certReceiptSection-' + formId).style.display = 'none';
-            }
+            await fetchAttachments(formId, '{{ $row->status }}')
 
-            const images = data1.certReceipts.map(item => {
-                const path = item.file_name;
-
-                return `
-            <div class="border border-secondary" style="width: 220px;padding:10px">
-                    <img 
-                        src="/storage/${path}" 
-                        style="width: 200px;"
-                    >
-
-                <div class="text-break">
-                    ${path.replace('photos/', '')}
-                </div>
-            </div>
-            `;
-            });
-
-            document.getElementById('certImage-' + formId).innerHTML = images.join('');
             document.getElementById('certSpinner-' + formId).classList.add('d-none');
         }
 
