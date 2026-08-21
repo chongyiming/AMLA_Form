@@ -16,6 +16,7 @@
 
             margin-top: 60px;
             text-align: center;
+            font-family: "Times New Roman", Times, serif;
 
         }
 

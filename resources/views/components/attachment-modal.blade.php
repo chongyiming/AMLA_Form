@@ -16,7 +16,7 @@
 
 <body>
     <div class="modal fade" id="exampleModal-{{ $row->form_id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel"><span>{{ $row->branch_name }}</span>
@@ -41,6 +41,9 @@
                         <div id="certErrors-{{ $row->form_id }}" style="color:red;"></div>
 
                     </div>
+                    <div class="spinner-grow d-none" role="status" id="certSpinner-{{ $row->form_id }}">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
 
                     <div id="certImage-{{ $row->form_id }}" style="margin-top:10px;display:flex;flex-direction:row;gap:10px;flex-wrap:wrap"></div>
 
@@ -59,9 +62,13 @@
                             <button type="button"
                                 class="btn btn-primary"
                                 onclick="uploadImages('{{ $row->form_id }}')"
-                                style="white-space: nowrap;">
+                                style="white-space: nowrap;"
+                                id="uploadImagesButton-{{ $row->form_id }}">
                                 Upload Images
                             </button>
+                            <div class="spinner-grow d-none" role="status" id="imageSpinner-{{ $row->form_id }}">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
                         </div>
                         <div id="imageErrors-{{ $row->form_id }}" style="color:red;"></div>
                     </form>
@@ -81,7 +88,6 @@
                         <tbody></tbody>
                     </table>
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
@@ -91,21 +97,67 @@
     <script>
         fetchAttachments('{{ $row->form_id }}', '{{ $row->status }}')
 
+
         function preview_images(formId) {
             const previewDiv = document.getElementById('image_preview-' + formId);
             const errorDiv = document.getElementById('imageErrors-' + formId);
-            const files = document.getElementById('images-' + formId).files;
+            const input = document.getElementById('images-' + formId);
+            const files = input.files;
 
             previewDiv.innerHTML = "";
             errorDiv.innerHTML = "";
 
             for (let i = 0; i < files.length; i++) {
-                previewDiv.innerHTML += "<div><img class='img-responsive' style='width:200px;height:200px;' src='" +
-                    URL.createObjectURL(files[i]) + "'></div>";
+                const wrapper = document.createElement('div');
+                wrapper.className = 'preview-item';
+                wrapper.style.cssText = 'position:relative; display:inline-block; margin:5px;';
+
+                const img = document.createElement('img');
+                img.className = 'img-responsive';
+                img.style.cssText = 'width:200px;height:200px;object-fit:cover;';
+                img.src = URL.createObjectURL(files[i]);
+
+                const closeBtn = document.createElement('button');
+                closeBtn.type = 'button';
+                closeBtn.innerHTML = 'X';
+                closeBtn.className = 'btn btn-danger btn-sm';
+                closeBtn.style.cssText = `
+                    position:absolute;
+                    top:-8px;
+                    right:-8px;
+                    border-radius:50%;
+                    border:none;
+                `;
+                const indexToRemove = i;
+                closeBtn.addEventListener('click', function() {
+                    removeImage(formId, indexToRemove);
+                });
+
+                wrapper.appendChild(img);
+                wrapper.appendChild(closeBtn);
+                previewDiv.appendChild(wrapper);
             }
         }
 
+
+        function removeImage(formId, indexToRemove) {
+            const input = document.getElementById('images-' + formId);
+            const dt = new DataTransfer();
+            const files = input.files;
+
+            for (let i = 0; i < files.length; i++) {
+                if (i !== indexToRemove) {
+                    dt.items.add(files[i]);
+                }
+            }
+
+            input.files = dt.files;
+            preview_images(formId);
+        }
+
         async function uploadImages(formId) {
+            document.getElementById("uploadImagesButton-" + formId).style.display = 'none'
+            document.getElementById("imageSpinner-" + formId).classList.remove('d-none');
             const form = document.getElementById('uploadImagesForm-' + formId);
             const errorDiv = document.getElementById('imageErrors-' + formId);
             const formData = new FormData(form);
@@ -124,6 +176,9 @@
 
             document.getElementById('image_preview-' + formId).innerHTML = '';
             document.getElementById('images-' + formId).value = '';
+            document.getElementById("imageSpinner-" + formId).classList.add('d-none');
+            document.getElementById("uploadImagesButton-" + formId).style.display = 'flex'
+
             fetchAttachments(formId, '{{ $row->status }}');
         }
 
@@ -141,7 +196,7 @@
                 const fileName = attachment.file_name.replace('photos/', '');
                 const deleteBtn = isSubmitted ?
                     '' :
-                    `<button type="button" class="btn btn-danger" onclick="deleteAttachment(${attachment.id}, '${formId}')">Delete</button>`;
+                    `<button type="button" class="btn btn-danger btn-sm" onclick="if (confirm('Are you sure you want to delete this attachment?\\n\\n您确定要删除此附件吗?')) deleteAttachment(${attachment.id}, '${formId}')">Delete</button>`;
 
                 const row = `
             <tr>
@@ -187,6 +242,7 @@
         }
 
         async function generate(formId, trx_no) {
+            document.getElementById('certSpinner-' + formId).classList.remove('d-none');
             document.getElementById('certReceiptSection-' + formId).style.display = 'none';
 
             const response = await fetch('/generate-exe', {
@@ -239,7 +295,7 @@
             });
 
             document.getElementById('certImage-' + formId).innerHTML = images.join('');
-
+            document.getElementById('certSpinner-' + formId).classList.add('d-none');
         }
 
 

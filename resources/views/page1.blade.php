@@ -18,6 +18,8 @@
             display: flex;
             flex-direction: column;
             margin-top: 10px;
+            font-family: "Times New Roman", Times, serif;
+
         }
 
         .header_Text {

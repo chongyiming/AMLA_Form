@@ -9,6 +9,8 @@
         .trxTable {
             border-collapse: collapse;
             width: 100%;
+            font-family: "Times New Roman", Times, serif;
+
         }
 
         .trxTable th {
@@ -116,7 +118,7 @@
                             <button type="submit" class="btn btn-outline-primary" data-i18n="messages.edit" style="width: 100%;"></button>
 
                         </form>
-                        <form action="/{{ $row->form_id }}/delete" method="POST">
+                        <form action="/{{ $row->form_id }}/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this attachment?\n\n您确定要删除此附件吗?');">
                             @csrf
 
                             <button type="submit" class="btn btn-outline-danger" data-i18n="messages.delete" style="width: 100%;"></button>

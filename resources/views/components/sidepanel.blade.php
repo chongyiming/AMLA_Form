@@ -105,7 +105,7 @@
             border-radius: 4px;
             color: #333;
             transition: border-color 0.15s ease, box-shadow 0.15s ease;
-            width: 200px
+            flex: 1;
         }
 
 

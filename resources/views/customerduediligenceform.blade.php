@@ -14,6 +14,7 @@
         .a4_container {
             width: 750px;
             margin: auto;
+            font-family: "Times New Roman", Times, serif;
 
         }
 
