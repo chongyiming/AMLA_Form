@@ -1,0 +1,5 @@
+@echo off
+cd C:\Users\ym.chong\Documents\GitHub\AMLA_Form
+start "" /b php artisan serve
+timeout /t 2 >nul
+start "" http://127.0.0.1:8000
