@@ -11,7 +11,7 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::call(function () {
-    Log::info('AmlaAttachment cleanup job is running');
+    info('AmlaAttachment cleanup job is running');
     AmlaAttachment::where('deletedAt', '<', now()->subDays(7))
         ->delete();
 })
