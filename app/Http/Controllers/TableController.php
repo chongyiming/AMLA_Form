@@ -104,6 +104,7 @@ class TableController extends Controller
 
     public function generateExe(Request $request)
     {
+        set_time_limit(310);
         $trxno = $request->trxno;
         $exe = base_path('Debug\\produceCert&Receipt.exe');
         $command = escapeshellarg($exe) . ' ' . escapeshellarg($trxno);
