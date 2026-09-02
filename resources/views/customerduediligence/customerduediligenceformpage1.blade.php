@@ -14,7 +14,7 @@
         .container {
             width: 750px;
             max-width: 750px;
-            height: 1100px;
+            height: 1090px;
             padding-bottom: 10px;
             margin: auto;
             box-sizing: border-box;
@@ -89,8 +89,8 @@
         <p class="fs-6 text-end" data-i18n="messages.formNo1">Form No1</p>
 
         <img src="{{ asset('/pk-logo.jpeg') }}" style="width: 150px;margin: 0 auto">
-        <div class='header_Text'>@lang('messages.customerDueDiligenceForm')</div>
-        <div class='header_Text2'>@lang('messages.customerDueDiligenceForm2')</div>
+        <div class='header_Text'>Customer Due Diligence Form</div>
+        <div class='header_Text2'>客户尽职调查表格</div>
         <x-card
             title-key="messages.customerDueDiligence"
             description-key="messages.identificationAndVerificationOfACustomerAsRequiredUnder"
@@ -114,7 +114,7 @@
 
             <div class="row">
                 <label data-i18n="messages.preparer"></label>
-                <div style="width:53%;display:flex;padding-left:0">
+                <div style="width:53%;display:flex;padding-left:0;height:20px">
                     <x-searchable-dropdown
                         :options="$preparer"
                         name="preparer_name"

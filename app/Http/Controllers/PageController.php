@@ -6,15 +6,28 @@ use App\Models\AmlaAttachment;
 use Illuminate\Http\Request;
 use App\Models\AmlaForm1;
 use App\Models\AmlaForm;
+use App\Models\AmlaForm2;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class PageController extends Controller
 {
     //
 
+    public function show()
+    {
 
+        $branch = DB::table('Company_Setup_Workstation')
+            ->select('Branch_Code')
+            ->where('Branch_Code', 'LIKE', 'P%')
+            ->where('Branch_Code', '!=', 'PEOS')
+            ->distinct()
+            ->first();
+
+        return view('home', ['branch' => $branch]);
+    }
     public function createForm()
     {
         // dd(session('form_data'));
@@ -66,7 +79,7 @@ class PageController extends Controller
             (object) ['Occupation_Name' => 'Consultant'],
             (object) ['Occupation_Name' => 'Other'],
         ]);
-        return view('customerduediligenceform', [
+        return view('customerduediligence.customerduediligenceform', [
             'state' => 0,
             'form1' => null,
             'form' => null,
@@ -77,7 +90,72 @@ class PageController extends Controller
         ]);
     }
 
-    public function submittedForm($form_id, $state)
+    public function createRiskProfilingForm()
+    {
+        $branch = DB::table('Company_Setup_Workstation')
+            ->select('Branch_Code')
+            ->where('Branch_Code', 'LIKE', 'P%')
+            ->where('Branch_Code', '!=', 'PEOS')
+            ->distinct()
+            ->first();
+
+        $sales_name = DB::table('SER_USERPROFILE')
+            ->select('USERNAME')
+            ->where('USERISACTIVE', '1')
+            ->get();
+        $countries = collect([
+            (object) ['Country_Name' => 'Malaysia'],
+            (object) ['Country_Name' => 'Singapore'],
+            (object) ['Country_Name' => 'Indonesia'],
+            (object) ['Country_Name' => 'Thailand'],
+            (object) ['Country_Name' => 'Brunei'],
+        ]);
+        $purpose_of_trx = collect([
+            (object) ['Purpose_Name' => 'Purchase of Goods'],
+            (object) ['Purpose_Name' => 'Payment for Services'],
+            (object) ['Purpose_Name' => 'Business Investment'],
+            (object) ['Purpose_Name' => 'Loan Repayment'],
+            (object) ['Purpose_Name' => 'Salary Payment'],
+            (object) ['Purpose_Name' => 'Property Purchase'],
+            (object) ['Purpose_Name' => 'Property Rental'],
+            (object) ['Purpose_Name' => 'Transfer to Family'],
+            (object) ['Purpose_Name' => 'Personal Expenses'],
+            (object) ['Purpose_Name' => 'Savings'],
+            (object) ['Purpose_Name' => 'Donation'],
+            (object) ['Purpose_Name' => 'Other'],
+        ]);
+        $occupation_type = collect([
+            (object) ['Occupation_Name' => 'Business Owner'],
+            (object) ['Occupation_Name' => 'Company Director'],
+            (object) ['Occupation_Name' => 'Manager'],
+            (object) ['Occupation_Name' => 'Executive'],
+            (object) ['Occupation_Name' => 'Engineer'],
+            (object) ['Occupation_Name' => 'Accountant'],
+            (object) ['Occupation_Name' => 'Doctor'],
+            (object) ['Occupation_Name' => 'Lawyer'],
+            (object) ['Occupation_Name' => 'Teacher'],
+            (object) ['Occupation_Name' => 'Government Employee'],
+            (object) ['Occupation_Name' => 'Private Sector Employee'],
+            (object) ['Occupation_Name' => 'Self-Employed'],
+            (object) ['Occupation_Name' => 'Professional'],
+            (object) ['Occupation_Name' => 'Student'],
+            (object) ['Occupation_Name' => 'Retired'],
+            (object) ['Occupation_Name' => 'Homemaker'],
+            (object) ['Occupation_Name' => 'Unemployed'],
+            (object) ['Occupation_Name' => 'Freelancer'],
+            (object) ['Occupation_Name' => 'Consultant'],
+            (object) ['Occupation_Name' => 'Other'],
+        ]);
+        return view('customerriskprofilingform', [
+            'state' => 0,
+            'form1' => null,
+            'form' => null,
+            'sales_name' => $sales_name,
+            'branch' => $branch
+
+        ]);
+    }
+    public function submittedCustomerDueDiligenceForm($form_id, $state)
     {
         $row = DB::table('istr_AMLAForm1 as t1')
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
@@ -203,7 +281,7 @@ class PageController extends Controller
         ];
 
 
-        return view('customerduediligenceform', [
+        return view('customerduediligence.customerduediligenceform', [
             'form_id' => $form_id,
             'state' => $state,
             'form' => $form,
@@ -217,6 +295,55 @@ class PageController extends Controller
         ]);
     }
 
+
+    public function submittedCustomerRiskProfilingForm($form_id, $state)
+    {
+        $row = DB::table('istr_AMLAForm2 as t1')
+            ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
+            ->select(
+                't1.*',
+                't2.*',
+                DB::raw("
+            (
+                SELECT COUNT(*)
+                FROM istr_AMLA_Attachment as a
+                WHERE a.form_id = t1.form_id
+                AND a.deletedAt IS NULL
+            ) AS image_count
+        ")
+            )
+            ->where('t1.form_id', $form_id)
+            ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
+            ->get();
+        $preparer = DB::table('SER_USERPROFILE')
+            ->select('USERNAME')
+            ->where('USERISACTIVE', '1')
+            ->get();
+
+        $branch = DB::table('Company_Setup_Workstation')
+            ->select('Branch_Code')
+            ->where('Branch_Code', 'LIKE', 'P%')
+            ->where('Branch_Code', '!=', 'PEOS')
+            ->distinct()
+            ->first();
+
+        $form = AmlaForm::where('form_id', $form_id)->first();
+
+        $form1 = AmlaForm2::where('form_id', $form_id)->first();
+
+
+
+        return view('customerriskprofilingform', [
+            'form_id' => $form_id,
+            'state' => $state,
+            'form' => $form,
+            'form1' => $form1,
+            'sales_name' => $preparer,
+            'row' => $row,
+            'branch' => $branch
+
+        ]);
+    }
 
 
 
@@ -348,7 +475,7 @@ class PageController extends Controller
         ];
 
 
-        return view('customerduediligenceform', [
+        return view('customerduediligence.customerduediligenceform', [
             'form_id' => $form_id,
             'state' => $state,
             'form' => $form,
@@ -362,14 +489,60 @@ class PageController extends Controller
         ]);
     }
 
-    // public function customerduediligenceform($form_id)
-    // {
-    //     // dd($form_id);
-    //     // dd(session()->all());
-    //     return view('customerduediligenceform');
-    // }
 
-    public function update(Request $request, $form_id)
+
+    public function createdCustomerRiskProfilingForm($form_id, $state)
+
+    {
+
+        $row = DB::table('istr_AMLAForm2 as t1')
+            ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
+            ->select(
+                't1.*',
+                't2.*',
+                DB::raw("
+            (
+                SELECT COUNT(*)
+                FROM istr_AMLA_Attachment as a
+                WHERE a.form_id = t1.form_id
+                AND a.deletedAt IS NULL
+            ) AS image_count
+        ")
+            )
+            ->where('t1.form_id', $form_id)
+            ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
+            ->get();
+        $preparer = DB::table('SER_USERPROFILE')
+            ->select('USERNAME')
+            ->where('USERISACTIVE', '1')
+            ->get();
+
+        $branch = DB::table('Company_Setup_Workstation')
+            ->select('Branch_Code')
+            ->where('Branch_Code', 'LIKE', 'P%')
+            ->where('Branch_Code', '!=', 'PEOS')
+            ->distinct()
+            ->first();
+
+        $form = AmlaForm::where('form_id', $form_id)->first();
+
+        $form1 = AmlaForm2::where('form_id', $form_id)->first();
+
+        return view('customerriskprofilingform', [
+            'form_id' => $form_id,
+            'state' => $state,
+            'form' => $form,
+            'form1' => $form1,
+            'sales_name' => $preparer,
+            'row' => $row,
+            'branch' => $branch,
+        ]);
+    }
+
+
+
+
+    public function updateCustomerDueDiligenceForm(Request $request, $form_id)
     {
         // dd($request->all(), $form_id);
         $data = $request->validate([
@@ -581,7 +754,114 @@ class PageController extends Controller
         // return redirect("/createdForm/{$form_id}/1");
     }
 
-    public function submit(Request $request, $form_id)
+    public function updateCustomerRiskProfilingForm(Request $request, $form_id)
+    {
+        $data = $request->validate([
+            'branch_name' => 'nullable|string',
+            'cust_name' => 'required|string',
+            'date' => 'nullable|date_format:Y-m-d',
+            'contact' => 'required|string',
+            'sales_name' => 'required|string',
+
+            'total_mark' => 'nullable|numeric',
+            'risk_rating' => 'nullable|string',
+            'cust_type' => 'nullable|string',
+
+            'individual' => 'nullable|numeric',
+            'legal_clubs' => 'nullable|numeric',
+            'legal_arrangement' => 'nullable|numeric',
+
+            'non_pep' => 'nullable|numeric',
+            'local_pep' => 'nullable|numeric',
+            'foreign_pep' => 'nullable|numeric',
+
+            'high_net_worth_no_low' => 'nullable|numeric',
+            'high_net_worth_yes_high' => 'nullable|numeric',
+            'high_net_worth_comments' => 'nullable|string',
+
+            'nric_passport' => 'required|string',
+
+            'businessSize_small_low' => 'nullable|numeric',
+            'businessSize_large_high' => 'nullable|numeric',
+            'businessSize_comments' => 'nullable|string',
+            'businessType_lowrisk_low' => 'nullable|numeric',
+            'businessType_highrisk_high' => 'nullable|numeric',
+            'CDD_clear_low' => 'nullable|numeric',
+            'CDD_vague_high' => 'nullable|numeric',
+            'beneficial_no_low' => 'nullable|numeric',
+            'beneficial_yes_high' => 'nullable|numeric',
+            'trade_no_low' => 'nullable|numeric',
+            'trade_yes_high' => 'nullable|numeric',
+            'remark_no_low' => 'nullable|numeric',
+            'remark_yes_high' => 'nullable|numeric',
+            'yes_state' => 'nullable|string',
+            'originCountry_lowrisk_low' => 'nullable|numeric',
+            'originCountry_taxhaven_medium' => 'nullable|numeric',
+            'originCountry_FATF_high' => 'nullable|numeric',
+            'countryResidence_lowrisk_low' => 'nullable|numeric',
+            'countryResidence_taxhaven_medium' => 'nullable|numeric',
+            'countryResidence_FATF_high' => 'nullable|numeric',
+            'product_nongold_low' => 'nullable|numeric',
+            'product_diamondgem_medium' => 'nullable|numeric',
+            'product_gold_high' => 'nullable|numeric',
+            'delivery_face2face_low' => 'nullable|numeric',
+            'delivery_behalf_medium' => 'nullable|numeric',
+            'delivery_non_face2face_high' => 'nullable|numeric',
+            'payment_electronic_low' => 'nullable|numeric',
+            'payment_cash_medium' => 'nullable|numeric',
+            'payment_cash_high' => 'nullable|numeric',
+            'transaction_fundFrom_local_low' => 'nullable|numeric',
+            'transaction_fundFrom_foreign_medium' => 'nullable|numeric',
+            'transaction_fundFrom_high' => 'nullable|numeric',
+            'transaction_fundFrom_known_low' => 'nullable|numeric',
+            'transaction_fundFrom_unrelated_high' => 'nullable|numeric',
+            'transaction_fundTrans_local_low' => 'nullable|numeric',
+            'transaction_fundTrans_foreign_medium' => 'nullable|numeric',
+            'transaction_fundTrans_highrisk_high' => 'nullable|numeric',
+            'transaction_fundTrans_known_low' => 'nullable|numeric',
+            'transaction_fundTrans_unrelated_high' => 'nullable|numeric',
+            'individual_minusCash' => 'nullable|numeric',
+            'individual_minusCash_percentage' => 'nullable|numeric',
+            'nonindividual_minusCash' => 'nullable|numeric',
+            'nonindividual_minusCash_percentage' => 'nullable|numeric',
+            'individual_minusnonCash' => 'nullable|numeric',
+            'individual_minusnonCash_percentage' => 'nullable|numeric',
+            'nonindividual_minusnonCash' => 'nullable|numeric',
+            'nonindividual_minusnonCash_percentage' => 'nullable|numeric',
+            'riskrating' => 'nullable|string',
+            'riskrating_transaction' => 'nullable|string',
+            'is_cust_sus' => 'nullable|string',
+            'cust_sus_reason' => 'nullable|string',
+            'is_cust_info_complete' => 'nullable|string',
+            'is_internal_str_required' => 'nullable|string',
+            'conclusion_comment' => 'nullable|string',
+            'prepared_name' => 'nullable|string',
+            'prepared_designation' => 'nullable|string',
+            'prepared_date' => 'nullable|date_format:Y-m-d',
+            'reviewed_name' => 'nullable|string',
+            'reviewed_designation' => 'nullable|string',
+            'reviewed_date' => 'nullable|date_format:Y-m-d',
+            'prepared_signature' => 'nullable|string',
+            'reviewed_signature' => 'nullable|string',
+        ]);
+
+        $data_header = $request->validate([
+            'trx_no' => 'nullable|string',
+            'sales_date' => 'nullable|date',
+            'branch_name' => 'nullable|string',
+            'doc_no' => 'nullable|string'
+        ]);
+
+        $data_header['status'] = "New";
+        $data['form_id'] = $form_id;
+        $form = AmlaForm::findOrFail($form_id);
+        $form->update($data_header);
+        $form2 = AmlaForm2::findOrFail($form_id);
+        $form2->update($data);
+        return redirect()->back();
+    }
+
+    public function submitCustomerDueDiligenceForm(Request $request, $form_id)
     {
 
         $data = $request->validate([
@@ -784,7 +1064,116 @@ class PageController extends Controller
         $form1 = AmlaForm1::findOrFail($form_id);
         $form1->update($data);
         // return redirect("/success");
-        return redirect("/submittedForm/{$form_id}/2");
+        return redirect("/submittedCustomerDueDiligenceForm/{$form_id}/2");
+    }
+
+    public function submitCustomerRiskProfilingForm(Request $request, $form_id)
+    {
+
+        $data = $request->validate([
+            'branch_name' => 'nullable|string',
+            'cust_name' => 'required|string',
+            'date' => 'nullable|date_format:Y-m-d',
+            'contact' => 'required|string',
+            'sales_name' => 'required|string',
+
+            'total_mark' => 'nullable|numeric',
+            'risk_rating' => 'nullable|string',
+            'cust_type' => 'nullable|string',
+
+            'individual' => 'nullable|numeric',
+            'legal_clubs' => 'nullable|numeric',
+            'legal_arrangement' => 'nullable|numeric',
+
+            'non_pep' => 'nullable|numeric',
+            'local_pep' => 'nullable|numeric',
+            'foreign_pep' => 'nullable|numeric',
+
+            'high_net_worth_no_low' => 'nullable|numeric',
+            'high_net_worth_yes_high' => 'nullable|numeric',
+            'high_net_worth_comments' => 'nullable|string',
+
+            'nric_passport' => 'required|string',
+
+            'businessSize_small_low' => 'nullable|numeric',
+            'businessSize_large_high' => 'nullable|numeric',
+            'businessSize_comments' => 'nullable|string',
+            'businessType_lowrisk_low' => 'nullable|numeric',
+            'businessType_highrisk_high' => 'nullable|numeric',
+            'CDD_clear_low' => 'nullable|numeric',
+            'CDD_vague_high' => 'nullable|numeric',
+            'beneficial_no_low' => 'nullable|numeric',
+            'beneficial_yes_high' => 'nullable|numeric',
+            'trade_no_low' => 'nullable|numeric',
+            'trade_yes_high' => 'nullable|numeric',
+            'remark_no_low' => 'nullable|numeric',
+            'remark_yes_high' => 'nullable|numeric',
+            'yes_state' => 'nullable|string',
+            'originCountry_lowrisk_low' => 'nullable|numeric',
+            'originCountry_taxhaven_medium' => 'nullable|numeric',
+            'originCountry_FATF_high' => 'nullable|numeric',
+            'countryResidence_lowrisk_low' => 'nullable|numeric',
+            'countryResidence_taxhaven_medium' => 'nullable|numeric',
+            'countryResidence_FATF_high' => 'nullable|numeric',
+            'product_nongold_low' => 'nullable|numeric',
+            'product_diamondgem_medium' => 'nullable|numeric',
+            'product_gold_high' => 'nullable|numeric',
+            'delivery_face2face_low' => 'nullable|numeric',
+            'delivery_behalf_medium' => 'nullable|numeric',
+            'delivery_non_face2face_high' => 'nullable|numeric',
+            'payment_electronic_low' => 'nullable|numeric',
+            'payment_cash_medium' => 'nullable|numeric',
+            'payment_cash_high' => 'nullable|numeric',
+            'transaction_fundFrom_local_low' => 'nullable|numeric',
+            'transaction_fundFrom_foreign_medium' => 'nullable|numeric',
+            'transaction_fundFrom_high' => 'nullable|numeric',
+            'transaction_fundFrom_known_low' => 'nullable|numeric',
+            'transaction_fundFrom_unrelated_high' => 'nullable|numeric',
+            'transaction_fundTrans_local_low' => 'nullable|numeric',
+            'transaction_fundTrans_foreign_medium' => 'nullable|numeric',
+            'transaction_fundTrans_highrisk_high' => 'nullable|numeric',
+            'transaction_fundTrans_known_low' => 'nullable|numeric',
+            'transaction_fundTrans_unrelated_high' => 'nullable|numeric',
+            'individual_minusCash' => 'nullable|numeric',
+            'individual_minusCash_percentage' => 'nullable|numeric',
+            'nonindividual_minusCash' => 'nullable|numeric',
+            'nonindividual_minusCash_percentage' => 'nullable|numeric',
+            'individual_minusnonCash' => 'nullable|numeric',
+            'individual_minusnonCash_percentage' => 'nullable|numeric',
+            'nonindividual_minusnonCash' => 'nullable|numeric',
+            'nonindividual_minusnonCash_percentage' => 'nullable|numeric',
+            'riskrating' => 'nullable|string',
+            'riskrating_transaction' => 'nullable|string',
+            'is_cust_sus' => 'nullable|string',
+            'cust_sus_reason' => 'nullable|string',
+            'is_cust_info_complete' => 'nullable|string',
+            'is_internal_str_required' => 'nullable|string',
+            'conclusion_comment' => 'nullable|string',
+            'prepared_name' => 'nullable|string',
+            'prepared_designation' => 'nullable|string',
+            'prepared_date' => 'nullable|date_format:Y-m-d',
+            'reviewed_name' => 'nullable|string',
+            'reviewed_designation' => 'nullable|string',
+            'reviewed_date' => 'nullable|date_format:Y-m-d',
+            'prepared_signature' => 'nullable|string',
+            'reviewed_signature' => 'nullable|string',
+        ]);
+
+        $data_header = $request->validate([
+            'trx_no' => 'nullable|string',
+            'sales_date' => 'nullable|date',
+            'branch_name' => 'nullable|string',
+            'doc_no' => 'nullable|string'
+        ]);
+
+
+        $data_header['status'] = "Submitted";
+        $form = AmlaForm::findOrFail($form_id);
+        $form->update($data_header);
+        $form2 = AmlaForm2::findOrFail($form_id);
+        $form2->update($data);
+        // return redirect("/success");
+        return redirect("/submittedCustomerRiskProfilingForm/{$form_id}/2");
     }
     public function create(Request $request)
     {
@@ -987,6 +1376,7 @@ class PageController extends Controller
         $data['bo_address'] = $otherBO['address'] ?? null;
         $data['isMyKadReader'] = 0;
         $data_header['status'] = "New";
+        $data_header['form_type'] = "Form_No_1";
         $submittedHeaderForm = AmlaForm::create($data_header);
         $form_id = $submittedHeaderForm->form_id;
         $data['form_id'] = $form_id;
@@ -997,7 +1387,159 @@ class PageController extends Controller
         return redirect("/createdForm/{$form_id}/1");
     }
 
-    public function uploadImages(Request $request, $form_id)
+    public function createCustomerRiskProfilingForm(Request $request)
+    {
+        // dd(request()->all());
+
+        $data = $request->validate([
+            'branch_name' => 'nullable|string',
+            'cust_name' => 'required|string',
+            'date' => 'nullable|date_format:Y-m-d',
+            'contact' => 'required|string',
+            'sales_name' => 'required|string',
+
+            'total_mark' => 'nullable|numeric',
+            'risk_rating' => 'nullable|string',
+            'cust_type' => 'nullable|string',
+
+            'individual' => 'nullable|numeric',
+            'legal_clubs' => 'nullable|numeric',
+            'legal_arrangement' => 'nullable|numeric',
+
+            'non_pep' => 'nullable|numeric',
+            'local_pep' => 'nullable|numeric',
+            'foreign_pep' => 'nullable|numeric',
+
+            'high_net_worth_no_low' => 'nullable|numeric',
+            'high_net_worth_yes_high' => 'nullable|numeric',
+            'high_net_worth_comments' => 'nullable|string',
+
+            'nric_passport' => 'required|string',
+
+            'businessSize_small_low' => 'nullable|numeric',
+            'businessSize_large_high' => 'nullable|numeric',
+            'businessSize_comments' => 'nullable|string',
+            'businessType_lowrisk_low' => 'nullable|numeric',
+            'businessType_highrisk_high' => 'nullable|numeric',
+            'CDD_clear_low' => 'nullable|numeric',
+            'CDD_vague_high' => 'nullable|numeric',
+            'beneficial_no_low' => 'nullable|numeric',
+            'beneficial_yes_high' => 'nullable|numeric',
+            'trade_no_low' => 'nullable|numeric',
+            'trade_yes_high' => 'nullable|numeric',
+            'remark_no_low' => 'nullable|numeric',
+            'remark_yes_high' => 'nullable|numeric',
+            'yes_state' => 'nullable|string',
+            'originCountry_lowrisk_low' => 'nullable|numeric',
+            'originCountry_taxhaven_medium' => 'nullable|numeric',
+            'originCountry_FATF_high' => 'nullable|numeric',
+            'countryResidence_lowrisk_low' => 'nullable|numeric',
+            'countryResidence_taxhaven_medium' => 'nullable|numeric',
+            'countryResidence_FATF_high' => 'nullable|numeric',
+            'product_nongold_low' => 'nullable|numeric',
+            'product_diamondgem_medium' => 'nullable|numeric',
+            'product_gold_high' => 'nullable|numeric',
+            'delivery_face2face_low' => 'nullable|numeric',
+            'delivery_behalf_medium' => 'nullable|numeric',
+            'delivery_non_face2face_high' => 'nullable|numeric',
+            'payment_electronic_low' => 'nullable|numeric',
+            'payment_cash_medium' => 'nullable|numeric',
+            'payment_cash_high' => 'nullable|numeric',
+            'transaction_fundFrom_local_low' => 'nullable|numeric',
+            'transaction_fundFrom_foreign_medium' => 'nullable|numeric',
+            'transaction_fundFrom_high' => 'nullable|numeric',
+            'transaction_fundFrom_known_low' => 'nullable|numeric',
+            'transaction_fundFrom_unrelated_high' => 'nullable|numeric',
+            'transaction_fundTrans_local_low' => 'nullable|numeric',
+            'transaction_fundTrans_foreign_medium' => 'nullable|numeric',
+            'transaction_fundTrans_highrisk_high' => 'nullable|numeric',
+            'transaction_fundTrans_known_low' => 'nullable|numeric',
+            'transaction_fundTrans_unrelated_high' => 'nullable|numeric',
+            'individual_minusCash' => 'nullable|numeric',
+            'individual_minusCash_percentage' => 'nullable|numeric',
+            'nonindividual_minusCash' => 'nullable|numeric',
+            'nonindividual_minusCash_percentage' => 'nullable|numeric',
+            'individual_minusnonCash' => 'nullable|numeric',
+            'individual_minusnonCash_percentage' => 'nullable|numeric',
+            'nonindividual_minusnonCash' => 'nullable|numeric',
+            'nonindividual_minusnonCash_percentage' => 'nullable|numeric',
+            'riskrating' => 'nullable|string',
+            'riskrating_transaction' => 'nullable|string',
+            'is_cust_sus' => 'nullable|string',
+            'cust_sus_reason' => 'nullable|string',
+            'is_cust_info_complete' => 'nullable|string',
+            'is_internal_str_required' => 'nullable|string',
+            'conclusion_comment' => 'nullable|string',
+            'prepared_name' => 'nullable|string',
+            'prepared_designation' => 'nullable|string',
+            'prepared_date' => 'nullable|date_format:Y-m-d',
+            'reviewed_name' => 'nullable|string',
+            'reviewed_designation' => 'nullable|string',
+            'reviewed_date' => 'nullable|date_format:Y-m-d',
+            'prepared_signature' => 'nullable|string',
+            'reviewed_signature' => 'nullable|string',
+        ]);
+
+        $data_header = $request->validate([
+            'trx_no' => 'nullable|string',
+            'sales_date' => 'nullable|date',
+            'branch_name' => 'nullable|string',
+            'doc_no' => 'nullable|string'
+        ]);
+
+        $data_header['status'] = "New";
+        $data_header['form_type'] = "Form_No_2";
+        $submittedHeaderForm = AmlaForm::create($data_header);
+        $form_id = $submittedHeaderForm->form_id;
+        $data['form_id'] = $form_id;
+        AmlaForm2::create($data);
+        if (!empty($data['prepared_signature'])) {
+
+            $image = $data['prepared_signature'];
+
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+
+            $fileName = 'uploads/prepared_signature_' . time() . '.png';
+
+            Storage::disk('public')->put(
+                $fileName,
+                base64_decode($image)
+            );
+
+            AmlaAttachment::create([
+                'form_id' => $form_id,
+                'form_type' => "Form_No_2",
+                'file_name' => $fileName,
+                'createdAt' => now(),
+            ]);
+        }
+
+        if (!empty($data['reviewed_signature'])) {
+
+            $image = $data['reviewed_signature'];
+
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+
+            $fileName = 'uploads/reviewed_signature_' . time() . '.png';
+
+            Storage::disk('public')->put(
+                $fileName,
+                base64_decode($image)
+            );
+
+            AmlaAttachment::create([
+                'form_id' => $form_id,
+                'form_type' => "Form_No_2",
+                'file_name' => $fileName,
+                'createdAt' => now(),
+            ]);
+        }
+        return redirect("/createdCustomerRiskProfilingForm/{$form_id}/1");
+    }
+
+    public function uploadImages(Request $request, $form_id, $form_type)
     {
         $validator = Validator::make($request->all(), [
             'images' => 'required|array',
@@ -1021,7 +1563,7 @@ class PageController extends Controller
 
                 AmlaAttachment::create([
                     'form_id' => $form_id,
-                    'form_type' => 1,
+                    'form_type' => $form_type,
                     'file_name' => $path,
                     'createdAt' => now(),
                 ]);

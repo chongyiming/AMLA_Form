@@ -15,7 +15,9 @@
     <script>
         $(document).ready(function() {
             $(".js-example-basic-single").select2({
-                width: '100%'
+                width: '100%',
+                height: '100%',
+
             });
 
             $(".no-border").next(".select2-container")
@@ -40,22 +42,30 @@
 
         }
 
+        .select2-container {
+            width: 100% !important;
+            height: 100%;
+        }
+
         .select2-container .select2-selection--single {
-            height: 23px;
+            height: 100%;
             border: 1px solid #CCCCCC;
             border-radius: 4px;
             z-index: -1;
-            flex: 1
+            display: flex;
+            align-items: center;
         }
 
         .select2-container .select2-selection--single .select2-selection__rendered {
-            line-height: 23px;
-
+            line-height: normal;
+            display: flex;
+            align-items: center;
         }
 
         .select2-container .select2-selection--single .select2-selection__arrow {
-            height: 23px;
-
+            height: 100%;
+            display: flex;
+            align-items: center;
         }
     </style>
 </head>

@@ -167,10 +167,25 @@
 
                         @elseif($state ==1)
 
-                        <button type="submit" class="btn btn-outline-primary" data-i18n="messages.update" formaction="/update/{{ $form1->form_id }}"></button>
+                        @if ($formType == "Form_No_1")
+                        <button type="submit"
+                            class="btn btn-outline-primary"
+                            data-i18n="messages.update"
+                            formaction="/updateCustomerDueDiligenceForm/{{ $form1->form_id }}">
+                        </button>
+                        @elseif ($formType == "Form_No_2")
+                        <button type="submit"
+                            class="btn btn-outline-primary"
+                            data-i18n="messages.update"
+                            formaction="/updateCustomerRiskProfilingForm/{{ $form1->form_id }}">
+                        </button>
+                        @endif
                         <button type="button" class="btn btn-outline-danger" onclick="clearForm()" data-i18n="messages.clear"></button>
-                        <button type="submit" class="btn btn-outline-success" formaction="/submit/{{ $form1->form_id }}" data-i18n="messages.submit"></button>
-
+                        @if ($formType == "Form_No_1")
+                        <button type="submit" class="btn btn-outline-success" formaction="/submitCustomerDueDiligenceForm/{{ $form1->form_id }}" data-i18n="messages.submit"></button>
+                        @elseif ($formType == "Form_No_2")
+                        <button type="submit" class="btn btn-outline-success" formaction="/submitCustomerRiskProfilingForm/{{ $form1->form_id }}" data-i18n="messages.submit"></button>
+                        @endif
                         @elseif($state ==2)
                         <button type="button" class="btn btn-outline-dark" id="dropdown-print" data-i18n="messages.print"></button>
 
@@ -201,14 +216,28 @@
 
             @elseif($state ==1)
 
-            <button type="submit" class="btn btn-outline-primary" formaction="/update/{{ $form1->form_id }}"
-                data-i18n="messages.update" style="width:100px"></button>
+            @if ($formType == "Form_No_1")
+            <button type="submit"
+                class="btn btn-outline-primary"
+                data-i18n="messages.update"
+                formaction="/updateCustomerDueDiligenceForm/{{ $form1->form_id }}">
+            </button>
+            @elseif ($formType == "Form_No_2")
+            <button type="submit"
+                class="btn btn-outline-primary"
+                data-i18n="messages.update"
+                formaction="/updateCustomerRiskProfilingForm/{{ $form1->form_id }}">
+            </button>
+            @endif
 
             <button type="button" class="btn btn-outline-danger" onclick="clearForm()"
                 data-i18n="messages.clear" style="width:100px"></button>
 
-            <button type="submit" class="btn btn-outline-success" formaction="/submit/{{ $form1->form_id }}"
-                data-i18n="messages.submit" style="width:100px">Success</button>
+            @if ($formType == "Form_No_1")
+            <button type="submit" class="btn btn-outline-success" formaction="/submitCustomerDueDiligenceForm/{{ $form1->form_id }}" data-i18n="messages.submit"></button>
+            @elseif ($formType == "Form_No_2")
+            <button type="submit" class="btn btn-outline-success" formaction="/submitCustomerRiskProfilingForm/{{ $form1->form_id }}" data-i18n="messages.submit"></button>
+            @endif
 
 
             @elseif($state ==2)
@@ -224,5 +253,60 @@
 
     </div>
 </body>
+<script>
+    const dropdownBtn = document.getElementById('actions');
+    const dropdownMenu = document.querySelector('.header-dropdown-menu');
+
+    dropdownBtn.addEventListener('click', function() {
+        dropdownMenu.classList.toggle('show');
+    });
+
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.header-dropdown')) {
+            dropdownMenu.classList.remove('show');
+        }
+    });
+
+
+    document.getElementById('dropdown-print')
+        .addEventListener('click', function() {
+            print()
+        });
+
+    document.getElementById('panel-print')
+        .addEventListener('click', function() {
+            print()
+        });
+
+
+    function clearForm() {
+        // const form = document.querySelector('form');
+        const form = document.getElementById("print-area");
+
+        form.querySelectorAll('input, textarea, select').forEach(function(field) {
+            if (field.type === 'checkbox' || field.type === 'radio') {
+                field.checked = false;
+            } else {
+                field.value = '';
+            }
+        });
+
+        form.querySelectorAll('canvas').forEach(function(canvas) {
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+        form.querySelectorAll('.mark-btn').forEach(function(button) {
+            button.textContent = "0";
+
+            button.classList.remove('btn-success');
+            button.classList.add('btn-outline-secondary');
+
+            const input = document.getElementById(button.dataset.name + '_value');
+            if (input) {
+                input.value = "0";
+            }
+        });
+    }
+</script>
 
 </html>

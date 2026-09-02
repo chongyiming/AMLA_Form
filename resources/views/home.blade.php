@@ -43,8 +43,8 @@
         <h4>Choose the form:</h4>
         <div class="form-choice-box">
 
-            <button type="button" class="btn btn-primary" onclick="window.location.href='/pdsp_customer_due_diligence_form'">Customer Due Diligence Form 客户尽职调查表表格_V3</button>
-            <button type="button" class="btn btn-secondary">Customer Risk Profiling Form 顾客风险分析表格_V5</button>
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/home_customer_due_diligence_form'">Customer Due Diligence Form 客户尽职调查表表格_V3</button>
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='/home_customer_risk_profiling_form'">Customer Risk Profiling Form 顾客风险分析表格_V5</button>
             <button type="button" class="btn btn-success">Enhanced Customer Due Diligence Form 增强客户尽职调查表格_V2</button>
             <button type="button" class="btn btn-danger">Suspicious Transaction Report - Individual 可疑交易报告 - 个人</button>
             <button type="button" class="btn btn-warning">Suspicious Transaction Report - Non Individual 可疑交易报告 - 非个人</button>
@@ -52,6 +52,7 @@
         </div>
 
     </div>
+
 
 
 

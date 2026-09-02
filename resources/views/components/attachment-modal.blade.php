@@ -43,7 +43,7 @@
                     <h4 style="margin-top:30px">Document (Receipt + Gold Cert)</h4>
                     <div id="certReceiptSection-{{ $row->form_id }}" style="display:flex;gap:10px;align-items:center">
                         No Document found.
-                        <button type="button" class="btn btn-success" onclick="generate('{{ $row->form_id }}','{{ $row->trx_no }}')">Generate生成</button>
+                        <button type="button" class="btn btn-success" onclick="generate('{{ $row->form_id }}','{{ $row->trx_no }}','{{ $row->form_type }}')">Generate生成</button>
                         <div id="certErrors-{{ $row->form_id }}" style="color:red;"></div>
 
                     </div>
@@ -67,7 +67,7 @@
 
                             <button type="button"
                                 class="btn btn-primary"
-                                onclick="uploadImages('{{ $row->form_id }}')"
+                                onclick="uploadImages('{{ $row->form_id }}','{{ $row->form_type }}')"
                                 style="white-space: nowrap;"
                                 id="uploadImagesButton-{{ $row->form_id }}">
                                 Upload Images
@@ -161,7 +161,7 @@
             preview_images(formId);
         }
 
-        async function uploadImages(formId) {
+        async function uploadImages(formId, form_type) {
             document.getElementById("uploadImagesButton-" + formId).style.display = 'none'
             document.getElementById("imageSpinner-" + formId).classList.remove('d-none');
             const form = document.getElementById('uploadImagesForm-' + formId);
@@ -170,7 +170,7 @@
 
             errorDiv.innerHTML = '';
 
-            const response = await fetch('/uploadImages/' + formId, {
+            const response = await fetch('/uploadImages/' + formId + '/' + form_type, {
                 method: 'POST',
                 body: formData,
             });
@@ -248,7 +248,7 @@
             fetchAttachments(formId, '{{ $row->status }}')
         }
 
-        async function generate(formId, trx_no) {
+        async function generate(formId, trx_no, form_type) {
             document.getElementById('certSpinner-' + formId).classList.remove('d-none');
             document.getElementById('certReceiptSection-' + formId).style.display = 'none';
 
@@ -276,7 +276,7 @@
             }
 
             const pngPaths = allFiles.filter(path => path.endsWith('.png'));
-            await saveCertReceiptToAttachments(pngPaths, formId)
+            await saveCertReceiptToAttachments(pngPaths, formId, form_type)
 
             await fetchAttachments(formId, '{{ $row->status }}')
 
@@ -284,7 +284,7 @@
         }
 
 
-        async function saveCertReceiptToAttachments(pngPaths, form_id) {
+        async function saveCertReceiptToAttachments(pngPaths, form_id, form_type) {
             const response = await fetch('/uploadCertReceiptImages', {
                 method: 'POST',
                 headers: {
@@ -292,7 +292,8 @@
                 },
                 body: JSON.stringify({
                     pngPaths: pngPaths,
-                    form_id: form_id
+                    form_id: form_id,
+                    form_type: form_type
                 })
             });
 

@@ -24,7 +24,7 @@ class TableController extends Controller
         AmlaForm1::create(
             $data
         );
-        return redirect("/customerduediligenceform/{$form_id}");
+        return redirect("/customerduediligence.customerduediligenceform/{$form_id}");
     }
 
     public function delete($form_id)
@@ -34,12 +34,17 @@ class TableController extends Controller
         return redirect()->back();
     }
 
-    public function edit($form_id)
+    public function editCustomerDueDiligenceForm($form_id)
     {
         return redirect("/createdForm/{$form_id}/1");
     }
 
-    public function index()
+    public function editCustomerRiskProfilingForm($form_id)
+    {
+        return redirect("/createdCustomerRiskProfilingForm/{$form_id}/1");
+    }
+
+    public function home_customer_due_diligence_form()
     {
         $forms = DB::table('istr_AMLAForm1 as t1')
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
@@ -56,14 +61,45 @@ class TableController extends Controller
         ")
             )
             ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
+            ->where('t2.form_type', 'Form_No_1')
             ->orderBy('t1.form_id', 'desc')
             ->paginate(10);
         $branch = DB::table('Company_Setup_Workstation')
             ->select('Branch_Code')
             ->where('Branch_Code', 'LIKE', 'P%')
+            ->where('Branch_Code', '!=', 'PEOS')
             ->distinct()
             ->first();
-        return view('pdsp_customer_due_diligence_form', ['forms' => $forms, 'branch' => $branch]);
+        return view('customerduediligence.home_customer_due_diligence_form', ['forms' => $forms, 'branch' => $branch]);
+    }
+
+    public function home_customer_risk_profiling_form()
+    {
+        $forms = DB::table('istr_AMLAForm2 as t1')
+            ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
+            ->select(
+                't1.*',
+                't2.*',
+                DB::raw("
+            (
+                SELECT COUNT(*)
+                FROM istr_AMLA_Attachment as a
+                WHERE a.form_id = t1.form_id
+                AND a.deletedAt IS NULL
+            ) AS image_count
+        ")
+            )
+            ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
+            ->where('t2.form_type', 'Form_No_2')
+            ->orderBy('t1.form_id', 'desc')
+            ->paginate(10);
+        $branch = DB::table('Company_Setup_Workstation')
+            ->select('Branch_Code')
+            ->where('Branch_Code', 'LIKE', 'P%')
+            ->where('Branch_Code', '!=', 'PEOS')
+            ->distinct()
+            ->first();
+        return view('home_customer_risk_profiling_form', ['forms' => $forms, 'branch' => $branch]);
     }
 
 
@@ -120,6 +156,8 @@ class TableController extends Controller
     {
 
         $form_id = $request->form_id;
+        $form_type = $request->form_type;
+
         $paths = [];
 
         foreach ($request->pngPaths as $sourcePath) {
@@ -131,7 +169,7 @@ class TableController extends Controller
 
             AmlaAttachment::create([
                 'form_id' => $form_id,
-                'form_type' => 1,
+                'form_type' => $form_type,
                 'file_name' => $filename,
                 'createdAt' => now(),
             ]);

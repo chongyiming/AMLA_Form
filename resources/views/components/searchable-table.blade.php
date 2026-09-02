@@ -117,11 +117,19 @@
 
                     <div class="column-switch-wrap">
                         @if($row->status === 'New')
-                        <form action="/{{ $row->form_id }}/edit" method="GET">
+                        @if ($row->form_type == "Form_No_1")
+                        <form action="/{{ $row->form_id }}/editCustomerDueDiligenceForm" method="GET">
                             @csrf
                             <button type="submit" class="btn btn-outline-primary" style="width: 100%;">Edit</button>
 
                         </form>
+                        @elseif ($row->form_type == "Form_No_2")
+                        <form action="/{{ $row->form_id }}/editCustomerRiskProfilingForm" method="GET">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-primary" style="width: 100%;">Edit</button>
+
+                        </form>
+                        @endif
                         <form action="/{{ $row->form_id }}/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this attachment?\n\n您确定要删除此附件吗?');">
                             @csrf
 
@@ -129,11 +137,21 @@
 
                         </form>
                         @else
-                        <form action="/submittedForm/{{ $row->form_id }}/2" method="GET">
+                        @if ($row->form_type == "Form_No_1")
+                        <form action="/submittedCustomerDueDiligenceForm/{{ $row->form_id }}/2" method="GET">
                             @csrf
-                            <button type="submit" class="btn btn-outline-primary" style="width: 100%;">View</button>
-
+                            <button type="submit" class="btn btn-outline-primary" style="width: 100%;">
+                                View
+                            </button>
                         </form>
+                        @elseif ($row->form_type == "Form_No_2")
+                        <form action="/submittedCustomerRiskProfilingForm/{{ $row->form_id }}/2" method="GET">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-primary" style="width: 100%;">
+                                View
+                            </button>
+                        </form>
+                        @endif
                         <form action="/{{ $row->form_id }}/delete" method="POST">
                             @csrf
                             <button type="submit" class="btn btn-outline-danger" style="width: 100%;" disabled>Delete</button>

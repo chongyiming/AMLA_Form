@@ -1,7 +1,5 @@
 {
-    "messages.customerDueDiligenceForm": "Customer Due Diligence Form",
-    "messages.customerDueDiligenceForm2": "客户尽职调查表格",
-    "messages.formNo1": "Form No.1",
+    "messages.formNo1": "Form No. 1",
     "messages.customerDueDiligence": "Customer Due Diligence",
     "messages.identificationAndVerificationOfACustomerAsRequiredUnder": "Identification and verification of a customer as required under:",
     "messages.section_16_amla": "Section 16 of the Anti-Money Laundering, Anti-Terrorism Financing and Proceeds of Unlawful Activities Act 2001 (AMLA); and",
@@ -115,7 +113,7 @@
     "messages.clear": "Clear",
         "messages.update": "Update",
     "messages.submit": "Submit",
-    "messages.no": "No",
+    "messages.number": "No",
     "messages.docNo": "Doc No",
     "messages.customerName": "Customer Name",
     "messages.preparerName": "Preparer Name",
@@ -130,13 +128,39 @@
     "messages.createForm":"Create Form",
     "messages.home":"Home",
     "messages.actions":"Actions",
-    "messages.customerDueDiligenceFormV3": "Customer Due Diligence Form 客户尽职调查表表格_V3",
-    "messages.customerRiskProfilingFormV5": "Customer Risk Profiling Form 顾客风险分析表格_V5",
-    "messages.enhancedCustomerDueDiligenceFormV2": "Enhanced Customer Due Diligence Form 增强客户尽职调查表格_V2",
-    "messages.suspiciousTransactionIndividual": "Suspicious Transaction Report - Individual 可疑交易报告 - 个人",
-    "messages.suspiciousTransactionNonIndividual": "Suspicious Transaction Report - Non Individual 可疑交易报告 - 非个人",
-    "messages.suspiciousTransactionLegalArrangement": "Suspicious Transaction Report - Legal Arrangement 可疑交易报告 - 法律安排",
-    "messages.view": "View"
+    "messages.view": "View",
+    "messages.formNo2":"Form No. 2",
+    "messages.branch_name":"Branch Name",
+    "messages.customerInfo":"Customer Info (per IC or Passport)",
+    "messages.contactNumber":"Contact Number",
+        "messages.totalMark":"Total Mark %",
+        "messages.salesPersonName":"Sales Person Name",
+        "messages.riskRating":"Risk Rating",
+        "messages.l":"L",
+        "messages.m":"M",
+        "messages.m_h":"M - H",
+        "messages.h":"H",
+        "messages.typeOfCustomer":"Type of Customer",
+        "messages.newCustomer":"New Customer",
+        "messages.repeatingCustomer":"Repeating Customer",
+        "messages.occasionalOneOff":"Occasional/One-off",
+        "messages.nric_passport": "NRIC/Passport",
+        "messages.high":"High",
+        "messages.medium":"Medium",
+        "messages.low":"Low",
+        "messages.medium_high":"Medium-High",
+        "messages.yes":"Yes",
+        "messages.no": "No"
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -61,7 +61,7 @@
 <body>
     <x-menu-sidebar></x-menu-sidebar>
 
-    <form method="POST" action="{{ $state == 0 ? '/create' : '/submit' }}">
+    <form method="POST" action="{{ $state == 0 ? '/create' : '/submitCustomerDueDiligenceForm' }}">
         @csrf
 
 
@@ -77,10 +77,10 @@
             @endif
             <br>
             <div id="print-area" style="width:100%;padding:0">
-                @include('page1')
-                @include('page2')
-                @include('page3')
-                @include('page4')
+                @include('customerduediligence.customerduediligenceformpage1')
+                @include('customerduediligence.customerduediligenceformpage2')
+                @include('customerduediligence.customerduediligenceformpage3')
+                @include('customerduediligence.customerduediligenceformpage4')
 
             </div>
 
@@ -117,7 +117,7 @@
             </div>
             @endif
             @endif
-            <x-sidepanel :form1="$form1" :form="$form" :state="$state"></x-sidepanel>
+            <x-sidepanel :form1="$form1" :form="$form" :state="$state" form_type="Form_No_1"></x-sidepanel>
 
 
 
@@ -226,43 +226,6 @@
                 btn.classList.toggle('active', btn.dataset.lang === lang);
             });
         }
-
-        function clearForm() {
-            // const form = document.querySelector('form');
-            const form = document.getElementById("print-area");
-
-            form.querySelectorAll('input, textarea, select').forEach(function(field) {
-                if (field.type === 'checkbox' || field.type === 'radio') {
-                    field.checked = false;
-                } else {
-                    field.value = '';
-                }
-            });
-        }
-
-        const dropdownBtn = document.getElementById('actions');
-        const dropdownMenu = document.querySelector('.header-dropdown-menu');
-
-        dropdownBtn.addEventListener('click', function() {
-            dropdownMenu.classList.toggle('show');
-        });
-
-        document.addEventListener('click', function(event) {
-            if (!event.target.closest('.header-dropdown')) {
-                dropdownMenu.classList.remove('show');
-            }
-        });
-
-
-        document.getElementById('dropdown-print')
-            .addEventListener('click', function() {
-                print()
-            });
-
-        document.getElementById('panel-print')
-            .addEventListener('click', function() {
-                print()
-            });
 
 
 
