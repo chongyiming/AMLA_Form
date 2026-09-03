@@ -86,6 +86,8 @@ class TableController extends Controller
                 FROM istr_AMLA_Attachment as a
                 WHERE a.form_id = t1.form_id
                 AND a.deletedAt IS NULL
+                AND a.file_name NOT LIKE '%prepared_signature%'
+                AND a.file_name NOT LIKE '%reviewed_signature%'
             ) AS image_count
         ")
             )
@@ -99,7 +101,7 @@ class TableController extends Controller
             ->where('Branch_Code', '!=', 'PEOS')
             ->distinct()
             ->first();
-        return view('home_customer_risk_profiling_form', ['forms' => $forms, 'branch' => $branch]);
+        return view('customerriskprofiling.home_customer_risk_profiling_form', ['forms' => $forms, 'branch' => $branch]);
     }
 
 
@@ -110,6 +112,8 @@ class TableController extends Controller
             ->whereNull('deletedAt')
             ->where('file_name', 'not like', '%GoldCert%')
             ->where('file_name', 'not like', '%Receipt%')
+            ->where('file_name', 'not like', '%prepared_signature%')
+            ->where('file_name', 'not like', '%reviewed_signature%')
             ->get();
         $certReceipts = AmlaAttachment::where('form_id', $form_id)
             ->where(function ($query) {

@@ -28,6 +28,10 @@
 
         @media print {
 
+            @page {
+                size: A4;
+            }
+
             body * {
                 visibility: hidden;
             }
@@ -45,11 +49,9 @@
             }
 
             #container {
-                padding-left: 0;
-                padding-right: 0;
-                padding-bottom: 0;
-                margin-top: 0;
-                box-shadow: none;
+                max-width: 100% !important;
+                box-shadow: none !important;
+                height: auto !important;
             }
 
         }
@@ -84,21 +86,22 @@
 
             </div>
 
-            <a href="#" class="position-fixed bottom-0 end-0 border rounded-circle p-4 d-none" style="margin-right:20px;margin-bottom:120px;box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);cursor:pointer" id="to-top">
-                <img src=" {{ asset('up-arrows.png') }}" style="width: 25px;height: 25px;">
-            </a>
+            <x-to-top></x-to-top>
+
             @if (isset($row))
             @if ($row->first()->status === "Submitted")
             <div class="position-fixed bottom-0 end-0 border rounded-circle p-4"
                 style="margin-right:20px;margin-bottom:20px;box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);cursor:pointer"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal-{{ $row->first()->form_id }}">
-                <img src="{{ asset('/folder.png') }}"
-                    style="width: 25px; height: 25px; cursor: pointer;">
+                <div class="position-relative d-inline">
+                    <img src="{{ asset('/folder.png') }}"
+                        style="width: 25px; height: 25px; cursor: pointer;">
 
-                <span class="position-absolute top-0 start-100 translate-middle badge bg-success">
-                    {{$row->first()->image_count}}
-                </span>
+                    <span class="position-absolute top-0 start-100 translate-middle badge bg-success">
+                        {{$row->first()->image_count}}
+                    </span>
+                </div>
             </div>
             @elseif ($row->first()->status === "New")
             <div class="position-fixed bottom-0 end-0 border rounded-circle p-4"
@@ -135,58 +138,11 @@
     <script>
         let translations = {};
 
-
-        function setupLocaleSwitchButtons() {
-            document.querySelectorAll('.locale-switch').forEach(btn => {
-                btn.addEventListener('click', () => loadLocale(btn.dataset.lang));
-            });
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
             const savedLocale = localStorage.getItem('locale') || 'en';
             loadLocale(savedLocale);
             setupLocaleSwitchButtons();
         });
-
-        async function loadLocale(lang) {
-            const res = await fetch(`/lang/${lang}.json`);
-            translations = await res.json();
-            applyTranslations();
-            localStorage.setItem('locale', lang);
-            setActiveButton(lang);
-            fetch(`/locale/${lang}`);
-        }
-
-        function applyTranslations() {
-
-
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.dataset.i18n;
-                const text = translations[key] ?? key;
-                const targetAttr = el.dataset.i18nTarget;
-                const isHtml = el.hasAttribute('data-i18n-html');
-                if (targetAttr) {
-                    el.setAttribute(targetAttr, text);
-                } else if (isHtml) {
-                    el.innerHTML = text;
-                } else {
-                    el.textContent = text;
-                }
-            });
-        }
-
-
-
-
-        const toTop = document.getElementById("to-top");
-        window.addEventListener("scroll", () => {
-            if (window.pageYOffset > 100) {
-                toTop.classList.remove("d-none");
-
-            } else {
-                toTop.classList.add("d-none")
-            }
-        })
 
 
         function showOther(radio, inputName) {

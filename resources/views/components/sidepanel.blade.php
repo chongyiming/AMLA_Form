@@ -307,6 +307,52 @@
             }
         });
     }
+
+
+
+    function setupLocaleSwitchButtons() {
+        document.querySelectorAll('.locale-switch').forEach(btn => {
+            btn.addEventListener('click', () => loadLocale(btn.dataset.lang));
+        });
+    }
+
+    async function loadLocale(lang) {
+        const res = await fetch(`/lang/${lang}.json`);
+        translations = await res.json();
+        applyTranslations();
+        localStorage.setItem('locale', lang);
+        setActiveButton(lang);
+        fetch(`/locale/${lang}`);
+    }
+
+    function applyTranslations() {
+
+
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.dataset.i18n;
+            const text = translations[key] ?? key;
+            const targetAttr = el.dataset.i18nTarget;
+            const isHtml = el.hasAttribute('data-i18n-html');
+            if (targetAttr) {
+                el.setAttribute(targetAttr, text);
+            } else if (isHtml) {
+                el.innerHTML = text;
+            } else {
+                el.textContent = text;
+            }
+        });
+    }
+
+
+
+
+
+
+    function setActiveButton(lang) {
+        document.querySelectorAll('.locale-switch').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+    }
 </script>
 
 </html>

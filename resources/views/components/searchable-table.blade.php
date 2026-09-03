@@ -130,7 +130,7 @@
 
                         </form>
                         @endif
-                        <form action="/{{ $row->form_id }}/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this attachment?\n\n您确定要删除此附件吗?');">
+                        <form action="/{{ $row->form_id }}/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this form?\n\n您确定要删除此表单吗?');">
                             @csrf
 
                             <button type="submit" class="btn btn-outline-danger" style="width: 100%;">Delete</button>

@@ -59,12 +59,12 @@
                 'placeholder'=>'Trx No'
                 ],
                 [
-                'field'=>'full_name',
+                'field'=>'cust_name',
                 'label'=>'Customer Name',
                 'placeholder'=>'Customer Name'
                 ],
                 [
-                'field'=>'preparer_name',
+                'field'=>'prepared_name',
                 'label'=>'Preparer Name',
                 'placeholder'=>'Preparer Name'
                 ],

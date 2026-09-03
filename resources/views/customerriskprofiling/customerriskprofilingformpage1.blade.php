@@ -13,7 +13,6 @@
 
         .container {
             width: 750px;
-            max-width: 750px;
             height: 1090px;
             padding-bottom: 10px;
             margin: auto;
@@ -111,7 +110,7 @@
                     <th class="bg-light"><span data-i18n="messages.contactNumber"></span><span class="text-danger">*</span></th>
                     <td><input type="text" class="form-control border-0" name="contact" value="{{ old('contact', $form1->contact ?? '') }}"></td>
                     <th class="bg-light"><span data-i18n="messages.totalMark"></span></th>
-                    <td class="border-end-0"><input type="text" class="form-control border-0" name="total_mark" value="{{ old('total_mark', $form1->total_mark ?? '') }}" readonly></td>
+                    <td class="border-end-0"><input type="text" class="form-control border-0 bg-transparent" name="total_mark" value="{{ old('total_mark', $form1->total_mark ?? '') }}" readonly></td>
                     <td class="border-start-0">%</td>
                 </tr>
                 <tr>
@@ -191,27 +190,21 @@
             <thead class="bg-light">
                 <tr>
                     <th colspan="1">No.</th>
-                    <th colspan="3" class="text-center">Parameters Determined for Risk Profiling</th>
-                    <th colspan="1" class="text-center">Risk Rating</th>
-                    <th colspan="1" class="text-center">Mark</th>
+                    <th colspan="3" class="text-center"><span data-i18n="messages.parameters_determined_for_risk_profiling"></span></th>
+                    <th colspan="1" class="text-center"><span data-i18n="messages.risk_rating"></span></th>
+                    <th colspan="1" class="text-center"><span data-i18n="messages.mark"></span></th>
                 </tr>
                 <tr>
-                    <th colspan="6"> (a) Customer Risks 顾客风险</th>
+                    <th colspan="6"> (a) <span data-i18n="messages.customer_risks"></span></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td rowspan="4">1.</td>
-                    <td rowspan="4">Type</td>
-                    <td colspan="2">Individual</td>
-                    <td class="text-center">Low</td>
+                    <td rowspan="4"><span data-i18n="messages.type"></span></td>
+                    <td colspan="2"><span data-i18n="messages.individual"></span></td>
+                    <td class="text-center"><span data-i18n="messages.low"></span></td>
                     <td>
-                        <!-- <input type="text" class="form-control border-0" name="individual" value="{{ old('individual', $form1->individual ?? '') }}"> -->
-                        <!-- <button type="button"
-                            class="btn w-100 risk-btn {{ old('individual', $form1->individual ?? '0') == 1 ? 'btn-success' : 'btn-outline-secondary' }}"
-                            value="1">
-                            {{ old('individual', $form1->individual ?? '0') == 1 ? '1' : '0' }}
-                        </button> -->
                         <input type="hidden" id="type_value" name="individual"
                             value="{{ old('individual', $form1->individual ?? 0) }}">
                         <x-mark-button
@@ -223,13 +216,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">Legal Person</td>
-                    <td rowspan="2" class="text-center">Medium</td>
+                    <td colspan="2"><span data-i18n="messages.legal_person"></span><br>(<span data-i18n="messages.business_corporate"></span>)</td>
+                    <td rowspan="2" class="text-center"><span data-i18n="messages.medium"></span></td>
                     <td rowspan="2" height="1">
-                        <!-- <div style="display:flex; height:100%;">
-                            <input type="text" class="form-control border-0" style="flex:1;" name="legal_clubs" value="{{ old('legal_clubs', $form1->legal_clubs ?? '') }}">
-                        </div> -->
-
                         <input type="hidden" id="legal_clubs_value" name="legal_clubs"
                             value="{{ old('legal_clubs', $form1->legal_clubs ?? 0) }}">
                         <x-mark-button
@@ -242,13 +231,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">Clubs, Societies and Charities</td>
+                    <td colspan="2"><span data-i18n="messages.clubs_societies_and_charities"></span></td>
                 </tr>
                 <tr>
-                    <td colspan="2">Legal Arrangement</td>
-                    <td class="text-center">High</td>
+                    <td colspan="2"><span data-i18n="messages.legal_arrangement"></span></td>
+                    <td class="text-center"><span data-i18n="messages.high"></span></td>
                     <td>
-                        <!-- <input type="text" class="form-control border-0" name="legal_arrangement" value="{{ old('legal_arrangement', $form1->legal_arrangement ?? '') }}"> -->
                         <input type="hidden" id="legal_arrangement_value" name="legal_arrangement"
                             value="{{ old('legal_arrangement', $form1->legal_arrangement ?? 0) }}">
                         <x-mark-button
@@ -260,9 +248,9 @@
                 </tr>
                 <tr>
                     <td rowspan="3">2.</td>
-                    <td rowspan="3">Social Status</td>
-                    <td colspan="2">Non-PEP</td>
-                    <td class="text-center">Low</td>
+                    <td rowspan="3"><span data-i18n="messages.social_status"></span></td>
+                    <td colspan="2"><span data-i18n="messages.non_pep"></span></td>
+                    <td class="text-center"><span data-i18n="messages.low"></span></td>
                     <td>
                         <input type="hidden" id="non_pep_value" name="non_pep"
                             value="{{ old('non_pep', $form1->non_pep ?? 0) }}">
@@ -274,8 +262,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">Local PEP</td>
-                    <td class="text-center">Medium</td>
+                    <td colspan="2"><span data-i18n="messages.local_pep"></span></td>
+                    <td class="text-center"><span data-i18n="messages.medium"></span></td>
                     <td>
                         <input type="hidden" id="local_pep_value" name="local_pep"
                             value="{{ old('local_pep', $form1->local_pep ?? 0) }}">
@@ -287,8 +275,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">Foreign PEP</td>
-                    <td class="text-center">High</td>
+                    <td colspan="2"><span data-i18n="messages.foreign_pep"></span></td>
+                    <td class="text-center"><span data-i18n="messages.high"></span></td>
                     <td>
                         <input type="hidden" id="foreign_pep_value" name="foreign_pep"
                             value="{{ old('foreign_pep', $form1->foreign_pep ?? 0) }}">
@@ -301,9 +289,9 @@
                 </tr>
                 <tr>
                     <td rowspan="3">3.</td>
-                    <td colspan="2" rowspan="2">Customer/director/partner and shareholder/beneficial owner classified as High Net Worth individual.</td>
-                    <td class="text-center">No</td>
-                    <td class="text-center">Low</td>
+                    <td colspan="2" rowspan="2"><span data-i18n="messages.high_net_worth_classification"></span></td>
+                    <td class="text-center"><span data-i18n="messages.no"></span></td>
+                    <td class="text-center"><span data-i18n="messages.low"></span></td>
                     <td>
                         <input type="hidden" id="high_net_worth_no_low_value" name="high_net_worth_no_low"
                             value="{{ old('high_net_worth_no_low', $form1->high_net_worth_no_low ?? 0) }}">
@@ -315,8 +303,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="text-center">Yes</td>
-                    <td class="text-center">High</td>
+                    <td class="text-center"><span data-i18n="messages.yes"></span></td>
+                    <td class="text-center"><span data-i18n="messages.high"></span></td>
                     <td>
                         <input type="hidden" id="high_net_worth_yes_high_value" name="high_net_worth_yes_high"
                             value="{{ old('high_net_worth_yes_high', $form1->high_net_worth_yes_high ?? 0) }}">
@@ -329,7 +317,7 @@
 
                 </tr>
                 <tr>
-                    <td colspan="6"> <textarea class="form-control border-0" name="high_net_worth_comments" placeholder="Comments">{{ old('high_net_worth_comments', $form1->high_net_worth_comments ?? '') }}</textarea>
+                    <td colspan="6"> <textarea class="form-control border-0" name="high_net_worth_comments" data-i18n-target="placeholder" data-i18n="messages.comments">{{ old('high_net_worth_comments', $form1->high_net_worth_comments ?? '') }}</textarea>
                     </td>
                 </tr>
             </tbody>
