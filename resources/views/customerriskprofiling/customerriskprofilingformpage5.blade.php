@@ -26,17 +26,17 @@
             </colgroup>
             <tbody>
                 <tr>
-                    <td data-i18n="messages.mark"></td>
-                    <td><span data-i18n="messages.high"></span> = 3</td>
-                    <td colspan="2"><span data-i18n="messages.medium"></span> = 2</td>
-                    <td colspan="2"><span data-i18n="messages.low"></span> = 1</td>
+                    <td data-i18n="messages.mark">Mark</td>
+                    <td><span data-i18n="messages.high">High</span> = 3</td>
+                    <td colspan="2"><span data-i18n="messages.medium">Medium</span> = 2</td>
+                    <td colspan="2"><span data-i18n="messages.low">Low</span> = 1</td>
                 </tr>
                 <tr>
-                    <td data-i18n="messages.risk_rating"></td>
-                    <td><span data-i18n="messages.high"></span> > 80%</td>
-                    <td><span data-i18n="messages.medium_high"></span> 70–80%</td>
-                    <td><span data-i18n="messages.medium"></span> 35–69%</td>
-                    <td colspan="2"><span data-i18n="messages.low"></span>
+                    <td data-i18n="messages.risk_rating">Risk Rating</td>
+                    <td><span data-i18n="messages.high">High</span> > 80%</td>
+                    <td><span data-i18n="messages.medium_high">Medium-High</span> 70–80%</td>
+                    <td><span data-i18n="messages.medium">Medium</span> 35–69%</td>
+                    <td colspan="2"><span data-i18n="messages.low">Low</span>
                         < 35%</td>
                 </tr>
             </tbody>
@@ -55,10 +55,10 @@
             <tbody>
                 <tr>
                     <td colspan="2">
-                        <span class="fw-bold" data-i18n="messages.total_mark"></span>
-                        <span data-i18n="messages.individual_cash"></span>
+                        <span class="fw-bold" data-i18n="messages.total_mark">Total Mark</span>
+                        <span data-i18n="messages.individual_cash">(Individual - Cash)</span>
                         <br>
-                        <span data-i18n="messages.exclude_no4_15_18"></span>
+                        <span data-i18n="messages.exclude_no4_15_18">(Exclude No. 4 & 15-18)</span>
                     </td>
 
                     <td class="border-end-0">
@@ -86,10 +86,10 @@
 
                 <tr>
                     <td colspan="2">
-                        <span class="fw-bold" data-i18n="messages.total_mark"></span>
-                        <span data-i18n="messages.non_individual_cash"></span>
+                        <span class="fw-bold" data-i18n="messages.total_mark">Total Mark</span>
+                        <span data-i18n="messages.non_individual_cash">(Non-Individual - Cash)</span>
                         <br>
-                        <span data-i18n="messages.include_no4_exclude_15_18"></span>
+                        <span data-i18n="messages.include_no4_exclude_15_18">(Include No. 4 & Exclude No. 15-18)</span>
                     </td>
 
                     <td class="border-end-0">
@@ -117,10 +117,10 @@
 
                 <tr>
                     <td colspan="2">
-                        <span class="fw-bold" data-i18n="messages.total_mark"></span>
-                        <span data-i18n="messages.individual_non_cash"></span>
+                        <span class="fw-bold" data-i18n="messages.total_mark">Total Mark</span>
+                        <span data-i18n="messages.individual_non_cash">(Individual - Non Cash)</span>
                         <br>
-                        <span data-i18n="messages.exclude_no4_include_15_16_or_17_18"></span>
+                        <span data-i18n="messages.exclude_no4_include_15_16_or_17_18">(Exclude No. 4 & Include either No. 15-16 or 17-18)</span>
                     </td>
 
                     <td class="border-end-0">
@@ -148,10 +148,10 @@
 
                 <tr>
                     <td colspan="2">
-                        <span class="fw-bold" data-i18n="messages.total_mark"></span>
-                        <span data-i18n="messages.non_individual_non_cash"></span>
+                        <span class="fw-bold" data-i18n="messages.total_mark">Total Mark</span>
+                        <span data-i18n="messages.non_individual_non_cash">(Non-Individual - Non Cash)</span>
                         <br>
-                        <span data-i18n="messages.include_no4_either_15_16_or_17_18"></span>
+                        <span data-i18n="messages.include_no4_either_15_16_or_17_18">(Include No. 4 & Either No. 15-16 or 17-18)</span>
                     </td>
 
                     <td class="border-end-0">
@@ -178,7 +178,7 @@
                 </tr>
             </tbody>
         </table>
-        <h2 class="fw-bold"><span data-i18n="messages.conclusion"></span>:</h2>
+        <h2 class="fw-bold"><span data-i18n="messages.conclusion">Conclusion</span>:</h2>
 
         <table class="table table-bordered align-middle">
             <colgroup>
@@ -191,24 +191,24 @@
             </colgroup>
             <tbody>
                 <tr>
-                    <th rowspan="4" class="bg-light" data-i18n="messages.risk_rating"></th>
+                    <th rowspan="4" class="bg-light" data-i18n="messages.risk_rating">Risk Rating</th>
                     <td>
                         <div class="form-check">
                             <input class="form-check-input riskrating-radio" type="radio" name="riskrating" id="riskrating_low" value="low" {{ old('riskrating', $form1->riskrating ?? '') == 'low' ? 'checked' : '' }}>
                             <label class="form-check-label">
-                                <span data-i18n="messages.low"></span>
+                                <span data-i18n="messages.low">Low</span>
                                 <span>
                                     < 35%</span>
                             </label>
                         </div>
                     </td>
-                    <td colspan="2" data-i18n="messages.proceed_with_transaction">
+                    <td colspan="2" data-i18n="messages.proceed_with_transaction">Proceed with the transaction
                     </td>
                     <td rowspan="4" class="border-end-0">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="riskrating_transaction" id="riskrating_transaction_yes" value="yes" {{ str_starts_with(old('riskrating_transaction', $form1->riskrating_transaction ?? ''), 'yes_') ? 'checked' : '' }}>
                             <label class="form-check-label" for="riskrating_transaction_yes">
-                                <span data-i18n="messages.yes"></span>
+                                <span data-i18n="messages.yes">Yes</span>
                             </label>
                         </div>
                     </td>
@@ -216,7 +216,7 @@
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="riskrating_transaction" id="riskrating_transaction_no" value="no" {{ str_starts_with(old('riskrating_transaction', $form1->riskrating_transaction ?? ''), 'no_') ? 'checked' : '' }}>
                             <label class="form-check-label" for="riskrating_transaction_no">
-                                <span data-i18n="messages.no"></span>
+                                <span data-i18n="messages.no">No</span>
                             </label>
                         </div>
                     </td>
@@ -226,13 +226,13 @@
                         <div class="form-check">
                             <input class="form-check-input riskrating-radio" type="radio" name="riskrating" id="riskrating_medium" value="medium" {{ old('riskrating', $form1->riskrating ?? '') == 'medium' ? 'checked' : '' }}>
                             <label class="form-check-label">
-                                <span data-i18n="messages.medium"></span>
+                                <span data-i18n="messages.medium">Medium</span>
                                 <span>
                                     35 - 69%</span>
                             </label>
                         </div>
                     </td>
-                    <td colspan="2" data-i18n="messages.proceed_with_transaction">
+                    <td colspan="2" data-i18n="messages.proceed_with_transaction">Proceed with the transaction
                     </td>
 
                 </tr>
@@ -241,13 +241,13 @@
                         <div class="form-check">
                             <input class="form-check-input riskrating-radio" type="radio" name="riskrating" id="riskrating_medium_high" value="medium_high" {{ old('riskrating', $form1->riskrating ?? '') == 'medium_high' ? 'checked' : '' }}>
                             <label class="form-check-label">
-                                <span data-i18n="messages.medium_high"></span>
+                                <span data-i18n="messages.medium_high">Medium-High</span>
                                 <span>
                                     70 - 80%</span>
                             </label>
                         </div>
                     </td>
-                    <td colspan="2" data-i18n="messages.proceed_enhanced_cdd"></td>
+                    <td colspan="2" data-i18n="messages.proceed_enhanced_cdd">Proceed to Enhanced CDD</td>
 
                 </tr>
                 <tr>
@@ -255,62 +255,62 @@
                         <div class="form-check">
                             <input class="form-check-input riskrating-radio" type="radio" name="riskrating" id="riskrating_high" value="high" {{ old('riskrating', $form1->riskrating ?? '') == 'high' ? 'checked' : '' }}>
                             <label class="form-check-label">
-                                <span data-i18n="messages.high"></span>
+                                <span data-i18n="messages.high">High</span>
                                 <span>
                                     > 80%</span>
                             </label>
                         </div>
                     </td>
                     <td colspan="2">
-                        <span data-i18n="messages.terminate_transaction"></span> <br>
-                        <span data-i18n="messages.proceed_suspicious_transaction_reporting"></span>
+                        <span data-i18n="messages.terminate_transaction">Terminate the transaction</span> <br>
+                        <span data-i18n="messages.proceed_suspicious_transaction_reporting">Proceed to Suspicious Transaction Reporting</span>
                     </td>
 
                 </tr>
                 <tr>
-                    <th class="bg-light" data-i18n="messages.suspicious_customer"></th>
+                    <th class="bg-light" data-i18n="messages.suspicious_customer">Suspicious Customer?</th>
                     <td colspan="5">
                         <div style="display:flex;column-gap:40px;flex-wrap:wrap">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="is_cust_sus" id="is_cust_sus_no" value="no" {{ old('is_cust_sus', $form1->is_cust_sus ?? '') == 'no' ? 'checked' : '' }}>
-                                <label class="form-check-label" data-i18n="messages.no" for="is_cust_sus_no">
+                                <label class="form-check-label" data-i18n="messages.no" for="is_cust_sus_no">No
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="is_cust_sus" id="is_cust_sus_yes" value="yes" {{ old('is_cust_sus', $form1->is_cust_sus ?? '') == 'yes' ? 'checked' : '' }}>
-                                <label class="form-check-label" data-i18n="messages.yes" for="is_cust_sus_yes">
+                                <label class="form-check-label" data-i18n="messages.yes" for="is_cust_sus_yes">Yes
                                 </label>
                             </div>
 
                         </div>
-                        <span class="fw-bold" data-i18n="messages.suspicious_reason"></span>
+                        <span class="fw-bold" data-i18n="messages.suspicious_reason">Suspicious Reason:</span>
                         <textarea class="form-control border-0" name="cust_sus_reason">{{ old('cust_sus_reason', $form1->cust_sus_reason ?? '') }}</textarea>
                     </td>
                 </tr>
                 <tr>
-                    <th class="bg-light" data-i18n="messages.customer_info_complete"></th>
+                    <th class="bg-light" data-i18n="messages.customer_info_complete">Customer Info Complete?</th>
                     <td>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="is_cust_info_complete" id="is_cust_info_complete_yes" value="yes" {{ old('is_cust_info_complete', $form1->is_cust_info_complete ?? '') == 'yes' ? 'checked' : '' }}>
-                            <label class="form-check-label" data-i18n="messages.yes" for="is_cust_info_complete_yes">
+                            <label class="form-check-label" data-i18n="messages.yes" for="is_cust_info_complete_yes">Yes
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="is_cust_info_complete" id="is_cust_info_complete_no" value="no" {{ old('is_cust_info_complete', $form1->is_cust_info_complete ?? '') == 'no' ? 'checked' : '' }}>
-                            <label class="form-check-label" data-i18n="messages.no" for="is_cust_info_complete_no">
+                            <label class="form-check-label" data-i18n="messages.no" for="is_cust_info_complete_no">No
                             </label>
                         </div>
                     </td>
-                    <th class="bg-light" colspan="2"><span data-i18n="messages.internal_str_required"></span><span class="text-danger"> *</span></th>
+                    <th class="bg-light" colspan="2"><span data-i18n="messages.internal_str_required">Internal STR Required?</span><span class="text-danger"> *</span></th>
                     <td colspan="2">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="is_internal_str_required" id="is_internal_str_required_yes" value="yes" {{ old('is_internal_str_required', $form1->is_internal_str_required ?? '') == 'yes' ? 'checked' : '' }}>
-                            <label class="form-check-label" data-i18n="messages.yes" for="is_internal_str_required_yes">
+                            <label class="form-check-label" data-i18n="messages.yes" for="is_internal_str_required_yes">Yes
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="is_internal_str_required" id="is_internal_str_required_no" value="no" {{ old('is_internal_str_required', $form1->is_internal_str_required ?? '') == 'no' ? 'checked' : '' }}>
-                            <label class="form-check-label" data-i18n="messages.no" for="is_internal_str_required_no">
+                            <label class="form-check-label" data-i18n="messages.no" for="is_internal_str_required_no">No
                             </label>
                         </div>
                     </td>

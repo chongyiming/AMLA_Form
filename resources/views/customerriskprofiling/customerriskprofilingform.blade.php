@@ -30,7 +30,6 @@
 
             @page {
                 size: A4;
-                margin-bottom: 0;
             }
 
             body * {
@@ -211,7 +210,7 @@
                     .forEach(btn => {
                         const input = document.getElementById(btn.dataset.name + '_value');
                         btn.textContent = "0";
-                        btn.classList.remove('btn-success');
+                        btn.classList.remove('btn-primary');
                         btn.classList.add('btn-outline-secondary');
                         if (input) input.value = "0";
                     });
@@ -220,7 +219,7 @@
             if (!wasActive) {
                 button.textContent = button.value;
                 button.classList.remove('btn-outline-secondary');
-                button.classList.add('btn-success');
+                button.classList.add('btn-primary');
                 hiddenInput.value = button.value;
             }
             calculateTotal();

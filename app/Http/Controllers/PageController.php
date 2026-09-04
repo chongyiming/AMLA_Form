@@ -3,18 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\AmlaAttachment;
+use App\Http\Controllers\PdfController;
+use App\Jobs\GeneratePdfJob;
+use App\Jobs\SendEmailJob;
+use App\Mail\SendMail;
 use Illuminate\Http\Request;
 use App\Models\AmlaForm1;
 use App\Models\AmlaForm;
 use App\Models\AmlaForm2;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Symfony\Component\Console\Output\BufferedOutput;
+
 class PageController extends Controller
 {
     //
+
+
 
     public function show()
     {
@@ -941,6 +952,90 @@ class PageController extends Controller
         }
 
         $form2->update($data);
+        if ($data['is_internal_str_required'] === "yes") {
+
+            $mail = DB::table('MAS_MAIL_LIST')
+                ->select(
+                    'Branch_ID',
+                    'Host',
+                    'Subject',
+                    'Body',
+                    'SenderEmail',
+                    'SenderName',
+                    'Recipient',
+                    'Port',
+                    'Username',
+                    'Password',
+                    'SMTPSecure'
+                )
+                ->where('Purpose', 'Form_No_2-edit.php')
+                ->first();
+
+            if ($mail) {
+
+                $pdfPath = storage_path(
+                    'app/public/generated-pdf/' . $mail->Branch_ID . '_' . 'CRP' . '_' . $form_id . '_' . now()->format('YmdHis') . '.pdf'
+                );
+
+                $php = PHP_BINARY;
+                $artisan = base_path('artisan');
+
+                $command = 'start /B "" '
+                    . escapeshellarg($php) . ' '
+                    . escapeshellarg($artisan) . ' app:generate-pdf '
+                    . escapeshellarg($form_id) . ' '
+                    . escapeshellarg(1) . ' '
+                    . escapeshellarg($pdfPath)
+                    . ' > NUL 2>&1';
+
+                pclose(popen($command, 'r'));
+
+                $maxWait = 5; // seconds
+                $start = time();
+
+
+                while (!file_exists($pdfPath) && (time() - $start) < $maxWait) {
+                    usleep(500000); // 0.5 second
+                }
+
+                $decryptedPassword = openssl_decrypt(
+                    $mail->Password,
+                    'AES-256-CBC',
+                    'amlaformGTWik7jsDMA3SmXOcLBXCpT2',
+                    0,
+                    'amlaformvaUno9Oj'
+                );
+                $mailer = Mail::build([
+                    'transport'  => 'smtp',
+                    'host'       => $mail->Host,
+                    'port'       => $mail->Port,
+                    'encryption' => $mail->SMTPSecure,
+                    'username'   => $mail->Username,
+                    'password'   => $decryptedPassword,
+                ]);
+
+                $recipients = json_decode($mail->Recipient, true);
+
+                foreach ($recipients as $recipient) {
+
+                    $email = new SendMail(
+                        $mail->SenderEmail,
+                        $mail->SenderName,
+                        $mail->Subject,
+                        $mail->Body
+                    );
+
+                    $email->attach(
+                        $pdfPath,
+                        [
+                            'mime' => 'application/pdf',
+                        ]
+                    );
+
+                    $mailer->to(trim($recipient))->send($email);
+                }
+            }
+        }
         return redirect()->back();
     }
 
@@ -954,10 +1049,93 @@ class PageController extends Controller
 
     public function submitCustomerRiskProfilingForm(Request $request, $form_id)
     {
-
         $data_header['status'] = "Submitted";
         $form = AmlaForm::findOrFail($form_id);
         $form->update($data_header);
+        if ($request->is_internal_str_required === "yes") {
+
+            $mail = DB::table('MAS_MAIL_LIST')
+                ->select(
+                    'Branch_ID',
+                    'Host',
+                    'Subject',
+                    'Body',
+                    'SenderEmail',
+                    'SenderName',
+                    'Recipient',
+                    'Port',
+                    'Username',
+                    'Password',
+                    'SMTPSecure'
+                )
+                ->where('Purpose', 'Form_No_2-edit.php')
+                ->first();
+
+            if ($mail) {
+
+                $pdfPath = storage_path(
+                    'app/public/generated-pdf/' . $mail->Branch_ID . '_' . 'CRP' . '_' . $form_id . '_' . now()->format('YmdHis') . '.pdf'
+                );
+
+                $php = PHP_BINARY;
+                $artisan = base_path('artisan');
+
+                $command = 'start /B "" '
+                    . escapeshellarg($php) . ' '
+                    . escapeshellarg($artisan) . ' app:generate-pdf '
+                    . escapeshellarg($form_id) . ' '
+                    . escapeshellarg(2) . ' '
+                    . escapeshellarg($pdfPath)
+                    . ' > NUL 2>&1';
+
+                pclose(popen($command, 'r'));
+
+                $maxWait = 5; // seconds
+                $start = time();
+
+
+                while (!file_exists($pdfPath) && (time() - $start) < $maxWait) {
+                    usleep(500000); // 0.5 second
+                }
+
+                $decryptedPassword = openssl_decrypt(
+                    $mail->Password,
+                    'AES-256-CBC',
+                    'amlaformGTWik7jsDMA3SmXOcLBXCpT2',
+                    0,
+                    'amlaformvaUno9Oj'
+                );
+                $mailer = Mail::build([
+                    'transport'  => 'smtp',
+                    'host'       => $mail->Host,
+                    'port'       => $mail->Port,
+                    'encryption' => $mail->SMTPSecure,
+                    'username'   => $mail->Username,
+                    'password'   => $decryptedPassword,
+                ]);
+
+                $recipients = json_decode($mail->Recipient, true);
+
+                foreach ($recipients as $recipient) {
+
+                    $email = new SendMail(
+                        $mail->SenderEmail,
+                        $mail->SenderName,
+                        $mail->Subject,
+                        $mail->Body
+                    );
+
+                    $email->attach(
+                        $pdfPath,
+                        [
+                            'mime' => 'application/pdf',
+                        ]
+                    );
+
+                    $mailer->to(trim($recipient))->send($email);
+                }
+            }
+        }
         return redirect("/submittedCustomerRiskProfilingForm/{$form_id}/2");
     }
     public function create(Request $request)
@@ -1341,7 +1519,93 @@ class PageController extends Controller
         if (!empty($data['riskrating_transaction']) and !empty($data['riskrating'])) {
             $data['riskrating_transaction'] = $data['riskrating_transaction'] . '_' . $data['riskrating'];
         }
+
+
         AmlaForm2::create($data);
+        if ($data['is_internal_str_required'] === "yes") {
+
+            $mail = DB::table('MAS_MAIL_LIST')
+                ->select(
+                    'Branch_ID',
+                    'Host',
+                    'Subject',
+                    'Body',
+                    'SenderEmail',
+                    'SenderName',
+                    'Recipient',
+                    'Port',
+                    'Username',
+                    'Password',
+                    'SMTPSecure'
+                )
+                ->where('Purpose', 'Form_No_2.php')
+                ->first();
+
+            if ($mail) {
+
+                $pdfPath = storage_path(
+                    'app/public/generated-pdf/' . $mail->Branch_ID . '_' . 'CRP' . '_' . $form_id . '_' . now()->format('YmdHis') . '.pdf'
+                );
+
+                $php = PHP_BINARY;
+                $artisan = base_path('artisan');
+
+                $command = 'start /B "" '
+                    . escapeshellarg($php) . ' '
+                    . escapeshellarg($artisan) . ' app:generate-pdf '
+                    . escapeshellarg($form_id) . ' '
+                    . escapeshellarg(1) . ' '
+                    . escapeshellarg($pdfPath)
+                    . ' > NUL 2>&1';
+
+                pclose(popen($command, 'r'));
+
+                $maxWait = 5; // seconds
+                $start = time();
+
+
+                while (!file_exists($pdfPath) && (time() - $start) < $maxWait) {
+                    usleep(500000); // 0.5 second
+                }
+
+                $decryptedPassword = openssl_decrypt(
+                    $mail->Password,
+                    'AES-256-CBC',
+                    'amlaformGTWik7jsDMA3SmXOcLBXCpT2',
+                    0,
+                    'amlaformvaUno9Oj'
+                );
+                $mailer = Mail::build([
+                    'transport'  => 'smtp',
+                    'host'       => $mail->Host,
+                    'port'       => $mail->Port,
+                    'encryption' => $mail->SMTPSecure,
+                    'username'   => $mail->Username,
+                    'password'   => $decryptedPassword,
+                ]);
+
+                $recipients = json_decode($mail->Recipient, true);
+
+                foreach ($recipients as $recipient) {
+
+                    $email = new SendMail(
+                        $mail->SenderEmail,
+                        $mail->SenderName,
+                        $mail->Subject,
+                        $mail->Body
+                    );
+
+                    $email->attach(
+                        $pdfPath,
+                        [
+                            'mime' => 'application/pdf',
+                        ]
+                    );
+
+                    $mailer->to(trim($recipient))->send($email);
+                }
+            }
+        }
 
         return redirect("/createdCustomerRiskProfilingForm/{$form_id}/1");
     }

@@ -10,7 +10,7 @@
 <body>
 
     <button type="button"
-        class="btn w-100 mark-btn {{ $currentValue == $value ? 'btn-success' : 'btn-outline-secondary' }}"
+        class="btn w-100 mark-btn {{ $currentValue == $value ? 'btn-primary' : 'btn-outline-secondary' }}"
         data-name="{{ $name }}"
         data-group="{{ $group }}"
         value="{{ $value }}">

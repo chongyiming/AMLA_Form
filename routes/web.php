@@ -4,6 +4,7 @@ use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\TrxController;
 use App\Http\Controllers\TableController;
 
@@ -47,3 +48,6 @@ Route::post('/uploadImages/{form_id}/{form_type}', [PageController::class, 'uplo
 Route::post('/uploadCertReceiptImages', [TableController::class, 'uploadCertReceiptImages']);
 Route::get('/branches', [TrxController::class, 'branches']);
 Route::get('/search-trx', [TrxController::class, 'search']);
+
+Route::get('/test-email', [PageController::class, 'testEmail']);
+Route::get('/generate-pdf/{form_id}/{state}', [PdfController::class, 'generatePdf']);

@@ -18,7 +18,7 @@
 <body>
     <div class="container" id="container" style="margin-top:30px">
         <p class="fs-6 text-end" data-i18n="messages.formNo2">Form No2</p>
-        <span data-i18n="messages.comments_label"></span>
+        <span data-i18n="messages.comments_label">Comments:</span>
         <textarea class="form-control"
             name="conclusion_comment">{{ old('conclusion_comment', $form1->conclusion_comment ?? '') }}</textarea>
         <table class="align-middle mt-3 no-border-table">
@@ -29,9 +29,9 @@
             </colgroup>
             <tbody>
                 <tr>
-                    <th data-i18n="messages.prepared_by"></th>
+                    <th data-i18n="messages.prepared_by">Prepared By:</th>
                     <th></th>
-                    <th data-i18n="messages.reviewed_by"></th>
+                    <th data-i18n="messages.reviewed_by">Reviewed By:</th>
 
                 </tr>
                 <tr>
@@ -61,7 +61,7 @@
                 <tr>
                     <td height="1">
                         <div class="d-flex align-items-center gap-3" style="height: 100%;">
-                            <span data-i18n="messages.name_label" class="text-nowrap"></span>
+                            <span data-i18n="messages.name_label" class="text-nowrap">Name:</span>
                             <x-searchable-dropdown
                                 :options="$sales_name"
                                 name="prepared_name"
@@ -73,7 +73,7 @@
                     <td></td>
                     <td>
                         <div class="d-flex align-items-center gap-3">
-                            <span data-i18n="messages.name_label" class="text-nowrap"></span>
+                            <span data-i18n="messages.name_label" class="text-nowrap">Name:</span>
                             <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
                         </div>
                     </td>
@@ -82,13 +82,13 @@
                 <tr>
                     <td>
                         <div class="d-flex align-items-center gap-3">
-                            <span data-i18n="messages.designation_label" class="text-nowrap"></span> <input type="text" name="prepared_designation" class="form-control" value="{{ old('prepared_designation', $form1->prepared_designation ?? '') }}">
+                            <span data-i18n="messages.designation_label" class="text-nowrap">Designation:</span> <input type="text" name="prepared_designation" class="form-control" value="{{ old('prepared_designation', $form1->prepared_designation ?? '') }}">
                         </div>
                     </td>
                     <td></td>
                     <td>
                         <div class="d-flex align-items-center gap-3">
-                            <span data-i18n="messages.designation_label" class="text-nowrap"></span> <input type="text" name="reviewed_designation" class="form-control" value="{{ old('reviewed_designation', $form1->reviewed_designation ?? '') }}">
+                            <span data-i18n="messages.designation_label" class="text-nowrap">Designation:</span> <input type="text" name="reviewed_designation" class="form-control" value="{{ old('reviewed_designation', $form1->reviewed_designation ?? '') }}">
                         </div>
 
                     </td>
@@ -97,14 +97,14 @@
                 <tr>
                     <td>
                         <div class="d-flex align-items-center gap-3">
-                            <span data-i18n="messages.date_label" class="text-nowrap"></span> <input type="text" name="prepared_date" value="{{ old('prepared_date', $form1->prepared_date ?? date('Y-m-d')) }}" class="form-control">
+                            <span data-i18n="messages.date_label" class="text-nowrap">Date:</span> <input type="text" name="prepared_date" value="{{ old('prepared_date', $form1->prepared_date ?? date('Y-m-d')) }}" class="form-control">
                         </div>
 
                     </td>
                     <td></td>
                     <td>
                         <div class="d-flex align-items-center gap-3">
-                            <span data-i18n="messages.date_label" class="text-nowrap"></span> <input type="text" name="reviewed_date" value="{{ old('reviewed_date', $form1->reviewed_date ?? date('Y-m-d')) }}" class="form-control">
+                            <span data-i18n="messages.date_label" class="text-nowrap">Date:</span> <input type="text" name="reviewed_date" value="{{ old('reviewed_date', $form1->reviewed_date ?? date('Y-m-d')) }}" class="form-control">
                         </div>
 
                     </td>
