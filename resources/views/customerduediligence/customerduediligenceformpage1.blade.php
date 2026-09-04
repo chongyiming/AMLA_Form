@@ -13,7 +13,7 @@
 
         .container {
             width: 750px;
-            height: 1090px;
+            height: 1080px;
             padding-bottom: 10px;
             margin: auto;
             box-sizing: border-box;
@@ -92,12 +92,16 @@
         <div class='header_Text2'>客户尽职调查表格</div>
         <x-card
             title-key="messages.customerDueDiligence"
-            description-key="messages.identificationAndVerificationOfACustomerAsRequiredUnder"
-            :bullet-keys="[
+            :sections="[
+        [
+            'description' => 'messages.identificationAndVerificationOfACustomerAsRequiredUnder',
+            'bullets' => [
                 'messages.section_16_amla',
                 'messages.paragraph_14_aml_cft',
-            ]" />
-        <div class="box">
+            ],
+        ],
+    ]" />
+        <div class=" box">
             <div class="row">
                 <label data-i18n="messages.branch"></label>
 

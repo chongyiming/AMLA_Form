@@ -121,50 +121,32 @@ class PageController extends Controller
             ->select('USERNAME')
             ->where('USERISACTIVE', '1')
             ->get();
-        $countries = collect([
-            (object) ['Country_Name' => 'Malaysia'],
-            (object) ['Country_Name' => 'Singapore'],
-            (object) ['Country_Name' => 'Indonesia'],
-            (object) ['Country_Name' => 'Thailand'],
-            (object) ['Country_Name' => 'Brunei'],
-        ]);
-        $purpose_of_trx = collect([
-            (object) ['Purpose_Name' => 'Purchase of Goods'],
-            (object) ['Purpose_Name' => 'Payment for Services'],
-            (object) ['Purpose_Name' => 'Business Investment'],
-            (object) ['Purpose_Name' => 'Loan Repayment'],
-            (object) ['Purpose_Name' => 'Salary Payment'],
-            (object) ['Purpose_Name' => 'Property Purchase'],
-            (object) ['Purpose_Name' => 'Property Rental'],
-            (object) ['Purpose_Name' => 'Transfer to Family'],
-            (object) ['Purpose_Name' => 'Personal Expenses'],
-            (object) ['Purpose_Name' => 'Savings'],
-            (object) ['Purpose_Name' => 'Donation'],
-            (object) ['Purpose_Name' => 'Other'],
-        ]);
-        $occupation_type = collect([
-            (object) ['Occupation_Name' => 'Business Owner'],
-            (object) ['Occupation_Name' => 'Company Director'],
-            (object) ['Occupation_Name' => 'Manager'],
-            (object) ['Occupation_Name' => 'Executive'],
-            (object) ['Occupation_Name' => 'Engineer'],
-            (object) ['Occupation_Name' => 'Accountant'],
-            (object) ['Occupation_Name' => 'Doctor'],
-            (object) ['Occupation_Name' => 'Lawyer'],
-            (object) ['Occupation_Name' => 'Teacher'],
-            (object) ['Occupation_Name' => 'Government Employee'],
-            (object) ['Occupation_Name' => 'Private Sector Employee'],
-            (object) ['Occupation_Name' => 'Self-Employed'],
-            (object) ['Occupation_Name' => 'Professional'],
-            (object) ['Occupation_Name' => 'Student'],
-            (object) ['Occupation_Name' => 'Retired'],
-            (object) ['Occupation_Name' => 'Homemaker'],
-            (object) ['Occupation_Name' => 'Unemployed'],
-            (object) ['Occupation_Name' => 'Freelancer'],
-            (object) ['Occupation_Name' => 'Consultant'],
-            (object) ['Occupation_Name' => 'Other'],
-        ]);
+
         return view('customerriskprofiling.customerriskprofilingform', [
+            'state' => 0,
+            'form1' => null,
+            'form' => null,
+            'sales_name' => $sales_name,
+            'branch' => $branch
+
+        ]);
+    }
+
+    public function createEnhancedCustomerDueDiligenceForm()
+    {
+        $branch = DB::table('Company_Setup_Workstation')
+            ->select('Branch_Code')
+            ->where('Branch_Code', 'LIKE', 'P%')
+            ->where('Branch_Code', '!=', 'PEOS')
+            ->distinct()
+            ->first();
+
+        $sales_name = DB::table('SER_USERPROFILE')
+            ->select('USERNAME')
+            ->where('USERISACTIVE', '1')
+            ->get();
+
+        return view('enhancedcustomerduediligence.enhancedcustomerduediligenceform', [
             'state' => 0,
             'form1' => null,
             'form' => null,
@@ -990,7 +972,7 @@ class PageController extends Controller
 
                 pclose(popen($command, 'r'));
 
-                $maxWait = 5; // seconds
+                $maxWait = 10; // seconds
                 $start = time();
 
 
@@ -1090,7 +1072,7 @@ class PageController extends Controller
 
                 pclose(popen($command, 'r'));
 
-                $maxWait = 5; // seconds
+                $maxWait = 10; // seconds
                 $start = time();
 
 
@@ -1560,7 +1542,7 @@ class PageController extends Controller
 
                 pclose(popen($command, 'r'));
 
-                $maxWait = 5; // seconds
+                $maxWait = 10; // seconds
                 $start = time();
 
 

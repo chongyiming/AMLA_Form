@@ -230,8 +230,30 @@
   "messages.reviewed_by": "Reviewed By:",
   "messages.name_label": "Name:",
   "messages.designation_label": "Designation:",
-  "messages.date_label": "Date:"
-
+  "messages.date_label": "Date:",
+  "messages.formNo3":"Form No. 3",
+  "messages.edd_form_title": "Enhanced Customer Due Diligence Form",
+  "messages.edd_form_subtitle": "Enhanced Customer Due Diligence Form",
+  "messages.edd_card_title": "Enhanced Customer Due Diligence (EDD)",
+  "messages.edd_description_1": "EDD as required under:",
+  "messages.edd_bullet_1a": "Section 16 of the AMLA; and",
+  "messages.edd_bullet_1b": "Paragraph 14 of the AML/CFT/CPF and TFS for DNFBPs and NBFIs policy document.",
+  "messages.edd_description_2": "Circumstances when EDD applies:",
+  "messages.edd_bullet_2a": "Dealing with foreign PEPs",
+  "messages.edd_bullet_2b": "Dealing with person from higher risk countries",
+  "messages.edd_bullet_2c": "For gatekeepers (lawyers, accountants, company secretaries and trust companies), where nominee services are provided",
+  "messages.edd_bullet_2d": "Dealing with domestic PEPs or customers assessed as having higher ML/TF/PF risks based on customer risk profiling",
+  "messages.edd_note_label": "Note:",
+  "messages.edd_note_text": "For enhanced on-going due diligence, higher frequency of transaction monitoring is required to enable reporting institutions to identify any anomalies.",
+  "messages.individual_name_label": "Individual name of higher risk customer/PEP",
+  "messages.customer_pep_role_label": "Customer/PEP's role in Legal Person/Legal Arrangement, where relevant",
+  "messages.higher_risk_customer_header": "For higher ML/TF/PF risk customers",
+  "messages.source_of_fund_label": "Source of Fund/Source of Wealth",
+  "messages.additional_info_label": "Additional Information on Customer and Beneficial Owner",
+  "messages.edd_approval_header": "For customer subject to EDD - To be approved by Senior Management of the Firm",
+  "messages.approval_label": "Approval",
+  "messages.senior_management_name_label": "Name of Senior Management",
+  "messages.positiondesignation_label": "Position/Designation"
 
 
 

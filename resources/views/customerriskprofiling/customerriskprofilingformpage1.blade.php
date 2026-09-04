@@ -54,7 +54,7 @@
 
         .table th,
         .table td {
-            padding: 4px !important;
+            padding: 2px !important;
         }
 
         textarea {

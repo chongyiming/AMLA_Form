@@ -51,7 +51,6 @@
             #container {
                 max-width: 100% !important;
                 box-shadow: none !important;
-                height: auto !important;
             }
 
         }

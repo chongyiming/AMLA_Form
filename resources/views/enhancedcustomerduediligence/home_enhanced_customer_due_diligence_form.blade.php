@@ -32,8 +32,8 @@
 <body>
     <x-menu-sidebar></x-menu-sidebar>
     <div class="header">
-        <h1>{{ $branch->Branch_Code }} Customer Risk Profiling Form</h1>
-        <button type="button" class="btn btn-outline-success" onclick="window.location.href = '/createRiskProfilingForm'">Create Form</button>
+        <h1>{{ $branch->Branch_Code }} Enhanced Customer Due Diligence Form</h1>
+        <button type="button" class="btn btn-outline-success" onclick="window.location.href = '/createEnhancedCustomerDueDiligenceForm'">Create Form</button>
 
 
     </div>

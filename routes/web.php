@@ -21,10 +21,15 @@ Route::get(
     '/home_customer_risk_profiling_form',
     [TableController::class, 'home_customer_risk_profiling_form']
 );
+Route::get(
+    '/home_enhanced_customer_due_diligence_form',
+    [TableController::class, 'home_enhanced_customer_due_diligence_form']
+);
 Route::post('/create', [PageController::class, 'create']);
 Route::post('/createCustomerRiskProfilingForm', [PageController::class, 'createCustomerRiskProfilingForm']);
 Route::get('/createForm', [PageController::class, 'createForm']);
 Route::get('/createRiskProfilingForm', [PageController::class, 'createRiskProfilingForm']);
+Route::get('/createEnhancedCustomerDueDiligenceForm', [PageController::class, 'createEnhancedCustomerDueDiligenceForm']);
 
 Route::get('/createdForm/{form_id}/{state}', [PageController::class, 'createdForm']);
 Route::get('/createdCustomerRiskProfilingForm/{form_id}/{state}', [PageController::class, 'createdCustomerRiskProfilingForm']);
@@ -48,6 +53,3 @@ Route::post('/uploadImages/{form_id}/{form_type}', [PageController::class, 'uplo
 Route::post('/uploadCertReceiptImages', [TableController::class, 'uploadCertReceiptImages']);
 Route::get('/branches', [TrxController::class, 'branches']);
 Route::get('/search-trx', [TrxController::class, 'search']);
-
-Route::get('/test-email', [PageController::class, 'testEmail']);
-Route::get('/generate-pdf/{form_id}/{state}', [PdfController::class, 'generatePdf']);
