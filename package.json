@@ -15,5 +15,8 @@
     },
     "dependencies": {
         "puppeteer": "^25.9.0"
+    },
+    "allowScripts": {
+        "puppeteer": true
     }
 }
