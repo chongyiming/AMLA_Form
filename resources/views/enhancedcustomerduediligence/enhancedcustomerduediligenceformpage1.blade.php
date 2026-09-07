@@ -13,7 +13,7 @@
 
         .container {
             width: 750px;
-            height: 1090px;
+            height: 1080px;
             padding-bottom: 10px;
             margin: auto;
             box-sizing: border-box;
@@ -61,6 +61,8 @@
             resize: none !important;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad/dist/signature_pad.umd.min.js"></script>
+
 
 </head>
 
@@ -154,21 +156,21 @@
                     <th class="bg-light" rowspan="2"><span data-i18n="messages.approval_label">Approval</span></th>
                     <td>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="is_internal_str_required" id="is_internal_str_required_yes" value="yes" {{ old('is_internal_str_required', $form1->is_internal_str_required ?? '') == 'yes' ? 'checked' : '' }}>
-                            <label class="form-check-label" data-i18n="messages.yes" for="is_internal_str_required_yes">Yes
+                            <input class="form-check-input" type="radio" name="approval" id="approval_approved" value="approved" {{ old('approval', $form1->approval ?? '') == 'approved' ? 'checked' : '' }}>
+                            <label class="form-check-label" data-i18n="messages.approved" for="approval_approved">Approved
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="is_internal_str_required" id="is_internal_str_required_no" value="no" {{ old('is_internal_str_required', $form1->is_internal_str_required ?? '') == 'no' ? 'checked' : '' }}>
-                            <label class="form-check-label" data-i18n="messages.no" for="is_internal_str_required_no">No
+                            <input class="form-check-input" type="radio" name="approval" id="approval_not_approved" value="not_approved" {{ old('approval', $form1->approval ?? '') == 'not_approved' ? 'checked' : '' }}>
+                            <label class="form-check-label" data-i18n="messages.not_approved" for="approval_not_approved">Not Approved
                             </label>
                         </div>
                     </td>
-                    <td><canvas id="signature-pad1" style="border:1px solid #000; touch-action: none;width:100%"></canvas>
-                        <input type="hidden" name="reviewed_signature" id="reviewed_signature" value="{{ old('reviewed_signature', $form1->reviewed_signature ?? '') }}">
+                    <td><canvas id="signature-pad" style="border:1px solid #000; touch-action: none;width:100%;height:100px"></canvas>
+                        <input type="hidden" name="approval_signature" id="approval_signature" value="{{ old('approval_signature', $form1->approval_signature ?? '') }}">
                         <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-                            <label class="fw-bold">Signature</label>
-                            <button type="button" class="btn btn-secondary" id="clear-btn1" data-i18n="messages.clear"></button>
+                            <label class="fw-bold" data-i18n="messages.signature_label">Signature</label>
+                            <button type="button" class="btn btn-secondary" id="clear-btn" data-i18n="messages.clear"></button>
                         </div>
                     </td>
 
@@ -176,7 +178,7 @@
 
                 </tr>
                 <tr>
-                    <td colspan="2"> <label class="fw-bold">Justification</label>
+                    <td colspan="2"> <label class="fw-bold" data-i18n="messages.justification_label">Justification</label>
                         <textarea class="form-control border-0" name="justification">{{ old('justification', $form1->justification ?? '') }}</textarea>
                     </td>
                 </tr>
@@ -198,14 +200,66 @@
                     <td colspan="2"><input type="text" class="form-control border-0" name="date" value="{{ old('date', $form1->date ?? '') }}"></td>
                 </tr>
         </table>
-        <div class='footer' data-i18n="messages.version_footer">Version 5: Dated 01/04/2026</div>
+        <div class='footer'>Version 3: Dated 09/012/2025</div>
 
 
     </div>
 
 </body>
 <script>
+    const canvas = document.getElementById('signature-pad');
+    const signaturePad = new SignaturePad(canvas);
 
+    document.getElementById('clear-btn').addEventListener('click', function() {
+        signaturePad.clear();
+
+        document.getElementById('approval_signature').value = '';
+    });
+
+    document.getElementById('enhancedcustomerduediligenceform').addEventListener('submit', function() {
+
+        if (!signaturePad.isEmpty()) {
+            document.getElementById('approval_signature').value =
+                signaturePad.toDataURL('image/png');
+
+        }
+
+    });
+
+    function loadSignature(canvas, signature) {
+
+        if (!signature) {
+            return;
+        }
+
+        const img = new Image();
+
+        img.onload = function() {
+            const ctx = canvas.getContext('2d');
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.drawImage(
+                img,
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+        };
+
+
+        img.src = "{{ asset('storage') }}/" + signature;
+
+    }
+
+
+    const savedSignature =
+        document.getElementById('approval_signature').value;
+
+
+
+    loadSignature(canvas, savedSignature);
 </script>
 
 </html>

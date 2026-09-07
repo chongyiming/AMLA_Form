@@ -253,7 +253,11 @@
   "messages.edd_approval_header": "For customer subject to EDD - To be approved by Senior Management of the Firm",
   "messages.approval_label": "Approval",
   "messages.senior_management_name_label": "Name of Senior Management",
-  "messages.positiondesignation_label": "Position/Designation"
+  "messages.positiondesignation_label": "Position/Designation",
+  "messages.approved": "Approved",
+  "messages.not_approved": "Not Approved",
+  "messages.signature_label": "Signature",
+  "messages.justification_label": "Justification"
 
 
 

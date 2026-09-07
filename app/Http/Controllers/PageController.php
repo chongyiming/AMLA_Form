@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\AmlaForm1;
 use App\Models\AmlaForm;
 use App\Models\AmlaForm2;
+use App\Models\AmlaForm3;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -132,7 +133,7 @@ class PageController extends Controller
         ]);
     }
 
-    public function createEnhancedCustomerDueDiligenceForm()
+    public function showEnhancedCustomerDueDiligenceForm()
     {
         $branch = DB::table('Company_Setup_Workstation')
             ->select('Branch_Code')
@@ -348,6 +349,55 @@ class PageController extends Controller
     }
 
 
+    public function submittedEnhancedCustomerDueDiligenceForm($form_id, $state)
+    {
+        $row = DB::table('istr_AMLAForm3 as t1')
+            ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
+            ->select(
+                't1.*',
+                't2.*',
+                DB::raw("
+            (
+                SELECT COUNT(*)
+                FROM istr_AMLA_Attachment as a
+                WHERE a.form_id = t1.form_id
+                AND a.deletedAt IS NULL
+                AND a.file_name NOT LIKE '%approval_signature%'
+            ) AS image_count
+        ")
+            )
+            ->where('t1.form_id', $form_id)
+            ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
+            ->get();
+        $preparer = DB::table('SER_USERPROFILE')
+            ->select('USERNAME')
+            ->where('USERISACTIVE', '1')
+            ->get();
+
+        $branch = DB::table('Company_Setup_Workstation')
+            ->select('Branch_Code')
+            ->where('Branch_Code', 'LIKE', 'P%')
+            ->where('Branch_Code', '!=', 'PEOS')
+            ->distinct()
+            ->first();
+
+        $form = AmlaForm::where('form_id', $form_id)->first();
+
+        $form1 = AmlaForm3::where('form_id', $form_id)->first();
+
+
+
+        return view('enhancedcustomerduediligence.enhancedcustomerduediligenceform', [
+            'form_id' => $form_id,
+            'state' => $state,
+            'form' => $form,
+            'form1' => $form1,
+            'sales_name' => $preparer,
+            'row' => $row,
+            'branch' => $branch
+
+        ]);
+    }
 
     public function createdForm($form_id, $state)
 
@@ -545,11 +595,60 @@ class PageController extends Controller
     }
 
 
+    public function createdEnhancedCustomerDueDiligenceForm($form_id, $state)
+
+    {
+
+        $row = DB::table('istr_AMLAForm3 as t1')
+            ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
+            ->select(
+                't1.*',
+                't2.*',
+                DB::raw("
+            (
+                SELECT COUNT(*)
+                FROM istr_AMLA_Attachment as a
+                WHERE a.form_id = t1.form_id
+                AND a.deletedAt IS NULL
+                AND a.file_name NOT LIKE '%approval_signature%'
+
+            ) AS image_count
+        ")
+            )
+            ->where('t1.form_id', $form_id)
+            ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
+            ->get();
+        $preparer = DB::table('SER_USERPROFILE')
+            ->select('USERNAME')
+            ->where('USERISACTIVE', '1')
+            ->get();
+
+        $branch = DB::table('Company_Setup_Workstation')
+            ->select('Branch_Code')
+            ->where('Branch_Code', 'LIKE', 'P%')
+            ->where('Branch_Code', '!=', 'PEOS')
+            ->distinct()
+            ->first();
+
+        $form = AmlaForm::where('form_id', $form_id)->first();
+
+        $form1 = AmlaForm3::where('form_id', $form_id)->first();
+        return view('enhancedcustomerduediligence.enhancedcustomerduediligenceform', [
+            'form_id' => $form_id,
+            'state' => $state,
+            'form' => $form,
+            'form1' => $form1,
+            'sales_name' => $preparer,
+            'row' => $row,
+            'branch' => $branch,
+        ]);
+    }
+
+
 
 
     public function updateCustomerDueDiligenceForm(Request $request, $form_id)
     {
-        // dd($request->all(), $form_id);
         $data = $request->validate([
             'branch_name' => 'nullable|string',
             'date' => 'nullable|date',
@@ -867,13 +966,6 @@ class PageController extends Controller
         $form2 = AmlaForm2::findOrFail($form_id);
 
 
-        if ($request->prepared_signature_cleared == '1') {
-            $data['prepared_signature'] = null;
-        }
-
-        if ($request->reviewed_signature_cleared == '1') {
-            $data['reviewed_signature'] = null;
-        }
         if (
             !empty($data['prepared_signature']) &&
             str_starts_with($data['prepared_signature'], 'data:image')
@@ -1021,6 +1113,70 @@ class PageController extends Controller
         return redirect()->back();
     }
 
+
+    public function updateEnhancedCustomerDueDiligenceForm(Request $request, $form_id)
+    {
+        $data = $request->validate([
+            'individual_name' => 'nullable|string',
+            'cust_pep' => 'nullable|string',
+            'source_fund' => 'nullable|string',
+            'add_info' => 'nullable|string',
+            'approval' => 'nullable|string',
+            'approval_signature' => 'nullable|string',
+            'justification' => 'nullable|string',
+            'senior_management' => 'nullable|string',
+            'position' => 'nullable|string',
+            'date' => 'nullable|date_format:Y-m-d',
+        ]);
+
+        $data_header = $request->validate([
+            'trx_no' => 'nullable|string',
+            'sales_date' => 'nullable|date',
+            'branch' => 'nullable|string',
+            'doc_no' => 'nullable|string'
+        ]);
+        $data_header['status'] = "New";
+        $data_header['updated_date'] = now();
+
+        $data['form_id'] = $form_id;
+        $form = AmlaForm::findOrFail($form_id);
+        $form->update($data_header);
+        $form3 = AmlaForm3::findOrFail($form_id);
+
+
+
+        if (
+            !empty($data['approval_signature']) &&
+            str_starts_with($data['approval_signature'], 'data:image')
+        ) {
+
+            $image = $data['approval_signature'];
+
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+
+            $fileName = 'uploads/approval_signature_' . time() . '.png';
+
+            Storage::disk('public')->put(
+                $fileName,
+                base64_decode($image)
+            );
+
+            AmlaAttachment::create([
+                'form_id' => $form_id,
+                'form_type' => 'Form_No_3',
+                'file_name' => $fileName,
+                'createdAt' => now(),
+            ]);
+
+            $data['approval_signature'] = $fileName;
+        }
+
+        $form3->update($data);
+
+
+        return redirect()->back();
+    }
     public function submitCustomerDueDiligenceForm(Request $request, $form_id)
     {
         $data_header['status'] = "Submitted";
@@ -1119,6 +1275,15 @@ class PageController extends Controller
             }
         }
         return redirect("/submittedCustomerRiskProfilingForm/{$form_id}/2");
+    }
+
+    public function submitEnhancedCustomerDueDiligenceForm(Request $request, $form_id)
+    {
+        $data_header['status'] = "Submitted";
+        $form = AmlaForm::findOrFail($form_id);
+        $form->update($data_header);
+
+        return redirect("/submittedEnhancedCustomerDueDiligenceForm/{$form_id}/2");
     }
     public function create(Request $request)
     {
@@ -1590,6 +1755,72 @@ class PageController extends Controller
         }
 
         return redirect("/createdCustomerRiskProfilingForm/{$form_id}/1");
+    }
+
+    public function createEnhancedCustomerDueDiligenceForm(Request $request)
+    {
+
+        $data = $request->validate([
+            'individual_name' => 'nullable|string',
+            'cust_pep' => 'nullable|string',
+            'source_fund' => 'nullable|string',
+            'add_info' => 'nullable|string',
+            'approval' => 'nullable|string',
+            'approval_signature' => 'nullable|string',
+            'justification' => 'nullable|string',
+            'senior_management' => 'nullable|string',
+            'position' => 'nullable|string',
+            'date' => 'nullable|date_format:Y-m-d',
+        ]);
+
+        $data_header = $request->validate([
+            'trx_no' => 'nullable|string',
+            'sales_date' => 'nullable|date',
+            'branch' => 'nullable|string',
+            'doc_no' => 'nullable|string'
+        ]);
+        if (!empty($request['branch'])) {
+            $data_header['branch_name'] = $request['branch'];
+        };
+        $data_header['status'] = "New";
+        $data_header['form_type'] = "Form_No_3";
+        $data_header['created_date'] = now();
+        $submittedHeaderForm = AmlaForm::create($data_header);
+        $form_id = $submittedHeaderForm->form_id;
+        $data['form_id'] = $form_id;
+
+
+        if (
+            !empty($data['approval_signature']) &&
+            str_starts_with($data['approval_signature'], 'data:image')
+        ) {
+
+            $image = $data['approval_signature'];
+
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+
+            $fileName = 'uploads/approval_signature_' . time() . '.png';
+
+            Storage::disk('public')->put(
+                $fileName,
+                base64_decode($image)
+            );
+
+            AmlaAttachment::create([
+                'form_id' => $form_id,
+                'form_type' => 'Form_No_3',
+                'file_name' => $fileName,
+                'createdAt' => now(),
+            ]);
+
+            $data['approval_signature'] = $fileName;
+        }
+
+
+
+        AmlaForm3::create($data);
+        return redirect("/createdEnhancedCustomerDueDiligenceForm/{$form_id}/1");
     }
 
     public function uploadImages(Request $request, $form_id, $form_type)

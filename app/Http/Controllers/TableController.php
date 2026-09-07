@@ -44,6 +44,13 @@ class TableController extends Controller
         return redirect("/createdCustomerRiskProfilingForm/{$form_id}/1");
     }
 
+    public function editEnhancedCustomerDueDiligenceForm($form_id)
+    {
+        return redirect("/createdEnhancedCustomerDueDiligenceForm/{$form_id}/1");
+    }
+
+
+
     public function home_customer_due_diligence_form()
     {
         $forms = DB::table('istr_AMLAForm1 as t1')
@@ -61,7 +68,6 @@ class TableController extends Controller
         ")
             )
             ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
-            ->where('t2.form_type', 'Form_No_1')
             ->orderBy('t1.form_id', 'desc')
             ->paginate(10);
         $branch = DB::table('Company_Setup_Workstation')
@@ -92,7 +98,6 @@ class TableController extends Controller
         ")
             )
             ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
-            ->where('t2.form_type', 'Form_No_2')
             ->orderBy('t1.form_id', 'desc')
             ->paginate(10);
         $branch = DB::table('Company_Setup_Workstation')
@@ -117,13 +122,11 @@ class TableController extends Controller
                 FROM istr_AMLA_Attachment as a
                 WHERE a.form_id = t1.form_id
                 AND a.deletedAt IS NULL
-                AND a.file_name NOT LIKE '%prepared_signature%'
-                AND a.file_name NOT LIKE '%reviewed_signature%'
+                AND a.file_name NOT LIKE '%approval_signature%'
             ) AS image_count
         ")
             )
             ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
-            ->where('t2.form_type', 'Form_No_2')
             ->orderBy('t1.form_id', 'desc')
             ->paginate(10);
         $branch = DB::table('Company_Setup_Workstation')
@@ -143,6 +146,8 @@ class TableController extends Controller
             ->where('file_name', 'not like', '%Receipt%')
             ->where('file_name', 'not like', '%prepared_signature%')
             ->where('file_name', 'not like', '%reviewed_signature%')
+            ->where('file_name', 'not like', '%approval_signature%')
+
             ->get();
         $certReceipts = AmlaAttachment::where('form_id', $form_id)
             ->where(function ($query) {

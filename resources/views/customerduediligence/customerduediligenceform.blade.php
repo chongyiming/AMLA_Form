@@ -132,7 +132,7 @@
 
     </form>
     @if (isset($row) && $row->isNotEmpty())
-    <x-attachment-modal :row="$row->first()"></x-attachment-modal>
+    <x-attachment-modal :row="$row->first()" title="Customer Due Diligence Form"></x-attachment-modal>
     @endif
     <script>
         let translations = {};

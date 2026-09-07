@@ -53,6 +53,10 @@
                 box-shadow: none !important;
             }
 
+            #clear-btn {
+                display: none;
+            }
+
         }
     </style>
     <link rel="shortcut icon" sizes="114x114" href="{{ asset('/form.png') }}">
@@ -64,7 +68,7 @@
 <body>
     <x-menu-sidebar></x-menu-sidebar>
 
-    <form method="POST" action="{{ $state == 0 ? '/createCustomerRiskProfilingForm' : '/submitCustomerRiskProfilingForm' }}" id="customerriskprofilingform">
+    <form method="POST" action="{{ $state == 0 ? '/createEnhancedCustomerDueDiligenceForm' : '/submitEnhancedCustomerDueDiligenceForm' }}" id="enhancedcustomerduediligenceform">
         @csrf
 
 
@@ -81,10 +85,6 @@
             <br>
             <div id="print-area" style="width:100%;padding:0">
                 @include('enhancedcustomerduediligence.enhancedcustomerduediligenceformpage1')
-
-
-
-
             </div>
 
             <x-to-top></x-to-top>
@@ -120,11 +120,11 @@
             </div>
             @endif
             @endif
-            <x-sidepanel :form1="$form1" :form="$form" :state="$state" form_type="Form_No_2"></x-sidepanel>
+            <x-sidepanel :form1="$form1" :form="$form" :state="$state" form_type="Form_No_3"></x-sidepanel>
         </div>
     </form>
     @if (isset($row) && $row->isNotEmpty())
-    <x-attachment-modal :row="$row->first()"></x-attachment-modal>
+    <x-attachment-modal :row="$row->first()" title="Enhanced Customer Due Diligence Form"></x-attachment-modal>
     @endif
     <script>
         let translations = {};

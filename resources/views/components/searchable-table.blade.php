@@ -129,6 +129,12 @@
                             <button type="submit" class="btn btn-outline-primary" style="width: 100%;">Edit</button>
 
                         </form>
+                        @elseif ($row->form_type == "Form_No_3")
+                        <form action="/{{ $row->form_id }}/editEnhancedCustomerDueDiligenceForm" method="GET">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-primary" style="width: 100%;">Edit</button>
+
+                        </form>
                         @endif
                         <form action="/{{ $row->form_id }}/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this form?\n\n您确定要删除此表单吗?');">
                             @csrf
@@ -146,6 +152,13 @@
                         </form>
                         @elseif ($row->form_type == "Form_No_2")
                         <form action="/submittedCustomerRiskProfilingForm/{{ $row->form_id }}/2" method="GET">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-primary" style="width: 100%;">
+                                View
+                            </button>
+                        </form>
+                        @elseif ($row->form_type == "Form_No_3")
+                        <form action="/submittedEnhancedCustomerDueDiligenceForm/{{ $row->form_id }}/2" method="GET">
                             @csrf
                             <button type="submit" class="btn btn-outline-primary" style="width: 100%;">
                                 View
@@ -171,7 +184,13 @@
         </tbody>
     </table>
     @foreach($rows ?? [] as $row)
-    <x-attachment-modal :row="$row"></x-attachment-modal>
+    @if($row->form_type === 'Form_No_1')
+    <x-attachment-modal :row="$row" title="Customer Due Diligence Form"></x-attachment-modal>
+    @elseif($row->form_type === 'Form_No_2')
+    <x-attachment-modal :row="$row" title="Customer Risk Profiling Form"></x-attachment-modal>
+    @elseif($row->form_type === 'Form_No_3')
+    <x-attachment-modal :row="$row" title="Enhanced Customer Due Diligence Form"></x-attachment-modal>
+    @endif
     @endforeach
 
 

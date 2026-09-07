@@ -53,6 +53,14 @@
                 box-shadow: none !important;
             }
 
+            #clear-btn {
+                display: none;
+            }
+
+            #clear-btn1 {
+                display: none;
+            }
+
         }
     </style>
     <link rel="shortcut icon" sizes="114x114" href="{{ asset('/form.png') }}">
@@ -128,7 +136,7 @@
         </div>
     </form>
     @if (isset($row) && $row->isNotEmpty())
-    <x-attachment-modal :row="$row->first()"></x-attachment-modal>
+    <x-attachment-modal :row="$row->first()" title="Customer Risk Profiling Form"></x-attachment-modal>
     @endif
     <script>
         let translations = {};
