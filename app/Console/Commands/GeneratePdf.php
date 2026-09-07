@@ -93,16 +93,20 @@ class GeneratePdf extends Command
         }
 
         try {
-            // Write to a temp file first, then rename, so anyone polling for
-            // $pdfPath never sees a half-written file.
-            $tmpPath = $pdfPath . '.tmp';
+            $tmpPath = $dir . DIRECTORY_SEPARATOR . '.' . uniqid('generating_') . '.pdf';
 
             Browsershot::html($html)
                 ->timeout(120)
                 ->save($tmpPath);
 
+            if (file_exists($pdfPath)) {
+                unlink($pdfPath);
+            }
             rename($tmpPath, $pdfPath);
         } catch (\Throwable $e) {
+            if (isset($tmpPath) && file_exists($tmpPath)) {
+                @unlink($tmpPath);
+            }
             Log::error('GeneratePdf failed for form ' . $form_id . ': ' . $e->getMessage());
             $this->error('GeneratePdf failed: ' . $e->getMessage());
 

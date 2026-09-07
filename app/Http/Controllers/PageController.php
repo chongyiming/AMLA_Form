@@ -1026,90 +1026,11 @@ class PageController extends Controller
         }
 
         $form2->update($data);
-        if ($data['is_internal_str_required'] === "yes") {
 
-            $mail = DB::table('MAS_MAIL_LIST')
-                ->select(
-                    'Branch_ID',
-                    'Host',
-                    'Subject',
-                    'Body',
-                    'SenderEmail',
-                    'SenderName',
-                    'Recipient',
-                    'Port',
-                    'Username',
-                    'Password',
-                    'SMTPSecure'
-                )
-                ->where('Purpose', 'Form_No_2-edit.php')
-                ->first();
-
-            if ($mail) {
-
-                $pdfPath = storage_path(
-                    'app/public/generated-pdf/' . $mail->Branch_ID . '_' . 'CRP' . '_' . $form_id . '_' . now()->format('YmdHis') . '.pdf'
-                );
-
-                $php = PHP_BINARY;
-                $artisan = base_path('artisan');
-
-                $command = 'start /B "" '
-                    . escapeshellarg($php) . ' '
-                    . escapeshellarg($artisan) . ' app:generate-pdf '
-                    . escapeshellarg($form_id) . ' '
-                    . escapeshellarg(1) . ' '
-                    . escapeshellarg($pdfPath)
-                    . ' > NUL 2>&1';
-
-                pclose(popen($command, 'r'));
-
-                $maxWait = 10; // seconds
-                $start = time();
-
-
-                while (!file_exists($pdfPath) && (time() - $start) < $maxWait) {
-                    usleep(500000); // 0.5 second
-                }
-
-                $decryptedPassword = openssl_decrypt(
-                    $mail->Password,
-                    'AES-256-CBC',
-                    'amlaformGTWik7jsDMA3SmXOcLBXCpT2',
-                    0,
-                    'amlaformvaUno9Oj'
-                );
-                $mailer = Mail::build([
-                    'transport'  => 'smtp',
-                    'host'       => $mail->Host,
-                    'port'       => $mail->Port,
-                    'encryption' => $mail->SMTPSecure,
-                    'username'   => $mail->Username,
-                    'password'   => $decryptedPassword,
-                ]);
-
-                $recipients = json_decode($mail->Recipient, true);
-
-                foreach ($recipients as $recipient) {
-
-                    $email = new SendMail(
-                        $mail->SenderEmail,
-                        $mail->SenderName,
-                        $mail->Subject,
-                        $mail->Body
-                    );
-
-                    $email->attach(
-                        $pdfPath,
-                        [
-                            'mime' => 'application/pdf',
-                        ]
-                    );
-
-                    $mailer->to(trim($recipient))->send($email);
-                }
-            }
+        if (($data['is_internal_str_required'] ?? null) === "yes") {
+            $this->sendInternalStrNotification($form_id, 1, 'Form_No_2-edit.php');
         }
+
         return redirect()->back();
     }
 
