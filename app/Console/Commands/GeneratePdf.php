@@ -8,6 +8,7 @@ use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\MessageBag;
 use Spatie\Browsershot\Browsershot;
 
@@ -21,7 +22,7 @@ class GeneratePdf extends Command
     public function handle()
     {
         //
-        set_time_limit(1);
+        set_time_limit(180);
 
         $form_id = $this->argument('form_id');
         $state = $this->argument('state');
@@ -85,11 +86,30 @@ class GeneratePdf extends Command
             ]
         )->render();
 
+        // Make sure the target directory exists.
+        $dir = dirname($pdfPath);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0775, true);
+        }
 
-        Browsershot::html($html)
-            ->timeout(1)
-            ->save($pdfPath);
+        try {
+            // Write to a temp file first, then rename, so anyone polling for
+            // $pdfPath never sees a half-written file.
+            $tmpPath = $pdfPath . '.tmp';
 
+            Browsershot::html($html)
+                ->timeout(120)
+                ->save($tmpPath);
+
+            rename($tmpPath, $pdfPath);
+        } catch (\Throwable $e) {
+            Log::error('GeneratePdf failed for form ' . $form_id . ': ' . $e->getMessage());
+            $this->error('GeneratePdf failed: ' . $e->getMessage());
+
+            return self::FAILURE;
+        }
+
+        $this->info("PDF generated: {$pdfPath}");
 
         return self::SUCCESS;
     }

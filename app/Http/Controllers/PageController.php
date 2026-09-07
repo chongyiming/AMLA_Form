@@ -1190,8 +1190,26 @@ class PageController extends Controller
         $data_header['status'] = "Submitted";
         $form = AmlaForm::findOrFail($form_id);
         $form->update($data_header);
-        if ($request->is_internal_str_required === "yes") {
 
+        if ($request->is_internal_str_required === "yes") {
+            $this->sendInternalStrNotification($form_id, 2, 'Form_No_2-edit.php');
+        }
+
+        return redirect("/submittedCustomerRiskProfilingForm/{$form_id}/2");
+    }
+
+    public function submitEnhancedCustomerDueDiligenceForm(Request $request, $form_id)
+    {
+        $data_header['status'] = "Submitted";
+        $form = AmlaForm::findOrFail($form_id);
+        $form->update($data_header);
+
+        return redirect("/submittedEnhancedCustomerDueDiligenceForm/{$form_id}/2");
+    }
+
+    private function sendInternalStrNotification($form_id, int $state, string $purpose): void
+    {
+        try {
             $mail = DB::table('MAS_MAIL_LIST')
                 ->select(
                     'Branch_ID',
@@ -1206,56 +1224,69 @@ class PageController extends Controller
                     'Password',
                     'SMTPSecure'
                 )
-                ->where('Purpose', 'Form_No_2-edit.php')
+                ->where('Purpose', $purpose)
                 ->first();
 
-            if ($mail) {
+            if (!$mail) {
+                Log::warning("Internal STR email skipped for form {$form_id}: no MAS_MAIL_LIST row with Purpose '{$purpose}'.");
+                return;
+            }
 
-                $pdfPath = storage_path(
-                    'app/public/generated-pdf/' . $mail->Branch_ID . '_' . 'CRP' . '_' . $form_id . '_' . now()->format('YmdHis') . '.pdf'
-                );
+            $recipients = json_decode($mail->Recipient, true);
+            if (!is_array($recipients) || $recipients === []) {
+                Log::warning("Internal STR email skipped for form {$form_id}: Recipient column is empty or not valid JSON.");
+                return;
+            }
 
-                $php = PHP_BINARY;
-                $artisan = base_path('artisan');
+            $pdfPath = storage_path(
+                'app/public/generated-pdf/' . $mail->Branch_ID . '_CRP_' . $form_id . '_' . now()->format('YmdHis') . '.pdf'
+            );
 
-                $command = 'start /B "" '
-                    . escapeshellarg($php) . ' '
-                    . escapeshellarg($artisan) . ' app:generate-pdf '
-                    . escapeshellarg($form_id) . ' '
-                    . escapeshellarg(2) . ' '
-                    . escapeshellarg($pdfPath)
-                    . ' > NUL 2>&1';
+            $command = 'start /B "" '
+                . escapeshellarg(PHP_BINARY) . ' '
+                . escapeshellarg(base_path('artisan')) . ' app:generate-pdf '
+                . escapeshellarg($form_id) . ' '
+                . escapeshellarg($state) . ' '
+                . escapeshellarg($pdfPath)
+                . ' > NUL 2>&1';
 
-                pclose(popen($command, 'r'));
+            pclose(popen($command, 'r'));
 
-                $maxWait = 10; // seconds
-                $start = time();
+            $maxWait = 90;
+            $start = time();
+            while (!file_exists($pdfPath) && (time() - $start) < $maxWait) {
+                usleep(500000);
+            }
 
+            $pdfReady = file_exists($pdfPath);
+            if (!$pdfReady) {
+                Log::warning("Internal STR email for form {$form_id}: PDF not ready after {$maxWait}s, sending without attachment. Check laravel.log for GeneratePdf errors.");
+            }
 
-                while (!file_exists($pdfPath) && (time() - $start) < $maxWait) {
-                    usleep(500000); // 0.5 second
+            $decryptedPassword = openssl_decrypt(
+                $mail->Password,
+                'AES-256-CBC',
+                'amlaformGTWik7jsDMA3SmXOcLBXCpT2',
+                0,
+                'amlaformvaUno9Oj'
+            );
+
+            $mailer = Mail::build([
+                'transport'  => 'smtp',
+                'host'       => $mail->Host,
+                'port'       => $mail->Port,
+                'encryption' => $mail->SMTPSecure,
+                'username'   => $mail->Username,
+                'password'   => $decryptedPassword,
+            ]);
+
+            foreach ($recipients as $recipient) {
+                $recipient = trim($recipient);
+                if ($recipient === '') {
+                    continue;
                 }
 
-                $decryptedPassword = openssl_decrypt(
-                    $mail->Password,
-                    'AES-256-CBC',
-                    'amlaformGTWik7jsDMA3SmXOcLBXCpT2',
-                    0,
-                    'amlaformvaUno9Oj'
-                );
-                $mailer = Mail::build([
-                    'transport'  => 'smtp',
-                    'host'       => $mail->Host,
-                    'port'       => $mail->Port,
-                    'encryption' => $mail->SMTPSecure,
-                    'username'   => $mail->Username,
-                    'password'   => $decryptedPassword,
-                ]);
-
-                $recipients = json_decode($mail->Recipient, true);
-
-                foreach ($recipients as $recipient) {
-
+                try {
                     $email = new SendMail(
                         $mail->SenderEmail,
                         $mail->SenderName,
@@ -1263,28 +1294,21 @@ class PageController extends Controller
                         $mail->Body
                     );
 
-                    $email->attach(
-                        $pdfPath,
-                        [
-                            'mime' => 'application/pdf',
-                        ]
-                    );
+                    if ($pdfReady) {
+                        $email->attach($pdfPath, ['mime' => 'application/pdf']);
+                    }
 
-                    $mailer->to(trim($recipient))->send($email);
+                    $mailer->to($recipient)->send($email);
+                    Log::info("Internal STR email sent for form {$form_id} to {$recipient}.");
+                } catch (\Throwable $e) {
+                    Log::error("Internal STR email failed for form {$form_id} to {$recipient}: " . $e->getMessage());
                 }
             }
+        } catch (\Throwable $e) {
+            Log::error("Internal STR notification failed for form {$form_id}: " . $e->getMessage());
         }
-        return redirect("/submittedCustomerRiskProfilingForm/{$form_id}/2");
     }
 
-    public function submitEnhancedCustomerDueDiligenceForm(Request $request, $form_id)
-    {
-        $data_header['status'] = "Submitted";
-        $form = AmlaForm::findOrFail($form_id);
-        $form->update($data_header);
-
-        return redirect("/submittedEnhancedCustomerDueDiligenceForm/{$form_id}/2");
-    }
     public function create(Request $request)
     {
 
@@ -1669,89 +1693,9 @@ class PageController extends Controller
 
 
         AmlaForm2::create($data);
-        if ($data['is_internal_str_required'] === "yes") {
 
-            $mail = DB::table('MAS_MAIL_LIST')
-                ->select(
-                    'Branch_ID',
-                    'Host',
-                    'Subject',
-                    'Body',
-                    'SenderEmail',
-                    'SenderName',
-                    'Recipient',
-                    'Port',
-                    'Username',
-                    'Password',
-                    'SMTPSecure'
-                )
-                ->where('Purpose', 'Form_No_2.php')
-                ->first();
-
-            if ($mail) {
-
-                $pdfPath = storage_path(
-                    'app/public/generated-pdf/' . $mail->Branch_ID . '_' . 'CRP' . '_' . $form_id . '_' . now()->format('YmdHis') . '.pdf'
-                );
-
-                $php = PHP_BINARY;
-                $artisan = base_path('artisan');
-
-                $command = 'start /B "" '
-                    . escapeshellarg($php) . ' '
-                    . escapeshellarg($artisan) . ' app:generate-pdf '
-                    . escapeshellarg($form_id) . ' '
-                    . escapeshellarg(1) . ' '
-                    . escapeshellarg($pdfPath)
-                    . ' > NUL 2>&1';
-
-                pclose(popen($command, 'r'));
-
-                $maxWait = 10; // seconds
-                $start = time();
-
-
-                while (!file_exists($pdfPath) && (time() - $start) < $maxWait) {
-                    usleep(500000); // 0.5 second
-                }
-
-                $decryptedPassword = openssl_decrypt(
-                    $mail->Password,
-                    'AES-256-CBC',
-                    'amlaformGTWik7jsDMA3SmXOcLBXCpT2',
-                    0,
-                    'amlaformvaUno9Oj'
-                );
-                $mailer = Mail::build([
-                    'transport'  => 'smtp',
-                    'host'       => $mail->Host,
-                    'port'       => $mail->Port,
-                    'encryption' => $mail->SMTPSecure,
-                    'username'   => $mail->Username,
-                    'password'   => $decryptedPassword,
-                ]);
-
-                $recipients = json_decode($mail->Recipient, true);
-
-                foreach ($recipients as $recipient) {
-
-                    $email = new SendMail(
-                        $mail->SenderEmail,
-                        $mail->SenderName,
-                        $mail->Subject,
-                        $mail->Body
-                    );
-
-                    $email->attach(
-                        $pdfPath,
-                        [
-                            'mime' => 'application/pdf',
-                        ]
-                    );
-
-                    $mailer->to(trim($recipient))->send($email);
-                }
-            }
+        if (($data['is_internal_str_required'] ?? null) === "yes") {
+            $this->sendInternalStrNotification($form_id, 1, 'Form_No_2.php');
         }
 
         return redirect("/createdCustomerRiskProfilingForm/{$form_id}/1");
