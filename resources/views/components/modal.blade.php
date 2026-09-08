@@ -5,84 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        body {
-            font-family: "Times New Roman", Times, serif;
-
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-
-        }
-
-        .modal-content {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            width: 750px !important;
-        }
-
-        .modal-label {
-            width: 100px;
-            align-items: center;
-            display: flex;
-
-        }
-
-        .modal-input {
-            padding: 7px 16px;
-            border-radius: 6px;
-            background-color: white;
-            font-size: 14px;
-            font-weight: 500;
-            width: 150px;
-            border: 1px solid #ddd;
-            flex: 1;
-
-        }
-
-        .table-container {
-            width: 100%;
-            max-height: 300px;
-            overflow-y: auto;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-top: 30px;
-        }
-    </style>
 </head>
 
 <body>
-    <div id="trxModal" class="modal">
-        <div class="modal-content">
-            <h3>Search Trx No</h3>
-            <div style="display: flex;gap:10px;flex-direction:column">
-                <div style="display: flex;flex-direction:row;gap:10px;width:400px;height:35px">
-                    <label class="modal-label" style="width: 140px;"> Branch
-                    </label>
-                    <x-searchable-dropdown
-                        :options="$branch"
-                        name="branch"
-                        field="Branch_Code"
-                        :form1=" $form1"
-                        border="show" />
+    <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Search Trx No</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <div class="modal-body">
+                    <div class="d-flex gap-3 align-items-center" style="width: 400px;height:35px">
+                        <label style="min-width: 100px;">Branch</label>
+                        <x-searchable-dropdown
+                            :options="$branch"
+                            name="branch"
+                            field="Branch_Code"
+                            :form1=" $form1"
+                            border="show" />
+                    </div>
 
-                <div style="display: flex;flex-direction:row;gap:10px;width:400px">
-                    <label class="modal-label">Sales Date
-                    </label>
-                    <input type="date" id="salesDate" name="sales_date" class="modal-input" value="{{ old('sales_date', data_get($form, 'sales_date') ? \Carbon\Carbon::parse(data_get($form, 'sales_date'))->format('Y-m-d') : '') }}">
-                    <button type="button" class="btn btn-outline-dark" onclick="searchTrx()">Search</button>
+                    <div class="d-flex gap-3 mt-3 mb-3 align-items-center" style="width: 400px;">
+                        <label style="min-width: 100px;">Sales Date</label>
+                        <input type="date" class="form-control" name="sales_date" value="{{ old('sales_date', data_get($form, 'sales_date') ? \Carbon\Carbon::parse(data_get($form, 'sales_date'))->format('Y-m-d') : '') }}">
+                        <button type="button" class="btn btn-outline-dark align-middle" onclick="searchTrx()">Search</button>
+
+                    </div>
 
 
-                </div>
-                <div class="table-container">
                     <x-searchable-table
                         :columns="[
                     [ 'field'=>'trx_no',
@@ -112,54 +63,69 @@
                     ]"></x-searchable-table>
                 </div>
 
-                <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+                <div class="modal-footer">
 
-
-                    <button type="button" class="btn btn-outline-dark" onclick="clearTrxModal()">Clear</button>
-                    <button type="button" class="btn btn-outline-dark" onclick="closeTrxModal()">Close</button>
-
+                    <button type="button" class="btn btn-primary" onclick="clearTrxModal()">Clear</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
                 </div>
             </div>
-
-
-
-
-
         </div>
     </div>
+</body>
+<script>
+    function closeTrxModal() {
+        const modalEl = document.getElementById("exampleModal1");
+        bootstrap.Modal.getOrCreateInstance(modalEl).hide();
 
-    <script>
-        async function openTrxModal() {
-            // await loadBranches();
-            document.getElementById("trxModal").style.display = "flex";
+    }
+
+    function clearTrxModal() {
+        const modalEl = document.getElementById("exampleModal1");
+
+        // Branch (select2) -> reset value and refresh the select2 widget
+        const branchEl = modalEl.querySelector('[name="branch"]');
+        if (branchEl) {
+            branchEl.value = "";
+            if (window.jQuery) {
+                jQuery(branchEl).val("").trigger("change");
+            }
         }
 
-        function closeTrxModal() {
-            document.getElementById("trxModal").style.display = "none";
-        }
+        // Sales Date
+        const salesDateEl = modalEl.querySelector('[name="sales_date"]');
+        if (salesDateEl) salesDateEl.value = "";
 
+        // Trx No (lives on the main form, outside the modal)
+        document.querySelectorAll('[name="trx_no"]').forEach(function(input) {
+            input.value = "";
+        });
 
-        function selectTrx(value) {
-            document.querySelectorAll('[name="trx_no"]').forEach(function(input) {
-                input.value = value;
-            });
-            closeTrxModal();
-        }
+        // Clear the result table
+        const tbody = document.getElementById("trxTableBody");
+        if (tbody) tbody.innerHTML = "";
+    }
 
+    function selectTrx(value) {
+        document.querySelectorAll('[name="trx_no"]').forEach(function(input) {
+            input.value = value;
+        });
+        closeTrxModal();
+    }
 
-        async function searchTrx() {
-            let branch = document.getElementsByName("branch")[0].value;
-            let salesDate = document.getElementById("salesDate").value;
+    async function searchTrx() {
+        const modalEl = document.getElementById("exampleModal1");
+        let branch = modalEl.querySelector('[name="branch"]')?.value ?? "";
+        let salesDate = modalEl.querySelector('[name="sales_date"]')?.value ?? "";
 
-            const response = await fetch(`/search-trx?branch=${branch}&sales_date=${salesDate}`);
-            const sales = await response.json();
+        const response = await fetch(`/search-trx?branch=${branch}&sales_date=${salesDate}`);
+        const sales = await response.json();
 
-            let tbody = document.getElementById("trxTableBody");
-            tbody.innerHTML = "";
+        let tbody = document.getElementById("trxTableBody");
+        tbody.innerHTML = "";
 
-            sales.forEach(trx => {
-                let row = `
+        sales.forEach(trx => {
+            let row = `
                 <tr onclick="selectTrx('${trx.TrxNo}')" style="cursor: pointer;">
                 <td>${trx.TrxNo}</td>
                 <td>${trx.TotalAmount}</td>
@@ -169,31 +135,9 @@
             </tr>
         `;
 
-                tbody.innerHTML += row;
-            });
-        }
-
-
-
-        function clearTrxModal() {
-            const modal = document.getElementById("trxModal");
-
-            modal.querySelectorAll("input, select, textarea").forEach(element => {
-                if (element.type === "checkbox" || element.type === "radio") {
-                    element.checked = false;
-                } else {
-                    element.value = "";
-                }
-            });
-            document.getElementById("trxTableBody").innerHTML = "";
-            const trxnos = document.querySelectorAll('[name="trx_no"]');
-
-            trxnos.forEach(input => {
-                input.value = '';
-            });
-            closeTrxModal();
-        }
-    </script>
-</body>
+            tbody.innerHTML += row;
+        });
+    }
+</script>
 
 </html>

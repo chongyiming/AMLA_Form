@@ -156,7 +156,7 @@
                         <label>
                             <span data-i18n="messages.trxno"></span>
                         </label>
-                        <input type="text" class="panel-input" name="trx_no" readonly onclick="openTrxModal()" value="{{ old('trx_no', $form->trx_no ?? '') }}">
+                        <input type="text" class="panel-input" name="trx_no" readonly data-bs-toggle="modal" data-bs-target="#exampleModal1" value="{{ old('trx_no', $form->trx_no ?? '') }}">
                     </div>
                     <div style="display: flex;justify-content: space-between;gap:10px">
 
@@ -210,9 +210,8 @@
             <label>
                 <span data-i18n="messages.trxno"></span>
             </label>
-            <input type="text" class="panel-input" name="trx_no" readonly onclick="openTrxModal()" value="{{ old('trx_no', data_get($form, 'trx_no')) }}">
+            <input type="text" class="panel-input" name="trx_no" readonly data-bs-toggle="modal" data-bs-target="#exampleModal1" value="{{ old('trx_no', data_get($form, 'trx_no')) }}">
         </div>
-        <x-modal :form1="$form1" :form="$form" :branch="$branch"></x-modal>
         <div class="sidepanel_button_container">
             @if($state ==0)
 
@@ -268,6 +267,8 @@
 
 
     </div>
+    <x-modal :form1="$form1" :form="$form" :branch="$branch"></x-modal>
+
 </body>
 <script>
     const dropdownBtn = document.getElementById('actions');
@@ -314,14 +315,20 @@
         form.querySelectorAll('.mark-btn').forEach(function(button) {
             button.textContent = "0";
 
-            button.classList.remove('btn-success');
-            button.classList.add('btn-outline-secondary');
+            button.classList.remove('btn-primary', 'btn-success');
+            if (!button.classList.contains('btn-outline-secondary')) {
+                button.classList.add('btn-outline-secondary');
+            }
 
             const input = document.getElementById(button.dataset.name + '_value');
             if (input) {
                 input.value = "0";
             }
         });
+
+        if (typeof calculateTotal === 'function') {
+            calculateTotal();
+        }
     }
 
 

@@ -15,18 +15,37 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
-            $(".js-example-basic-single").each(function() {
-                var $el = $(this);
-                if ($el.data('select2')) return;
-                $el.select2({
-                    width: '100%',
-                    placeholder: $el.data('placeholder') || ''
-                });
-            });
+            function initSelect2(root, force) {
+                $(root).find(".js-example-basic-single").each(function() {
+                    var $el = $(this);
+                    var $modal = $el.closest('.modal');
 
-            $(".no-border").next(".select2-container")
-                .find(".select2-selection--single")
-                .css("border", "none");
+                    // select2 measures width 0 when built inside a hidden modal,
+                    // so skip those on the initial pass and (re)build on show.
+                    if ($el.data('select2')) {
+                        if (!force) return;
+                        $el.select2('destroy');
+                    } else if ($modal.length && !force) {
+                        return;
+                    }
+
+                    $el.select2({
+                        width: '100%',
+                        placeholder: $el.data('placeholder') || '',
+                        dropdownParent: $modal.length ? $modal : $(document.body)
+                    });
+                });
+
+                $(root).find(".no-border").next(".select2-container")
+                    .find(".select2-selection--single")
+                    .css("border", "none");
+            }
+
+            initSelect2(document, false);
+
+            $(document).on('shown.bs.modal', '.modal', function() {
+                initSelect2(this, true);
+            });
         });
     </script>
 
@@ -55,7 +74,6 @@
             height: 100%;
             border: 1px solid #CCCCCC;
             border-radius: 4px;
-            z-index: -1;
             display: flex;
             align-items: center;
         }
