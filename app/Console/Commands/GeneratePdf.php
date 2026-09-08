@@ -91,7 +91,8 @@ class GeneratePdf extends Command
             $tmpPath = $dir . DIRECTORY_SEPARATOR . '.' . uniqid('generating_') . '.pdf';
 
             Browsershot::html($html)
-                ->timeout(5)
+                ->newHeadless()
+                ->timeout(60)
                 ->save($tmpPath);
 
             if (file_exists($pdfPath)) {
