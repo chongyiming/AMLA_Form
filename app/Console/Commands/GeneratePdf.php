@@ -22,12 +22,11 @@ class GeneratePdf extends Command
     public function handle()
     {
         //
-        set_time_limit(180);
+        set_time_limit(5);
 
         $form_id = $this->argument('form_id');
         $state = $this->argument('state');
         $pdfPath = $this->argument('pdfPath');
-
 
         $this->info("Generating PDF for form: {$form_id}");
 
@@ -64,9 +63,9 @@ class GeneratePdf extends Command
         $branch = DB::table('Company_Setup_Workstation')
             ->select('Branch_Code')
             ->where('Branch_Code', 'LIKE', 'P%')
-            ->where('Branch_Code', '!=', 'PEOS')
+            // ->where('Branch_Code', '!=', 'PEOS')
             ->distinct()
-            ->first();
+            ->get();
 
         $form = AmlaForm::where('form_id', $form_id)->first();
 
@@ -88,15 +87,12 @@ class GeneratePdf extends Command
 
         // Make sure the target directory exists.
         $dir = dirname($pdfPath);
-        if (!is_dir($dir)) {
-            mkdir($dir, 0775, true);
-        }
 
         try {
             $tmpPath = $dir . DIRECTORY_SEPARATOR . '.' . uniqid('generating_') . '.pdf';
 
             Browsershot::html($html)
-                ->timeout(120)
+                ->timeout(5)
                 ->save($tmpPath);
 
             if (file_exists($pdfPath)) {

@@ -119,7 +119,7 @@
             </div>
             @endif
             @endif
-            <x-sidepanel :form1="$form1" :form="$form" :state="$state" form_type="Form_No_1"></x-sidepanel>
+            <x-sidepanel :form1="$form1" :form="$form" :state="$state" form_type="Form_No_1" :branch="$branch"></x-sidepanel>
 
 
 

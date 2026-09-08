@@ -105,7 +105,7 @@
             <div class="row">
                 <label data-i18n="messages.branch"></label>
 
-                <input type="text" name="branch_name" value="{{ old('branch_name', $form1->branch_name ?? $branch->Branch_Code) }}">
+                <input type="text" name="branch_name" value="{{ old('branch_name', $form1->branch_name ?? $branch->first()->Branch_Code) }}">
 
             </div>
 

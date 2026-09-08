@@ -63,11 +63,15 @@
         <div class="modal-content">
             <h3>Search Trx No</h3>
             <div style="display: flex;gap:10px;flex-direction:column">
-                <div style="display: flex;flex-direction:row;gap:10px;width:400px">
-                    <label class="modal-label"> Branch
+                <div style="display: flex;flex-direction:row;gap:10px;width:400px;height:35px">
+                    <label class="modal-label" style="width: 140px;"> Branch
                     </label>
-                    <select id="branch_name" name="branch" class="modal-input" data-old-value="{{ old('branch', data_get($form1, 'branch_name')) }}">
-                    </select>
+                    <x-searchable-dropdown
+                        :options="$branch"
+                        name="branch"
+                        field="Branch_Code"
+                        :form1=" $form1"
+                        border="show" />
                 </div>
 
                 <div style="display: flex;flex-direction:row;gap:10px;width:400px">
@@ -127,7 +131,7 @@
 
     <script>
         async function openTrxModal() {
-            await loadBranches();
+            // await loadBranches();
             document.getElementById("trxModal").style.display = "flex";
         }
 
@@ -144,30 +148,8 @@
         }
 
 
-        async function loadBranches() {
-
-            const response = await fetch('/branches');
-            const branches = await response.json();
-            const select = document.getElementById('branch_name');
-
-            select.innerHTML = '<option value="">Select Branch</option>';
-            applyTranslations();
-            branches.forEach(branch => {
-                select.innerHTML += `
-            <option value="${branch.Branch_Code}">
-                ${branch.Branch_Code}
-            </option>
-        `;
-            });
-
-            const oldValue = select.dataset.oldValue;
-            if (oldValue) {
-                select.value = oldValue;
-            }
-        }
-
         async function searchTrx() {
-            let branch = document.getElementById("branch_name").value;
+            let branch = document.getElementsByName("branch")[0].value;
             let salesDate = document.getElementById("salesDate").value;
 
             const response = await fetch(`/search-trx?branch=${branch}&sales_date=${salesDate}`);

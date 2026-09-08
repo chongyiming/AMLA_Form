@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\Console\Output\BufferedOutput;
 
+use function PHPUnit\Framework\isEmpty;
+
 class PageController extends Controller
 {
     //
@@ -94,9 +96,9 @@ class PageController extends Controller
         $branch = DB::table('Company_Setup_Workstation')
             ->select('Branch_Code')
             ->where('Branch_Code', 'LIKE', 'P%')
-            ->where('Branch_Code', '!=', 'PEOS')
+            // ->where('Branch_Code', '!=', 'PEOS')
             ->distinct()
-            ->first();
+            ->get();
         return view('customerduediligence.customerduediligenceform', [
             'state' => 0,
             'form1' => null,
@@ -114,9 +116,9 @@ class PageController extends Controller
         $branch = DB::table('Company_Setup_Workstation')
             ->select('Branch_Code')
             ->where('Branch_Code', 'LIKE', 'P%')
-            ->where('Branch_Code', '!=', 'PEOS')
+            // ->where('Branch_Code', '!=', 'PEOS')
             ->distinct()
-            ->first();
+            ->get();
 
         $sales_name = DB::table('SER_USERPROFILE')
             ->select('USERNAME')
@@ -138,9 +140,9 @@ class PageController extends Controller
         $branch = DB::table('Company_Setup_Workstation')
             ->select('Branch_Code')
             ->where('Branch_Code', 'LIKE', 'P%')
-            ->where('Branch_Code', '!=', 'PEOS')
+            // ->where('Branch_Code', '!=', 'PEOS')
             ->distinct()
-            ->first();
+            ->get();
 
         $sales_name = DB::table('SER_USERPROFILE')
             ->select('USERNAME')
@@ -222,6 +224,12 @@ class PageController extends Controller
             (object) ['Occupation_Name' => 'Consultant'],
             (object) ['Occupation_Name' => 'Other'],
         ]);
+        $branch = DB::table('Company_Setup_Workstation')
+            ->select('Branch_Code')
+            ->where('Branch_Code', 'LIKE', 'P%')
+            // ->where('Branch_Code', '!=', 'PEOS')
+            ->distinct()
+            ->get();
         $form = AmlaForm::where('form_id', $form_id)->first();
 
         $form1 = AmlaForm1::where('form_id', $form_id)->first();
@@ -291,7 +299,8 @@ class PageController extends Controller
             'countries' => $countries,
             'purposeOfTrx' => $purpose_of_trx,
             'occupationType' => $occupation_type,
-            'row' => $row
+            'row' => $row,
+            'branch' => $branch
 
         ]);
     }
@@ -326,9 +335,9 @@ class PageController extends Controller
         $branch = DB::table('Company_Setup_Workstation')
             ->select('Branch_Code')
             ->where('Branch_Code', 'LIKE', 'P%')
-            ->where('Branch_Code', '!=', 'PEOS')
+            // ->where('Branch_Code', '!=', 'PEOS')
             ->distinct()
-            ->first();
+            ->get();
 
         $form = AmlaForm::where('form_id', $form_id)->first();
 
@@ -467,6 +476,12 @@ class PageController extends Controller
             (object) ['Occupation_Name' => 'Consultant'],
             (object) ['Occupation_Name' => 'Other'],
         ]);
+
+        $branch = DB::table('Company_Setup_Workstation')
+            ->select('Branch_Code')
+            ->where('Branch_Code', 'LIKE', 'P%')
+            ->distinct()
+            ->get();
         $form = AmlaForm::where('form_id', $form_id)->first();
 
         $form1 = AmlaForm1::where('form_id', $form_id)->first();
@@ -527,6 +542,11 @@ class PageController extends Controller
         ];
 
 
+        if (!empty($form['branch_name'])) {
+            $form1['branch'] = $form['branch_name'];
+        } else {
+            $form1['branch'] = null;
+        }
         return view('customerduediligence.customerduediligenceform', [
             'form_id' => $form_id,
             'state' => $state,
@@ -536,7 +556,8 @@ class PageController extends Controller
             'countries' => $countries,
             'purposeOfTrx' => $purpose_of_trx,
             'occupationType' => $occupation_type,
-            'row' => $row
+            'row' => $row,
+            'branch' => $branch
 
         ]);
     }
@@ -575,14 +596,18 @@ class PageController extends Controller
         $branch = DB::table('Company_Setup_Workstation')
             ->select('Branch_Code')
             ->where('Branch_Code', 'LIKE', 'P%')
-            ->where('Branch_Code', '!=', 'PEOS')
+            // ->where('Branch_Code', '!=', 'PEOS')
             ->distinct()
-            ->first();
+            ->get();
 
         $form = AmlaForm::where('form_id', $form_id)->first();
 
         $form1 = AmlaForm2::where('form_id', $form_id)->first();
-
+        if (!empty($form['branch_name'])) {
+            $form1['branch'] = $form['branch_name'];
+        } else {
+            $form1['branch'] = null;
+        }
         return view('customerriskprofiling.customerriskprofilingform', [
             'form_id' => $form_id,
             'state' => $state,
@@ -626,13 +651,18 @@ class PageController extends Controller
         $branch = DB::table('Company_Setup_Workstation')
             ->select('Branch_Code')
             ->where('Branch_Code', 'LIKE', 'P%')
-            ->where('Branch_Code', '!=', 'PEOS')
+            // ->where('Branch_Code', '!=', 'PEOS')
             ->distinct()
-            ->first();
+            ->get();
 
         $form = AmlaForm::where('form_id', $form_id)->first();
 
         $form1 = AmlaForm3::where('form_id', $form_id)->first();
+        if (!empty($form['branch_name'])) {
+            $form1['branch'] = $form['branch_name'];
+        } else {
+            $form1['branch'] = null;
+        }
         return view('enhancedcustomerduediligence.enhancedcustomerduediligenceform', [
             'form_id' => $form_id,
             'state' => $state,
@@ -649,6 +679,7 @@ class PageController extends Controller
 
     public function updateCustomerDueDiligenceForm(Request $request, $form_id)
     {
+
         $data = $request->validate([
             'branch_name' => 'nullable|string',
             'date' => 'nullable|date',
@@ -787,7 +818,6 @@ class PageController extends Controller
         $data_header = $request->validate([
             'trx_no' => 'nullable|string',
             'sales_date' => 'nullable|date',
-            'branch_name' => 'nullable|string',
             'doc_no' => 'nullable|string'
         ]);
 
@@ -846,6 +876,11 @@ class PageController extends Controller
         $data_header['status'] = "New";
         $data_header['updated_date'] = now();
         $data['form_id'] = $form_id;
+        if (!empty(request('branch'))) {
+            $data_header['branch_name'] = request('branch');
+        } else {
+            $data_header['branch_name'] = null;
+        }
         // $submittedHeaderForm = AmlaForm::create($data_header);
         $form = AmlaForm::findOrFail($form_id);
         $form->update($data_header);
@@ -953,7 +988,6 @@ class PageController extends Controller
         $data_header = $request->validate([
             'trx_no' => 'nullable|string',
             'sales_date' => 'nullable|date',
-            'branch_name' => 'nullable|string',
             'doc_no' => 'nullable|string'
         ]);
 
@@ -961,6 +995,11 @@ class PageController extends Controller
         $data_header['updated_date'] = now();
 
         $data['form_id'] = $form_id;
+        if (!empty(request('branch'))) {
+            $data_header['branch_name'] = request('branch');
+        } else {
+            $data_header['branch_name'] = null;
+        }
         $form = AmlaForm::findOrFail($form_id);
         $form->update($data_header);
         $form2 = AmlaForm2::findOrFail($form_id);
@@ -1060,6 +1099,11 @@ class PageController extends Controller
         $data_header['updated_date'] = now();
 
         $data['form_id'] = $form_id;
+        if (!empty(request('branch'))) {
+            $data_header['branch_name'] = request('branch');
+        } else {
+            $data_header['branch_name'] = null;
+        }
         $form = AmlaForm::findOrFail($form_id);
         $form->update($data_header);
         $form3 = AmlaForm3::findOrFail($form_id);
@@ -1130,6 +1174,8 @@ class PageController extends Controller
 
     private function sendInternalStrNotification($form_id, int $state, string $purpose): void
     {
+        set_time_limit(10);
+
         try {
             $mail = DB::table('MAS_MAIL_LIST')
                 ->select(
@@ -1148,16 +1194,10 @@ class PageController extends Controller
                 ->where('Purpose', $purpose)
                 ->first();
 
-            if (!$mail) {
-                Log::warning("Internal STR email skipped for form {$form_id}: no MAS_MAIL_LIST row with Purpose '{$purpose}'.");
-                return;
-            }
+
 
             $recipients = json_decode($mail->Recipient, true);
-            if (!is_array($recipients) || $recipients === []) {
-                Log::warning("Internal STR email skipped for form {$form_id}: Recipient column is empty or not valid JSON.");
-                return;
-            }
+
 
             $pdfPath = storage_path(
                 'app/public/generated-pdf/' . $mail->Branch_ID . '_CRP_' . $form_id . '_' . now()->format('YmdHis') . '.pdf'
@@ -1173,16 +1213,13 @@ class PageController extends Controller
 
             pclose(popen($command, 'r'));
 
-            $maxWait = 90;
+            $maxWait = 60;
             $start = time();
             while (!file_exists($pdfPath) && (time() - $start) < $maxWait) {
                 usleep(500000);
             }
 
             $pdfReady = file_exists($pdfPath);
-            if (!$pdfReady) {
-                Log::warning("Internal STR email for form {$form_id}: PDF not ready after {$maxWait}s, sending without attachment. Check laravel.log for GeneratePdf errors.");
-            }
 
             $decryptedPassword = openssl_decrypt(
                 $mail->Password,
@@ -1220,7 +1257,6 @@ class PageController extends Controller
                     }
 
                     $mailer->to($recipient)->send($email);
-                    Log::info("Internal STR email sent for form {$form_id} to {$recipient}.");
                 } catch (\Throwable $e) {
                     Log::error("Internal STR email failed for form {$form_id} to {$recipient}: " . $e->getMessage());
                 }
@@ -1232,7 +1268,6 @@ class PageController extends Controller
 
     public function create(Request $request)
     {
-
         $data = $request->validate([
             'branch_name' => 'nullable|string',
             'date' => 'nullable|date',
@@ -1371,7 +1406,7 @@ class PageController extends Controller
         $data_header = $request->validate([
             'trx_no' => 'nullable|string',
             'sales_date' => 'nullable|date',
-            'branch_name' => 'nullable|string',
+            'branch' => 'nullable|string',
             'doc_no' => 'nullable|string'
         ]);
 
@@ -1430,6 +1465,9 @@ class PageController extends Controller
         $data_header['status'] = "New";
         $data_header['form_type'] = "Form_No_1";
         $data_header['created_date'] = now();
+        if (!empty(request('branch'))) {
+            $data_header['branch_name'] = request('branch');
+        };
         $submittedHeaderForm = AmlaForm::create($data_header);
         $form_id = $submittedHeaderForm->form_id;
         $data['form_id'] = $form_id;
@@ -1535,13 +1573,15 @@ class PageController extends Controller
         $data_header = $request->validate([
             'trx_no' => 'nullable|string',
             'sales_date' => 'nullable|date',
-            'branch_name' => 'nullable|string',
             'doc_no' => 'nullable|string'
         ]);
 
         $data_header['status'] = "New";
         $data_header['form_type'] = "Form_No_2";
         $data_header['created_date'] = now();
+        if (!empty(request('branch'))) {
+            $data_header['branch_name'] = request('branch');
+        };
         $submittedHeaderForm = AmlaForm::create($data_header);
         $form_id = $submittedHeaderForm->form_id;
         $data['form_id'] = $form_id;
@@ -1650,6 +1690,9 @@ class PageController extends Controller
         $data_header['status'] = "New";
         $data_header['form_type'] = "Form_No_3";
         $data_header['created_date'] = now();
+        if (!empty(request('branch'))) {
+            $data_header['branch_name'] = request('branch');
+        };
         $submittedHeaderForm = AmlaForm::create($data_header);
         $form_id = $submittedHeaderForm->form_id;
         $data['form_id'] = $form_id;

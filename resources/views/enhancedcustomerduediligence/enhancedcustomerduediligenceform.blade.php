@@ -120,7 +120,7 @@
             </div>
             @endif
             @endif
-            <x-sidepanel :form1="$form1" :form="$form" :state="$state" form_type="Form_No_3"></x-sidepanel>
+            <x-sidepanel :form1="$form1" :form="$form" :state="$state" form_type="Form_No_3" :branch="$branch"></x-sidepanel>
         </div>
     </form>
     @if (isset($row) && $row->isNotEmpty())

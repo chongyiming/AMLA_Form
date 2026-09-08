@@ -1,3 +1,4 @@
+@props(['options', 'name', 'field', 'form1' => null, 'border' => 'none', 'placeholder' => ''])
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,10 +15,13 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
-            $(".js-example-basic-single").select2({
-                width: '100%',
-                height: '100%',
-
+            $(".js-example-basic-single").each(function() {
+                var $el = $(this);
+                if ($el.data('select2')) return;
+                $el.select2({
+                    width: '100%',
+                    placeholder: $el.data('placeholder') || ''
+                });
             });
 
             $(".no-border").next(".select2-container")
@@ -72,15 +76,22 @@
 
 <body>
 
-    <select class="js-example-basic-single {{ $border === 'none' ? 'no-border' : '' }}" name="{{ $name }}">
+    <select class="js-example-basic-single {{ $border === 'none' ? 'no-border' : '' }}" name="{{ $name }}"
+        data-placeholder="{{ $placeholder }}">
         @php
         $selectedValue = old($name, $form1->$name ?? '');
+        $optionList = is_iterable($options)
+            ? $options
+            : collect([$options])->filter(fn ($o) => is_object($o) || is_array($o));
         @endphp
 
-        @foreach ($options as $option)
-        <option value="{{ $option->$field }}"
-            {{ $selectedValue == $option->$field ? 'selected' : '' }}>
-            {{ $option->$field }}
+        <option value=""></option>
+
+        @foreach ($optionList as $option)
+        @php $optionValue = data_get($option, $field); @endphp
+        <option value="{{ $optionValue }}"
+            {{ $selectedValue !== '' && $selectedValue == $optionValue ? 'selected' : '' }}>
+            {{ $optionValue }}
         </option>
         @endforeach
     </select>

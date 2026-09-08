@@ -87,7 +87,7 @@
             <tbody>
                 <tr>
                     <th class="bg-light"><span data-i18n="messages.branch_name">Branch Name</span></th>
-                    <td><input type="text" class="form-control border-0" name="branch_name" value="{{ $branch -> Branch_Code}}"></td>
+                    <td><input type="text" class="form-control border-0" name="branch_name" value="{{ old('branch_name', $form->branch_name ?? $branch -> first()->Branch_Code) }}"></td>
 
                     <th class="bg-light"><span data-i18n="messages.formNo">Form No</span></th>
                     <td colspan="2"><input type="text" class="form-control border-0" name="doc_no" value="{{ old('doc_no', $form->doc_no ?? '') }}"></td>

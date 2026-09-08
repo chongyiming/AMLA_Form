@@ -212,7 +212,7 @@
             </label>
             <input type="text" class="panel-input" name="trx_no" readonly onclick="openTrxModal()" value="{{ old('trx_no', data_get($form, 'trx_no')) }}">
         </div>
-        <x-modal :form1="$form1" :form="$form"></x-modal>
+        <x-modal :form1="$form1" :form="$form" :branch="$branch"></x-modal>
         <div class="sidepanel_button_container">
             @if($state ==0)
 
