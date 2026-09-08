@@ -1174,7 +1174,9 @@ class PageController extends Controller
 
     private function sendInternalStrNotification($form_id, int $state, string $purpose): void
     {
-        set_time_limit(30);
+        // Must exceed $maxWait below plus SMTP time. On Windows sleep() counts against
+        // this limit, so matching the two makes the fatal timeout unavoidable.
+        set_time_limit(120);
 
         try {
             $mail = DB::table('MAS_MAIL_LIST')
@@ -1220,6 +1222,10 @@ class PageController extends Controller
             }
 
             $pdfReady = file_exists($pdfPath);
+
+            if (!$pdfReady) {
+                Log::warning("Internal STR PDF not ready after {$maxWait}s for form {$form_id}, sending without attachment: {$pdfPath}");
+            }
 
             $decryptedPassword = openssl_decrypt(
                 $mail->Password,

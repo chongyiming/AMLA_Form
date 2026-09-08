@@ -22,7 +22,9 @@ class GeneratePdf extends Command
     public function handle()
     {
         //
-        set_time_limit(5);
+        // Browsershot's timeout below is the real bound. A PHP limit here fires an
+        // uncatchable fatal mid-render, skipping the cleanup in the catch block.
+        set_time_limit(0);
 
         $form_id = $this->argument('form_id');
         $state = $this->argument('state');
@@ -86,6 +88,14 @@ class GeneratePdf extends Command
         )->render();
 
         $dir = dirname($pdfPath);
+
+        // A fatal error bypasses the catch below, so temp files can survive a crashed run.
+        foreach (glob($dir . DIRECTORY_SEPARATOR . '.generating_*.pdf') ?: [] as $stale) {
+            $mtime = @filemtime($stale);
+            if ($mtime !== false && $mtime < time() - 600) {
+                @unlink($stale);
+            }
+        }
 
         try {
             $tmpPath = $dir . DIRECTORY_SEPARATOR . '.' . uniqid('generating_') . '.pdf';
