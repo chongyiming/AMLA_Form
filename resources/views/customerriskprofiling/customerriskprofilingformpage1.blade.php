@@ -26,17 +26,6 @@
 
         }
 
-        .header_Text {
-            font-size: 15px;
-            text-align: center;
-            margin-top: 5px;
-        }
-
-        .header_Text2 {
-            font-size: 15px;
-            text-align: center;
-            font-weight: 300;
-        }
 
 
 
@@ -71,9 +60,9 @@
 
         <img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(public_path('pk-logo.jpeg'))) }}"
             style="width: 150px; margin: 0 auto;">
-        <div class='header_Text'>Customer Risk Profiling Form
+        <div class='fs-4 text-center'>Customer Risk Profiling Form
         </div>
-        <div class='header_Text2'>顾客风险分析表格</div>
+        <div class='fs-4 text-center'>顾客风险分析表格</div>
 
         <table class="table table-bordered align-middle table-sm">
             <colgroup>

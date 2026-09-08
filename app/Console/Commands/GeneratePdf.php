@@ -85,7 +85,6 @@ class GeneratePdf extends Command
             ]
         )->render();
 
-        // Make sure the target directory exists.
         $dir = dirname($pdfPath);
 
         try {

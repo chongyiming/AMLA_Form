@@ -26,17 +26,7 @@
 
         }
 
-        .header_Text {
-            font-size: 15px;
-            text-align: center;
-            margin-top: 5px;
-        }
 
-        .header_Text2 {
-            font-size: 15px;
-            text-align: center;
-            font-weight: 300;
-        }
 
         .box {
             display: grid;
@@ -88,8 +78,8 @@
         <p class="fs-6 text-end" data-i18n="messages.formNo1">Form No1</p>
 
         <img src="{{ asset('/pk-logo.jpeg') }}" style="width: 150px;margin: 0 auto">
-        <div class='header_Text'>Customer Due Diligence Form</div>
-        <div class='header_Text2'>客户尽职调查表格</div>
+        <div class='fs-4 text-center'>Customer Due Diligence Form</div>
+        <div class='fs-4 text-center'>客户尽职调查表格</div>
         <x-card
             title-key="messages.customerDueDiligence"
             :sections="[

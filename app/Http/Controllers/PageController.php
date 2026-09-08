@@ -1174,7 +1174,7 @@ class PageController extends Controller
 
     private function sendInternalStrNotification($form_id, int $state, string $purpose): void
     {
-        set_time_limit(10);
+        set_time_limit(30);
 
         try {
             $mail = DB::table('MAS_MAIL_LIST')
@@ -1213,10 +1213,10 @@ class PageController extends Controller
 
             pclose(popen($command, 'r'));
 
-            $maxWait = 60;
+            $maxWait = 30;
             $start = time();
             while (!file_exists($pdfPath) && (time() - $start) < $maxWait) {
-                usleep(500000);
+                sleep(1);
             }
 
             $pdfReady = file_exists($pdfPath);

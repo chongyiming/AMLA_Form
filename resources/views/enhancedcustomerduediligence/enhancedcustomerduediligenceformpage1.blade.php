@@ -26,17 +26,7 @@
 
         }
 
-        .header_Text {
-            font-size: 15px;
-            text-align: center;
-            margin-top: 5px;
-        }
 
-        .header_Text2 {
-            font-size: 15px;
-            text-align: center;
-            font-weight: 300;
-        }
 
 
 
@@ -67,36 +57,35 @@
 </head>
 
 <body>
-
     <div class="container" id="container">
         <p class="fs-6 text-end" data-i18n="messages.formNo3">Form No. 3</p>
 
         <img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(public_path('pk-logo.jpeg'))) }}"
             style="width: 150px; margin: 0 auto;">
-        <div class='header_Text'>Enhanced Customer Due Diligence Form
+        <div class='fs-4 text-center'>Enhanced Customer Due Diligence Form
         </div>
-        <div class='header_Text2'>增强客户尽职调查表格</div>
+        <div class='fs-4 text-center'>增强客户尽职调查表格</div>
         <x-card
-            title-key="{{ __('messages.edd_card_title') }}"
+            title-key="{{ 'messages.edd_card_title'}}"
             :sections="[
         [
-            'description' => __('messages.edd_description_1'),
+            'description' => 'messages.edd_description_1',
             'bullets' => [
-                __('messages.edd_bullet_1a'),
-                __('messages.edd_bullet_1b'),
+                'messages.edd_bullet_1a',
+                'messages.edd_bullet_1b',
             ],
         ],
         [
-            'description' => __('messages.edd_description_2'),
+            'description' => 'messages.edd_description_2',
             'bullets' => [
-                __('messages.edd_bullet_2a'),
-                __('messages.edd_bullet_2b'),
-                __('messages.edd_bullet_2c'),
-                __('messages.edd_bullet_2d'),
+                'messages.edd_bullet_2a',
+                'messages.edd_bullet_2b',
+                'messages.edd_bullet_2c',
+                'messages.edd_bullet_2d',
             ],
         ],[
-            'description' => __('messages.edd_note_label'),
-            'text' => __('messages.edd_note_text'),
+            'description' => 'messages.edd_note_label',
+            'text' => 'messages.edd_note_text',
 
         ],
     ]" />
@@ -197,7 +186,7 @@
                     <th class="bg-light"><span data-i18n="messages.date">Date
 
                         </span></th>
-                    <td colspan="2"><input type="text" class="form-control border-0" name="date" value="{{ old('date', $form1->date ?? '') }}"></td>
+                    <td colspan="2"><input type="date" class="form-control border-0" name="date" value="{{ old('date', isset($form1->date) ? \Carbon\Carbon::parse($form1->date)->format('Y-m-d') : '') }}"></td>
                 </tr>
         </table>
         <div class='footer'>Version 3: Dated 09/012/2025</div>
