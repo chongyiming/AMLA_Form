@@ -237,8 +237,11 @@
             );
         };
 
-
-        img.src = "{{ asset('storage') }}/" + signature;
+        // After a validation error the value comes back from old() as a base64
+        // data URL, otherwise it is a file path saved under storage.
+        img.src = signature.startsWith('data:image') ?
+            signature :
+            "{{ asset('storage') }}/" + signature;
 
     }
 

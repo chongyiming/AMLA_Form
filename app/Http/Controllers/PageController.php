@@ -1107,9 +1107,10 @@ class PageController extends Controller
             $data_header['branch_name'] = null;
         }
         $form = AmlaForm::findOrFail($form_id);
+        $originalForm = $form->getOriginal();
         $form->update($data_header);
         $form2 = AmlaForm2::findOrFail($form_id);
-
+        $originalForm2 = $form2->getOriginal();
 
         if (
             !empty($data['prepared_signature']) &&
@@ -1174,8 +1175,10 @@ class PageController extends Controller
 
         if (($data['is_internal_str_required'] ?? null) === "yes") {
             if (!$this->sendInternalStrNotification($form_id, 1, 'Form_No_2-edit.php')) {
-                return redirect()->back()
-                    ->with('error', 'The internal STR PDF could not be generated, so the notification email was not sent.');
+                $form2->forceFill($originalForm2)->save();
+                $form->forceFill($originalForm)->save();
+                return back()->withInput()
+                    ->withErrors(['pdf' => 'The PDF could not be generated, so the notification email was not sent and please click on update again.']);
             }
         }
 
@@ -1263,12 +1266,14 @@ class PageController extends Controller
     {
         $data_header['status'] = "Submitted";
         $form = AmlaForm::findOrFail($form_id);
+        $originalForm = $form->getOriginal();
         $form->update($data_header);
 
         if ($request->is_internal_str_required === "yes") {
             if (!$this->sendInternalStrNotification($form_id, 2, 'Form_No_2-edit.php')) {
-                return redirect()->back()
-                    ->with('error', 'The internal STR PDF could not be generated, so the notification email was not sent.');
+                $form->forceFill($originalForm)->save();
+                return back()->withInput()
+                    ->withErrors(['pdf' => 'The PDF could not be generated, so the notification email was not sent and please submit again.']);
             }
         }
 
@@ -1286,8 +1291,6 @@ class PageController extends Controller
 
     private function sendInternalStrNotification($form_id, int $state, string $purpose): bool
     {
-        // Must exceed $maxWait below plus SMTP time. On Windows sleep() counts against
-        // this limit, so matching the two makes the fatal timeout unavoidable.
         set_time_limit(120);
 
         try {
@@ -1775,8 +1778,10 @@ class PageController extends Controller
 
         if (($data['is_internal_str_required'] ?? null) === "yes") {
             if (!$this->sendInternalStrNotification($form_id, 1, 'Form_No_2.php')) {
-                return redirect()->back()
-                    ->with('error', 'The internal STR PDF could not be generated, so the notification email was not sent.');
+                AmlaForm2::where('form_id', $form_id)->delete();
+                $submittedHeaderForm->delete();
+                return back()->withInput()
+                    ->withErrors(['pdf' => 'The PDF could not be generated, so the notification email was not sent and record is deleted.']);
             }
         }
 
