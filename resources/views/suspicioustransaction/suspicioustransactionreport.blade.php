@@ -68,7 +68,7 @@
 <body>
     <x-menu-sidebar></x-menu-sidebar>
 
-    <form method="POST" action="{{ $state == 0 ? '/createEnhancedCustomerDueDiligenceForm' : '/submitEnhancedCustomerDueDiligenceForm' }}" id="enhancedcustomerduediligenceform">
+    <form method="POST" action="{{ $state == 0 ? '/createSuspiciousTransactionReport' : '/submitEnhancedCustomerDueDiligenceForm' }}" id="enhancedcustomerduediligenceform">
         @csrf
 
 

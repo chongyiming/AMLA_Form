@@ -46,7 +46,8 @@
 
         .table th,
         .table td {
-            padding: 2px !important;
+            padding: 2px 10px !important;
+
         }
 
         textarea {
@@ -80,7 +81,7 @@
                                 :options="$branch"
                                 name="branch"
                                 field="Branch_Code"
-                                :form1=" $form1"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                         <div class="d-flex gap-3 align-items-center">
@@ -90,16 +91,16 @@
                         </div>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$branch"
-                                name="branch"
-                                field="Branch_Code"
-                                :form1=" $form1"
+                                :options="$occupation"
+                                name="cust_occu"
+                                field="Dropdown_List"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                         <label class="mt-1">Occupation Description</label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="cust_occu_desc" class="form-control" value="{{ old('cust_occu_desc', $form1->cust_occu_desc ?? '') }}">
                         <label class="mt-1">Employer Name</label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="cust_emp_name" class="form-control" value="{{ old('cust_emp_name', $form1->cust_emp_name ?? '') }}">
                         <div class="d-flex gap-3 align-items-center">
                             <label class="mt-1">Employment Sector</label>
                             <div class="form-text fst-italic" style="font-size: 0.75rem;">
@@ -109,10 +110,10 @@
 
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$branch"
-                                name="branch"
-                                field="Branch_Code"
-                                :form1=" $form1"
+                                :options="$sector"
+                                name="cust_emp_sec"
+                                field="Dropdown_List"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                         <label class="mt-1">Annual Income Range (RM) </label>
@@ -121,27 +122,27 @@
                                 :options="$branch"
                                 name="branch"
                                 field="Branch_Code"
-                                :form1=" $form1"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                         <label class="mt-1">Marital Status </label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$branch"
-                                name="branch"
-                                field="Branch_Code"
-                                :form1=" $form1"
+                                :options="$marital"
+                                name="cust_marital"
+                                field="Status"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                         <label class="mt-1">Spouse Name</label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="cust_spouse_name" class="form-control" value="{{ old('cust_spouse_name', $form1->cust_spouse_name ?? '') }}">
                         <label class="mt-1">Spouse Nationality </label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
                                 :options="$branch"
                                 name="branch"
                                 field="Branch_Code"
-                                :form1=" $form1"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                         <div class="d-flex gap-3 align-items-center">
@@ -150,13 +151,13 @@
                                 e.g. 780101141234
                             </div>
                         </div>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="cust_spouse_nric" class="form-control" value="{{ old('cust_spouse_nric', $form1->cust_spouse_nric ?? '') }}">
                         <label class="mt-1">Spouse ID No (Passport)</label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="cust_spouse_passport" class="form-control" value="{{ old('cust_spouse_passport', $form1->cust_spouse_passport ?? '') }}">
                         <label class="mt-1">Spouse Other ID</label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="cust_spouse_other_id" class="form-control" value="{{ old('cust_spouse_other_id', $form1->cust_spouse_other_id ?? '') }}">
                         <label class="mt-1">Spouse Date of Birth</label>
-                        <input type="date" name="reviewed_name" class="form-control mb-3" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="date" name="cust_spouse_dob" class="form-control mb-3" value="{{ old('cust_spouse_dob', $form1->cust_spouse_dob ?? '') }}">
 
                     </td>
                 </tr>

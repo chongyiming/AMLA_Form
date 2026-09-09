@@ -22,7 +22,7 @@
                             :options="$branch"
                             name="branch"
                             field="Branch_Code"
-                            :form1=" $form1"
+                            :form1="$form1"
                             border="show" />
                     </div>
 

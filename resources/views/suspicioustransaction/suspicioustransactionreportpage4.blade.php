@@ -46,7 +46,9 @@
 
         .table th,
         .table td {
-            padding: 2px !important;
+            padding: 2px 10px !important;
+
+
         }
 
         textarea {
@@ -75,26 +77,26 @@
                 <tr>
                     <td>
                         <label class="mt-1">Bank Name</label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="bank_name" class="form-control" value="{{ old('bank_name', $form1->bank_name ?? '') }}">
                         <label class="mt-1">Bank Account No</label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="bank_acc_no" class="form-control" value="{{ old('bank_acc_no', $form1->bank_acc_no ?? '') }}">
                         <label class="mt-1">Bank Account Type </label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$branch"
-                                name="branch"
-                                field="Branch_Code"
-                                :form1=" $form1"
+                                :options="$bankAccount"
+                                name="bank_acc_type"
+                                field="Dropdown_List"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                         <label class="mt-1">Home Branch</label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="bank_home_branch" class="form-control mb-2" value="{{ old('bank_home_branch', $form1->bank_home_branch ?? '') }}">
 
                     </td>
                 </tr>
 
         </table>
-        <table class="table table-bordered align-middle table-sm mt-1">
+        <table class="table table-bordered align-middle table-sm">
             <thead class="bg-light">
                 <tr>
                     <th>
@@ -106,35 +108,29 @@
                 <tr>
                     <td>
                         <label class="mt-1">Type of Product Purchased/Rendered <span class="text-danger"> *</span></label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <div style="height: 35px;width:100%">
+                            <x-searchable-dropdown
+                                :options="$productType"
+                                name="sus_trans_producttype"
+                                field="Dropdown_List"
+                                :form1="$form1"
+                                border="show" />
+                        </div>
                         <label class="mt-1">Transaction Date <span class="text-danger"> *</span></label>
                         <div class="d-flex gap-5">
-                            <div style="height: 35px;width:100%">
-                                <x-searchable-dropdown
-                                    :options="$branch"
-                                    name="branch"
-                                    field="Branch_Code"
-                                    :form1=" $form1"
-                                    border="show" />
-                            </div>
-                            <div style="height: 35px;width:100%">
-                                <x-searchable-dropdown
-                                    :options="$branch"
-                                    name="branch"
-                                    field="Branch_Code"
-                                    :form1=" $form1"
-                                    border="show" />
-                            </div>
+                            <input type="date" name="sus_trans_datefrom" class="form-control" value="{{ old('sus_trans_datefrom', $form1->sus_trans_datefrom ?? '') }}">
+                            <input type="date" name="sus_trans_dateto" class="form-control" value="{{ old('sus_trans_dateto', $form1->sus_trans_dateto ?? '') }}">
+
                         </div>
                         <label class="mt-1">Transaction Amount (RM) <span class="text-danger"> *</span></label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="number" name="sus_trans_amt_myr" class="form-control" value="{{ old('sus_trans_amt_myr', $form1->sus_trans_amt_myr ?? '') }}">
                         <label class="mt-1">Transaction Currency </label>
                         <div style="height: 35px;width:100%">
                             <x-searchable-dropdown
-                                :options="$branch"
-                                name="branch"
-                                field="Branch_Code"
-                                :form1=" $form1"
+                                :options="$currency"
+                                name="sus_trans_currency"
+                                field="Dropdown_List"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                         <div class="d-flex gap-3 align-items-center">
@@ -143,20 +139,20 @@
                                 Only required if transaction was done not using MYR
                             </div>
                         </div>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="number" name="sus_trans_amt_fc" class="form-control" value="{{ old('sus_trans_amt_fc', $form1->sus_trans_amt_fc ?? '') }}">
                         <label class="mt-1">Title</label>
                         <div style="height: 35px;width:100%">
                             <x-searchable-dropdown
-                                :options="$branch"
-                                name="branch"
-                                field="Branch_Code"
-                                :form1=" $form1"
+                                :options="$title"
+                                name="sus_title"
+                                field="Dropdown_List"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                         <label class="mt-1">Name of Person Conducting Transaction</label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="sus_name" class="form-control" value="{{ old('sus_name', $form1->sus_name ?? '') }}">
                         <label class="mt-1">Other Name/Alias</label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="sus_name_other" class="form-control" value="{{ old('sus_name_other', $form1->sus_name_other ?? '') }}">
                         <div class="d-flex gap-3 align-items-center">
                             <label class="mt-1">Gender</label>
                             <div class="form-text fst-italic" style="font-size: 0.75rem;">
@@ -165,10 +161,10 @@
                         </div>
                         <div style="height: 35px;width:100%">
                             <x-searchable-dropdown
-                                :options="$branch"
-                                name="branch"
-                                field="Branch_Code"
-                                :form1=" $form1"
+                                :options="$genders"
+                                name="sus_gender"
+                                field="Gender"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                         <div class="d-flex gap-3 align-items-center">
@@ -182,7 +178,7 @@
                                 :options="$branch"
                                 name="branch"
                                 field="Branch_Code"
-                                :form1=" $form1"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                     </td>

@@ -173,12 +173,94 @@ class PageController extends Controller
             ->where('USERISACTIVE', '1')
             ->get();
 
+        $choices = collect([
+            (object) ['Choice' => 'YES'],
+            (object) ['Choice' => 'NO'],
+        ]);
+        $genders = collect([
+            (object) ['Gender' => 'MALE'],
+            (object) ['Gender' => 'FEMALE'],
+            (object) ['Gender' => 'UNKNOWN'],
+
+        ]);
+
+        $marital = collect([
+            (object) ['Status' => 'SINGLE'],
+            (object) ['Status' => 'MARRIED'],
+            (object) ['Status' => 'DIVORCED'],
+            (object) ['Status' => 'WIDOWED'],
+            (object) ['Status' => 'OTHERS'],
+
+
+        ]);
+        $reported = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Reported')
+            ->get();
+
+        $source = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Source')
+            ->get();
+
+        $offence = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Offence')
+            ->get();
+
+        $title = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Title')
+            ->get();
+
+        $occupation = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Occupation')
+            ->get();
+
+        $sector = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Sector')
+            ->get();
+        $bankAccount = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'BankAccount')
+            ->get();
+
+        $productType = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'ProductType')
+            ->get();
+
+        $currency = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Currency')
+            ->get();
+
+        $relationship = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Relationship')
+            ->get();
+
         return view('suspicioustransaction.suspicioustransactionreport', [
             'state' => 0,
             'form1' => null,
             'form' => null,
             'sales_name' => $sales_name,
-            'branch' => $branch
+            'branch' => $branch,
+            'choices' => $choices,
+            'reported' => $reported,
+            'source' => $source,
+            'offence' => $offence,
+            'title' => $title,
+            'genders' => $genders,
+            'occupation' => $occupation,
+            'sector' => $sector,
+            'marital' => $marital,
+            'bankAccount' => $bankAccount,
+            'productType' => $productType,
+            'currency' => $currency,
+            'relationship' => $relationship
 
         ]);
     }
@@ -1091,7 +1173,10 @@ class PageController extends Controller
         $form2->update($data);
 
         if (($data['is_internal_str_required'] ?? null) === "yes") {
-            $this->sendInternalStrNotification($form_id, 1, 'Form_No_2-edit.php');
+            if (!$this->sendInternalStrNotification($form_id, 1, 'Form_No_2-edit.php')) {
+                return redirect()->back()
+                    ->with('error', 'The internal STR PDF could not be generated, so the notification email was not sent.');
+            }
         }
 
         return redirect()->back();
@@ -1181,7 +1266,10 @@ class PageController extends Controller
         $form->update($data_header);
 
         if ($request->is_internal_str_required === "yes") {
-            $this->sendInternalStrNotification($form_id, 2, 'Form_No_2-edit.php');
+            if (!$this->sendInternalStrNotification($form_id, 2, 'Form_No_2-edit.php')) {
+                return redirect()->back()
+                    ->with('error', 'The internal STR PDF could not be generated, so the notification email was not sent.');
+            }
         }
 
         return redirect("/submittedCustomerRiskProfilingForm/{$form_id}/2");
@@ -1196,7 +1284,7 @@ class PageController extends Controller
         return redirect("/submittedEnhancedCustomerDueDiligenceForm/{$form_id}/2");
     }
 
-    private function sendInternalStrNotification($form_id, int $state, string $purpose): void
+    private function sendInternalStrNotification($form_id, int $state, string $purpose): bool
     {
         // Must exceed $maxWait below plus SMTP time. On Windows sleep() counts against
         // this limit, so matching the two makes the fatal timeout unavoidable.
@@ -1245,10 +1333,9 @@ class PageController extends Controller
                 sleep(1);
             }
 
-            $pdfReady = file_exists($pdfPath);
-
-            if (!$pdfReady) {
-                Log::warning("Internal STR PDF not ready after {$maxWait}s for form {$form_id}, sending without attachment: {$pdfPath}");
+            if (!file_exists($pdfPath)) {
+                Log::warning("Internal STR PDF not ready after {$maxWait}s for form {$form_id}, email not sent: {$pdfPath}");
+                return false;
             }
 
             $decryptedPassword = openssl_decrypt(
@@ -1282,17 +1369,18 @@ class PageController extends Controller
                         $mail->Body
                     );
 
-                    if ($pdfReady) {
-                        $email->attach($pdfPath, ['mime' => 'application/pdf']);
-                    }
+                    $email->attach($pdfPath, ['mime' => 'application/pdf']);
 
                     $mailer->to($recipient)->send($email);
                 } catch (\Throwable $e) {
                     Log::error("Internal STR email failed for form {$form_id} to {$recipient}: " . $e->getMessage());
                 }
             }
+
+            return true;
         } catch (\Throwable $e) {
             Log::error("Internal STR notification failed for form {$form_id}: " . $e->getMessage());
+            return false;
         }
     }
 
@@ -1686,7 +1774,10 @@ class PageController extends Controller
         AmlaForm2::create($data);
 
         if (($data['is_internal_str_required'] ?? null) === "yes") {
-            $this->sendInternalStrNotification($form_id, 1, 'Form_No_2.php');
+            if (!$this->sendInternalStrNotification($form_id, 1, 'Form_No_2.php')) {
+                return redirect()->back()
+                    ->with('error', 'The internal STR PDF could not be generated, so the notification email was not sent.');
+            }
         }
 
         return redirect("/createdCustomerRiskProfilingForm/{$form_id}/1");

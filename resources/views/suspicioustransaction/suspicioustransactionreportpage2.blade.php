@@ -46,7 +46,8 @@
 
         .table th,
         .table td {
-            padding: 2px !important;
+            padding: 2px 10px !important;
+
         }
 
         textarea {
@@ -77,23 +78,23 @@
                         <label>Title</label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$branch"
-                                name="branch"
-                                field="Branch_Code"
-                                :form1=" $form1"
+                                :options="$title"
+                                name="cust_title"
+                                field="Dropdown_List"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                         <label class="mt-1">Name <span class="text-danger"> *</span></label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="cust_name" class="form-control" value="{{ old('cust_name', $form1->cust_name ?? '') }}">
                         <label class="mt-1">Other Name/Alias</label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="cust_name_alias" class="form-control" value="{{ old('cust_name_alias', $form1->cust_name_alias ?? '') }}">
                         <label class="mt-1">Gender <span class="text-danger"> *</span></label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$branch"
-                                name="branch"
-                                field="Branch_Code"
-                                :form1=" $form1"
+                                :options="$genders"
+                                name="cust_gender"
+                                field="Gender"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                         <label class="mt-1">Nationality <span class="text-danger"> *</span></label>
@@ -102,7 +103,7 @@
                                 :options="$branch"
                                 name="branch"
                                 field="Branch_Code"
-                                :form1=" $form1"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                         <div class="d-flex gap-3 align-items-center">
@@ -111,35 +112,35 @@
                                 e.g. 780101141234
                             </div>
                         </div>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="cust_nric" class="form-control" value="{{ old('cust_nric', $form1->cust_nric ?? '') }}">
                         <div class="d-flex gap-3 align-items-center">
                             <label class="mt-1">Identification No (Passport)</label>
                             <div class="form-text fst-italic" style="font-size: 0.75rem;">
                                 Non-mandatory field if customer is Malaysian. Mandatory if they are foreigner
                             </div>
                         </div>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="cust_passport" class="form-control" value="{{ old('cust_passport', $form1->cust_passport ?? '') }}">
                         <div class="d-flex gap-3 align-items-center">
                             <label class="mt-1">Other ID</label>
                             <div class="form-text fst-italic" style="font-size: 0.75rem;">
                                 Other ID known besides IC No. or Passport No. </div>
                         </div>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="cust_other_id" class="form-control" value="{{ old('cust_other_id', $form1->cust_other_id ?? '') }}">
                         <label class="mt-1">Date of Birth <span class="text-danger"> *</span> </label>
-                        <input type="date" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="date" name="cust_dob" class="form-control" value="{{ old('cust_dob', $form1->cust_dob ?? '') }}">
                         <label class="mt-1">Residential Address <span class="text-danger"> *</span> </label>
                         <div class="input-group input-group-sm mb-1">
-                            <span class="input-group-text" id="inputGroup-sizing-sm">Address</span>
-                            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                            <span class="input-group-text">Address</span>
+                            <input type="text" class="form-control" name="cust_res_address" value="{{ old('cust_res_address', $form1->cust_res_address ?? '') }}">
                         </div>
                         <div class="d-flex gap-5">
                             <div class="input-group input-group-sm mb-1">
-                                <span class="input-group-text" id="inputGroup-sizing-sm">Town</span>
-                                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                <span class="input-group-text">Town</span>
+                                <input type="text" class="form-control" name="cust_res_town" value="{{ old('cust_res_town', $form1->cust_res_town ?? '') }}">
                             </div>
                             <div class="input-group input-group-sm mb-1">
-                                <span class="input-group-text" id="inputGroup-sizing-sm">Postcode</span>
-                                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                <span class="input-group-text">Postcode</span>
+                                <input type="text" class="form-control" name="cust_res_postcode" value="{{ old('cust_res_postcode', $form1->cust_res_postcode ?? '') }}">
                             </div>
                         </div>
                         <div class="d-flex gap-5">
@@ -148,7 +149,7 @@
                                     :options="$branch"
                                     name="branch"
                                     field="Branch_Code"
-                                    :form1=" $form1"
+                                    :form1="$form1"
                                     border="show" />
                             </div>
                             <div style="height: 30px;width:100%">
@@ -156,7 +157,7 @@
                                     :options="$branch"
                                     name="branch"
                                     field="Branch_Code"
-                                    :form1=" $form1"
+                                    :form1="$form1"
                                     border="show" />
                             </div>
                         </div>
@@ -166,17 +167,17 @@
                                 Only fill in if the correspondence address is not same as residential address</div>
                         </div>
                         <div class="input-group input-group-sm mb-1">
-                            <span class="input-group-text" id="inputGroup-sizing-sm">Address</span>
-                            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                            <span class="input-group-text">Address</span>
+                            <input type="text" class="form-control" name="cust_corr_address" value="{{ old('cust_corr_address', $form1->cust_corr_address ?? '') }}">
                         </div>
                         <div class="d-flex gap-5">
                             <div class="input-group input-group-sm mb-1">
-                                <span class="input-group-text" id="inputGroup-sizing-sm">Town</span>
-                                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                <span class="input-group-text">Town</span>
+                                <input type="text" class="form-control" name="cust_corr_town" value="{{ old('cust_corr_town', $form1->cust_corr_town ?? '') }}">
                             </div>
                             <div class="input-group input-group-sm mb-1">
-                                <span class="input-group-text" id="inputGroup-sizing-sm">Postcode</span>
-                                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                <span class="input-group-text">Postcode</span>
+                                <input type="text" class="form-control" name="cust_corr_postcode" value="{{ old('cust_corr_postcode', $form1->cust_corr_postcode ?? '') }}">
                             </div>
                         </div>
                         <div class="d-flex gap-5">
@@ -185,7 +186,7 @@
                                     :options="$branch"
                                     name="branch"
                                     field="Branch_Code"
-                                    :form1=" $form1"
+                                    :form1="$form1"
                                     border="show" />
                             </div>
                             <div style="height: 30px;width:100%">
@@ -193,12 +194,12 @@
                                     :options="$branch"
                                     name="branch"
                                     field="Branch_Code"
-                                    :form1=" $form1"
+                                    :form1="$form1"
                                     border="show" />
                             </div>
                         </div>
                         <label class="mt-1">Email Address</label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="cust_email" class="form-control" value="{{ old('cust_email', $form1->cust_email ?? '') }}">
                         <label class="mt-1">Contact No <span class="text-danger"> *</span> </label>
                         <div class="d-flex gap-5">
                             <div style="height: 30px;width:100%">
@@ -206,12 +207,12 @@
                                     :options="$branch"
                                     name="branch"
                                     field="Branch_Code"
-                                    :form1=" $form1"
+                                    :form1="$form1"
                                     border="show" />
                             </div>
                             <div class="input-group input-group-sm mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-sm">Phone No</span>
-                                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                <span class="input-group-text">Phone No</span>
+                                <input type="text" class="form-control" name="cust_phone" value="{{ old('cust_phone', $form1->cust_phone ?? '') }}">
                             </div>
                         </div>
                     </td>

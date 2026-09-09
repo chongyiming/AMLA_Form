@@ -44,7 +44,9 @@
 
         .table th,
         .table td {
-            padding: 2px !important;
+            padding: 2px 10px !important;
+
+
         }
 
         textarea {
@@ -75,35 +77,35 @@
                         <label>Attempted but not complete <span class="text-danger"> *</span></label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$branch"
-                                name="branch"
-                                field="Branch_Code"
-                                :form1=" $form1"
+                                :options="$choices"
+                                name="attempted_not_complete"
+                                field="Choice"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                         <label class="mt-3">STR is reported due to <span class="text-danger"> *</span></label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$branch"
-                                name="branch"
-                                field="Branch_Code"
-                                :form1=" $form1"
+                                :options="$reported"
+                                name="str_reported_due"
+                                field="Dropdown_List"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                         <label class="mt-3">Please state relevant source <span class="text-danger"> *</span></label>
-                        <div style="height: 35px;">
+                        <div style="height: 35px;" class="mb-3">
                             <x-searchable-dropdown
-                                :options="$branch"
-                                name="branch"
-                                field="Branch_Code"
-                                :form1=" $form1"
+                                :options="$source"
+                                name="state_relevant_source"
+                                field="Dropdown_List"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                     </td>
                 </tr>
 
         </table>
-        <table class="table table-bordered align-middle table-sm mt-2">
+        <table class="table table-bordered align-middle table-sm">
             <thead class="bg-light">
                 <tr>
                     <th>
@@ -117,34 +119,34 @@
                         <label>Suspected Predicate Offence <span class="text-danger"> *</span></label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$branch"
-                                name="branch"
-                                field="Branch_Code"
-                                :form1=" $form1"
+                                :options="$offence"
+                                name="suspect_predicate"
+                                field="Dropdown_List"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                         <label class="mt-3">Red flag indicator <span class="text-danger"> *</span></label>
                         <textarea class="form-control"
-                            name="conclusion_comment">{{ old('conclusion_comment', $form1->conclusion_comment ?? '') }}</textarea>
+                            name="red_flag_indicator">{{ old('red_flag_indicator', $form1->red_flag_indicator ?? '') }}</textarea>
                         <label class="mt-3">Description of transaction pattern and entities connected to the suspicious activities. Max 20,000 characters. <span class="text-danger"> *</span></label>
                         <textarea class="form-control"
-                            name="conclusion_comment">{{ old('conclusion_comment', $form1->conclusion_comment ?? '') }}</textarea>
+                            name="description_trans_pattern">{{ old('description_trans_pattern', $form1->description_trans_pattern ?? '') }}</textarea>
                         <label class="mt-3">Details and reasons to support basis of suspicion. Max 20,000 characters. <span class="text-danger"> *</span></label>
                         <textarea class="form-control"
-                            name="conclusion_comment">{{ old('conclusion_comment', $form1->conclusion_comment ?? '') }}</textarea>
+                            name="details_reasons">{{ old('details_reasons', $form1->details_reasons ?? '') }}</textarea>
                         <label class="mt-3">Related to Politically Exposed Persons (PEPs) <span class="text-danger"> *</span></label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$branch"
-                                name="branch"
-                                field="Branch_Code"
-                                :form1=" $form1"
+                                :options="$choices"
+                                name="related_pep"
+                                field="Choice"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                         <label class="mt-3">Description of relationship with PEPs</label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="description_relationship_pep" class="form-control" value="{{ old('description_relationship_pep', $form1->description_relationship_pep ?? '') }}">
                         <label class="mt-3">Keywords related to the report</label>
-                        <input type="text" name="reviewed_name" class="form-control mb-3" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="keyword_report" class="form-control mb-3" value="{{ old('keyword_report', $form1->keyword_report ?? '') }}">
                     </td>
                 </tr>
 

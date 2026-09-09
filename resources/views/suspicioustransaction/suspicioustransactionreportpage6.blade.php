@@ -46,7 +46,8 @@
 
         .table th,
         .table td {
-            padding: 2px !important;
+            padding: 2px 10px !important;
+
         }
 
         textarea {
@@ -77,24 +78,24 @@
                         <label class="mt-1">Type of Product Purchased/Rendered Throughout Relationship <span class="text-danger"> *</span> </label>
                         <div style="height: 35px;width:100%">
                             <x-searchable-dropdown
-                                :options="$branch"
-                                name="branch"
-                                field="Branch_Code"
-                                :form1=" $form1"
+                                :options="$productType"
+                                name="firm_producttype"
+                                field="Dropdown_List"
+                                :form1="$form1"
                                 border="show" />
                         </div>
                         <label class="mt-1">Specify Others </label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="text" name="firm_other" class="form-control" value="{{ old('firm_other', $form1->firm_other ?? '') }}">
                         <label class="mt-1">Quantity <span class="text-danger"> *</span> </label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="number" name="firm_quantity" class="form-control" value="{{ old('firm_quantity', $form1->firm_quantity ?? '') }}">
                         <label class="mt-1">Amount (RM) <span class="text-danger"> *</span> </label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="number" name="firm_amt" class="form-control" value="{{ old('firm_amt', $form1->firm_amt ?? '') }}">
                         <label class="mt-1">Date relationship established <span class="text-danger"> *</span></label>
-                        <input type="date" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="date" name="firm_date" class="form-control" value="{{ old('firm_date', $form1->firm_date ?? '') }}">
                         <label class="mt-1">Total number of services/purchases throughout relationship</label>
-                        <input type="text" name="reviewed_name" class="form-control" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="number" name="firm_serv" class="form-control" value="{{ old('firm_serv', $form1->firm_serv ?? '') }}">
                         <label class="mt-1">Total transaction amount throughout relationship (RM)</label>
-                        <input type="text" name="reviewed_name" class="form-control mb-3" value="{{ old('reviewed_name', $form1->reviewed_name ?? '') }}">
+                        <input type="number" name="firm_trans_amt" class="form-control mb-3" value="{{ old('firm_trans_amt', $form1->firm_trans_amt ?? '') }}">
 
                     </td>
                 </tr>
