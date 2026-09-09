@@ -123,7 +123,7 @@
                             <div style="height: 30px;width:100%">
                                 <x-searchable-dropdown
                                     :options="$branch"
-                                    name="branch"
+                                    name="sus_state"
                                     field="Branch_Code"
                                     :form1="$form1"
                                     border="show" />
@@ -131,7 +131,7 @@
                             <div style="height: 30px;width:100%">
                                 <x-searchable-dropdown
                                     :options="$branch"
-                                    name="branch"
+                                    name="sus_country"
                                     field="Branch_Code"
                                     :form1="$form1"
                                     border="show" />
@@ -160,7 +160,7 @@
                             <div style="height: 30px;width:100%">
                                 <x-searchable-dropdown
                                     :options="$branch"
-                                    name="branch"
+                                    name="sus_corr_state"
                                     field="Branch_Code"
                                     :form1="$form1"
                                     border="show" />
@@ -168,7 +168,7 @@
                             <div style="height: 30px;width:100%">
                                 <x-searchable-dropdown
                                     :options="$branch"
-                                    name="branch"
+                                    name="sus_corr_country"
                                     field="Branch_Code"
                                     :form1="$form1"
                                     border="show" />
@@ -185,7 +185,7 @@
                             <div style="height: 30px;width:100%">
                                 <x-searchable-dropdown
                                     :options="$branch"
-                                    name="branch"
+                                    name="sus_phone_country"
                                     field="Branch_Code"
                                     :form1="$form1"
                                     border="show" />

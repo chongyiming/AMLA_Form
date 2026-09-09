@@ -185,6 +185,12 @@
                             data-i18n="messages.update"
                             formaction="/updateEnhancedCustomerDueDiligenceForm/{{ $form1->form_id }}">
                         </button>
+                        @elseif ($formType == "Form_No_4a")
+                        <button type="submit"
+                            class="btn btn-outline-primary"
+                            data-i18n="messages.update"
+                            formaction="/updateSuspiciousTransactionReport/{{ $form1->form_id }}">
+                        </button>
                         @endif
                         <button type="button" class="btn btn-outline-danger" onclick="clearForm()" data-i18n="messages.clear"></button>
                         @if ($formType == "Form_No_1")
@@ -193,6 +199,8 @@
                         <button type="submit" class="btn btn-outline-success" formaction="/submitCustomerRiskProfilingForm/{{ $form1->form_id }}" data-i18n="messages.submit"></button>
                         @elseif ($formType == "Form_No_3")
                         <button type="submit" class="btn btn-outline-success" formaction="/submitEnhancedCustomerDueDiligenceForm/{{ $form1->form_id }}" data-i18n="messages.submit"></button>
+                        @elseif ($formType == "Form_No_4a")
+                        <button type="submit" class="btn btn-outline-success" formaction="/submitSuspiciousTransactionReport/{{ $form1->form_id }}" data-i18n="messages.submit"></button>
                         @endif
                         @elseif($state ==2)
                         <button type="button" class="btn btn-outline-dark" id="dropdown-print" data-i18n="messages.print"></button>
@@ -241,6 +249,12 @@
                 data-i18n="messages.update"
                 formaction="/updateEnhancedCustomerDueDiligenceForm/{{ $form1->form_id }}">
             </button>
+            @elseif ($formType == "Form_No_4a")
+            <button type="submit"
+                class="btn btn-outline-primary"
+                data-i18n="messages.update"
+                formaction="/updateSuspiciousTransactionReport/{{ $form1->form_id }}">
+            </button>
             @endif
 
             <button type="button" class="btn btn-outline-danger" onclick="clearForm()"
@@ -252,6 +266,8 @@
             <button type="submit" class="btn btn-outline-success" formaction="/submitCustomerRiskProfilingForm/{{ $form1->form_id }}" data-i18n="messages.submit"></button>
             @elseif ($formType == "Form_No_3")
             <button type="submit" class="btn btn-outline-success" formaction="/submitEnhancedCustomerDueDiligenceForm/{{ $form1->form_id }}" data-i18n="messages.submit"></button>
+            @elseif ($formType == "Form_No_4a")
+            <button type="submit" class="btn btn-outline-success" formaction="/submitSuspiciousTransactionReport/{{ $form1->form_id }}" data-i18n="messages.submit"></button>
             @endif
 
 
@@ -297,7 +313,6 @@
 
 
     function clearForm() {
-        // const form = document.querySelector('form');
         const form = document.getElementById("print-area");
 
         form.querySelectorAll('input, textarea, select').forEach(function(field) {
@@ -305,6 +320,9 @@
                 field.checked = false;
             } else {
                 field.value = '';
+                if (field.tagName === 'SELECT' && window.jQuery && jQuery(field).data('select2')) {
+                    jQuery(field).val('').trigger('change');
+                }
             }
         });
 

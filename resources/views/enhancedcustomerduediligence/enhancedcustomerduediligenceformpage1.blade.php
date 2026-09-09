@@ -186,7 +186,7 @@
                     <th class="bg-light"><span data-i18n="messages.date">Date
 
                         </span></th>
-                    <td colspan="2"><input type="date" class="form-control border-0" name="date" value="{{ old('date', isset($form1->date) ? \Carbon\Carbon::parse($form1->date)->format('Y-m-d') : '') }}"></td>
+                    <td colspan="2"><input type="date" class="form-control border-0" name="date" value="{{ old('date', $form1->date ?? '') }}"></td>
                 </tr>
         </table>
         <div class='footer'>Version 3: Dated 09/12/2025</div>

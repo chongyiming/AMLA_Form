@@ -176,7 +176,7 @@
                         <div style="height: 35px;width:100%;" class="mb-2">
                             <x-searchable-dropdown
                                 :options="$branch"
-                                name="branch"
+                                name="sus_nationality"
                                 field="Branch_Code"
                                 :form1="$form1"
                                 border="show" />

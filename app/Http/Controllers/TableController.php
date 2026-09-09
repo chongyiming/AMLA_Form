@@ -49,6 +49,12 @@ class TableController extends Controller
         return redirect("/createdEnhancedCustomerDueDiligenceForm/{$form_id}/1");
     }
 
+    public function editSuspiciousTransactionReport($form_id)
+    {
+        return redirect("/createdSuspiciousTransactionReport/{$form_id}/1");
+    }
+
+
 
 
     public function home_customer_due_diligence_form()

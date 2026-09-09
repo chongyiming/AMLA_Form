@@ -12,6 +12,7 @@ use App\Models\AmlaForm1;
 use App\Models\AmlaForm;
 use App\Models\AmlaForm2;
 use App\Models\AmlaForm3;
+use App\Models\AmlaForm4a;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -168,10 +169,7 @@ class PageController extends Controller
             ->distinct()
             ->get();
 
-        $sales_name = DB::table('SER_USERPROFILE')
-            ->select('USERNAME')
-            ->where('USERISACTIVE', '1')
-            ->get();
+
 
         $choices = collect([
             (object) ['Choice' => 'YES'],
@@ -246,7 +244,6 @@ class PageController extends Controller
             'state' => 0,
             'form1' => null,
             'form' => null,
-            'sales_name' => $sales_name,
             'branch' => $branch,
             'choices' => $choices,
             'reported' => $reported,
@@ -514,6 +511,133 @@ class PageController extends Controller
         ]);
     }
 
+    public function submittedSuspiciousTransactionReport($form_id, $state)
+    {
+        $row = DB::table('istr_AMLAForm4a as t1')
+            ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
+            ->select(
+                't1.*',
+                't2.*',
+                DB::raw("
+            (
+                SELECT COUNT(*)
+                FROM istr_AMLA_Attachment as a
+                WHERE a.form_id = t1.form_id
+                AND a.deletedAt IS NULL
+                AND a.file_name NOT LIKE '%approval_signature%'
+
+            ) AS image_count
+        ")
+            )
+            ->where('t1.form_id', $form_id)
+            ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
+            ->get();
+
+
+        $branch = DB::table('Company_Setup_Workstation')
+            ->select('Branch_Code')
+            ->where('Branch_Code', 'LIKE', 'P%')
+            // ->where('Branch_Code', '!=', 'PEOS')
+            ->distinct()
+            ->get();
+
+        $choices = collect([
+            (object) ['Choice' => 'YES'],
+            (object) ['Choice' => 'NO'],
+        ]);
+        $genders = collect([
+            (object) ['Gender' => 'MALE'],
+            (object) ['Gender' => 'FEMALE'],
+            (object) ['Gender' => 'UNKNOWN'],
+
+        ]);
+
+        $marital = collect([
+            (object) ['Status' => 'SINGLE'],
+            (object) ['Status' => 'MARRIED'],
+            (object) ['Status' => 'DIVORCED'],
+            (object) ['Status' => 'WIDOWED'],
+            (object) ['Status' => 'OTHERS'],
+
+
+        ]);
+        $reported = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Reported')
+            ->get();
+
+        $source = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Source')
+            ->get();
+
+        $offence = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Offence')
+            ->get();
+
+        $title = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Title')
+            ->get();
+
+        $occupation = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Occupation')
+            ->get();
+
+        $sector = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Sector')
+            ->get();
+        $bankAccount = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'BankAccount')
+            ->get();
+
+        $productType = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'ProductType')
+            ->get();
+
+        $currency = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Currency')
+            ->get();
+
+        $relationship = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Relationship')
+            ->get();
+
+
+        $form = AmlaForm::where('form_id', $form_id)->first();
+
+        $form1 = AmlaForm4a::where('form_id', $form_id)->first();
+
+        return view('suspicioustransaction.suspicioustransactionreport', [
+            'form_id' => $form_id,
+            'state' => $state,
+            'form' => $form,
+            'form1' => $form1,
+            'row' => $row,
+            'branch' => $branch,
+            'choices' => $choices,
+            'reported' => $reported,
+            'source' => $source,
+            'offence' => $offence,
+            'title' => $title,
+            'genders' => $genders,
+            'occupation' => $occupation,
+            'sector' => $sector,
+            'marital' => $marital,
+            'bankAccount' => $bankAccount,
+            'productType' => $productType,
+            'currency' => $currency,
+            'relationship' => $relationship
+        ]);
+    }
+
     public function createdForm($form_id, $state)
 
     {
@@ -777,6 +901,137 @@ class PageController extends Controller
             'sales_name' => $preparer,
             'row' => $row,
             'branch' => $branch,
+        ]);
+    }
+
+    public function createdSuspiciousTransactionReport($form_id, $state)
+    {
+        $row = DB::table('istr_AMLAForm4a as t1')
+            ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
+            ->select(
+                't1.*',
+                't2.*',
+                DB::raw("
+            (
+                SELECT COUNT(*)
+                FROM istr_AMLA_Attachment as a
+                WHERE a.form_id = t1.form_id
+                AND a.deletedAt IS NULL
+                AND a.file_name NOT LIKE '%approval_signature%'
+
+            ) AS image_count
+        ")
+            )
+            ->where('t1.form_id', $form_id)
+            ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
+            ->get();
+
+
+        $branch = DB::table('Company_Setup_Workstation')
+            ->select('Branch_Code')
+            ->where('Branch_Code', 'LIKE', 'P%')
+            // ->where('Branch_Code', '!=', 'PEOS')
+            ->distinct()
+            ->get();
+
+        $choices = collect([
+            (object) ['Choice' => 'YES'],
+            (object) ['Choice' => 'NO'],
+        ]);
+        $genders = collect([
+            (object) ['Gender' => 'MALE'],
+            (object) ['Gender' => 'FEMALE'],
+            (object) ['Gender' => 'UNKNOWN'],
+
+        ]);
+
+        $marital = collect([
+            (object) ['Status' => 'SINGLE'],
+            (object) ['Status' => 'MARRIED'],
+            (object) ['Status' => 'DIVORCED'],
+            (object) ['Status' => 'WIDOWED'],
+            (object) ['Status' => 'OTHERS'],
+
+
+        ]);
+        $reported = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Reported')
+            ->get();
+
+        $source = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Source')
+            ->get();
+
+        $offence = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Offence')
+            ->get();
+
+        $title = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Title')
+            ->get();
+
+        $occupation = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Occupation')
+            ->get();
+
+        $sector = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Sector')
+            ->get();
+        $bankAccount = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'BankAccount')
+            ->get();
+
+        $productType = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'ProductType')
+            ->get();
+
+        $currency = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Currency')
+            ->get();
+
+        $relationship = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Relationship')
+            ->get();
+
+
+        $form = AmlaForm::where('form_id', $form_id)->first();
+
+        $form1 = AmlaForm4a::where('form_id', $form_id)->first();
+        if (!empty($form['branch_name'])) {
+            $form1['branch'] = $form['branch_name'];
+        } else {
+            $form1['branch'] = null;
+        }
+        return view('suspicioustransaction.suspicioustransactionreport', [
+            'form_id' => $form_id,
+            'state' => $state,
+            'form' => $form,
+            'form1' => $form1,
+            'row' => $row,
+            'branch' => $branch,
+            'choices' => $choices,
+            'reported' => $reported,
+            'source' => $source,
+            'offence' => $offence,
+            'title' => $title,
+            'genders' => $genders,
+            'occupation' => $occupation,
+            'sector' => $sector,
+            'marital' => $marital,
+            'bankAccount' => $bankAccount,
+            'productType' => $productType,
+            'currency' => $currency,
+            'relationship' => $relationship
         ]);
     }
 
@@ -1254,6 +1509,122 @@ class PageController extends Controller
 
         return redirect()->back();
     }
+
+
+    public function updateSuspiciousTransactionReport(Request $request, $form_id)
+    {
+        $data = $request->validate([
+            'attempted_not_complete'       => 'required|string',
+            'str_reported_due'             => 'required|string',
+            'state_relevant_source'        => 'required|string',
+            'suspect_predicate'            => 'required|string',
+            'red_flag_indicator'           => 'required|string',
+            'description_trans_pattern'    => 'required|string',
+            'details_reasons'              => 'required|string',
+            'related_pep'                  => 'required|string',
+            'description_relationship_pep' => 'nullable|string',
+            'keyword_report'               => 'nullable|string',
+            'cust_title'                   => 'nullable|string',
+            'cust_name'                    => 'required|string',
+            'cust_name_alias'              => 'nullable|string',
+            'cust_gender'                  => 'required|string',
+            'cust_nationality'             => 'required|string',
+            'cust_nric'                    => 'required|string',
+            'cust_passport'                => 'nullable|string',
+            'cust_other_id'                => 'nullable|string',
+            'cust_dob'                     => 'required|date|before_or_equal:today',
+            'cust_res_address'             => 'required|string',
+            'cust_res_town'                => 'required|string',
+            'cust_res_postcode'            => 'required|string',
+            'cust_res_state'               => 'required|string',
+            'cust_res_nationality'         => 'required|string',
+            'cust_corr_address'            => 'nullable|string',
+            'cust_corr_town'               => 'nullable|string',
+            'cust_corr_postcode'           => 'nullable|string',
+            'cust_corr_state'              => 'nullable|string',
+            'cust_corr_country'            => 'nullable|string',
+            'cust_email'                   => 'nullable|email',
+            'cust_phone_country'           => 'required|string',
+            'cust_phone'                   => 'required|string',
+            'cust_AML_rating'              => 'nullable|string',
+            'cust_occu'                    => 'nullable|string',
+            'cust_occu_desc'               => 'nullable|string',
+            'cust_emp_name'                => 'nullable|string',
+            'cust_emp_sec'                 => 'nullable|string',
+            'cust_annual_income'           => 'nullable|string',
+            'cust_marital'                 => 'nullable|string',
+            'cust_spouse_name'             => 'nullable|string',
+            'cust_spouse_nationality'      => 'nullable|string',
+            'cust_spouse_nric'             => 'nullable|string',
+            'cust_spouse_passport'         => 'nullable|string',
+            'cust_spouse_other_id'         => 'nullable|string',
+            'cust_spouse_dob'              => 'nullable|date|before_or_equal:today',
+            'bank_name'                    => 'nullable|string',
+            'bank_acc_no'                  => 'nullable|string',
+            'bank_acc_type'                => 'nullable|string',
+            'bank_home_branch'             => 'nullable|string',
+            'sus_trans_producttype'        => 'required|string',
+            'sus_trans_datefrom'           => 'required|date|before_or_equal:today',
+            'sus_trans_dateto'             => 'required|date|after_or_equal:sus_trans_datefrom|before_or_equal:today',
+            'sus_trans_amt_myr'            => 'required|numeric',
+            'sus_trans_currency'           => 'nullable|string',
+            'sus_trans_amt_fc'             => 'nullable|numeric',
+            'sus_title'                    => 'nullable|string',
+            'sus_name'                     => 'nullable|string',
+            'sus_name_other'               => 'nullable|string',
+            'sus_gender'                   => 'nullable|string',
+            'sus_nationality'              => 'nullable|string',
+            'sus_nric'                     => 'nullable|string',
+            'sus_passport'                 => 'nullable|string',
+            'sus_other_id'                 => 'nullable|string',
+            'sus_dob'                      => 'nullable|date|before_or_equal:today',
+            'sus_address'                  => 'nullable|string',
+            'sus_town'                     => 'nullable|string',
+            'sus_postcode'                 => 'nullable|string',
+            'sus_state'                    => 'nullable|string',
+            'sus_country'                  => 'nullable|string',
+            'sus_corr_address'             => 'nullable|string',
+            'sus_corr_town'                => 'nullable|string',
+            'sus_corr_postcode'            => 'nullable|string',
+            'sus_corr_state'               => 'nullable|string',
+            'sus_corr_country'             => 'nullable|string',
+            'sus_email'                    => 'nullable|email',
+            'sus_phone_country'            => 'nullable|string',
+            'sus_phone'                    => 'nullable|string',
+            'sus_occu'                     => 'nullable|string',
+            'sus_relationship'             => 'nullable|string',
+            'firm_producttype'             => 'nullable|string',
+            'firm_other'                   => 'nullable|string',
+            'firm_quantity'                => 'nullable|numeric',
+            'firm_amt'                     => 'nullable|numeric',
+            'firm_date'                    => 'nullable|date|before_or_equal:today',
+            'firm_serv'                     => 'nullable|numeric',
+            'firm_trans_amt'               => 'nullable|numeric',
+        ]);
+
+        $data_header = $request->validate([
+            'trx_no' => 'nullable|string',
+            'sales_date' => 'nullable|date',
+            'branch' => 'nullable|string',
+            'doc_no' => 'nullable|string'
+        ]);
+        $data_header['status'] = "New";
+        $data_header['updated_date'] = now();
+
+        $data['form_id'] = $form_id;
+        if (!empty(request('branch'))) {
+            $data_header['branch_name'] = request('branch');
+        } else {
+            $data_header['branch_name'] = null;
+        }
+        $form = AmlaForm::findOrFail($form_id);
+        $form->update($data_header);
+        $form3 = AmlaForm4a::findOrFail($form_id);
+        $form3->update($data);
+
+
+        return redirect()->back();
+    }
     public function submitCustomerDueDiligenceForm(Request $request, $form_id)
     {
         $data_header['status'] = "Submitted";
@@ -1287,6 +1658,16 @@ class PageController extends Controller
         $form->update($data_header);
 
         return redirect("/submittedEnhancedCustomerDueDiligenceForm/{$form_id}/2");
+    }
+
+    public function submitSuspiciousTransactionReport(Request $request, $form_id)
+    {
+
+        $data_header['status'] = "Submitted";
+        $form = AmlaForm::findOrFail($form_id);
+        $form->update($data_header);
+
+        return redirect("/submittedSuspiciousTransactionReport/{$form_id}/2");
     }
 
     private function sendInternalStrNotification($form_id, int $state, string $purpose): bool
@@ -1857,6 +2238,118 @@ class PageController extends Controller
         return redirect("/createdEnhancedCustomerDueDiligenceForm/{$form_id}/1");
     }
 
+
+    public function createSuspiciousTransactionReport(Request $request)
+    {
+        $data = $request->validate([
+            'attempted_not_complete'       => 'required|string',
+            'str_reported_due'             => 'required|string',
+            'state_relevant_source'        => 'required|string',
+            'suspect_predicate'            => 'required|string',
+            'red_flag_indicator'           => 'required|string',
+            'description_trans_pattern'    => 'required|string',
+            'details_reasons'              => 'required|string',
+            'related_pep'                  => 'required|string',
+            'description_relationship_pep' => 'nullable|string',
+            'keyword_report'               => 'nullable|string',
+            'cust_title'                   => 'nullable|string',
+            'cust_name'                    => 'required|string',
+            'cust_name_alias'              => 'nullable|string',
+            'cust_gender'                  => 'required|string',
+            'cust_nationality'             => 'required|string',
+            'cust_nric'                    => 'required|string',
+            'cust_passport'                => 'nullable|string',
+            'cust_other_id'                => 'nullable|string',
+            'cust_dob'                     => 'required|date|before:today',
+            'cust_res_address'             => 'required|string',
+            'cust_res_town'                => 'required|string',
+            'cust_res_postcode'            => 'required|string',
+            'cust_res_state'               => 'required|string',
+            'cust_res_nationality'         => 'required|string',
+            'cust_corr_address'            => 'nullable|string',
+            'cust_corr_town'               => 'nullable|string',
+            'cust_corr_postcode'           => 'nullable|string',
+            'cust_corr_state'              => 'nullable|string',
+            'cust_corr_country'            => 'nullable|string',
+            'cust_email'                   => 'nullable|email',
+            'cust_phone_country'           => 'required|string',
+            'cust_phone'                   => 'required|string',
+            'cust_AML_rating'              => 'nullable|string',
+            'cust_occu'                    => 'nullable|string',
+            'cust_occu_desc'               => 'nullable|string',
+            'cust_emp_name'                => 'nullable|string',
+            'cust_emp_sec'                 => 'nullable|string',
+            'cust_annual_income'           => 'nullable|string',
+            'cust_marital'                 => 'nullable|string',
+            'cust_spouse_name'             => 'nullable|string',
+            'cust_spouse_nationality'      => 'nullable|string',
+            'cust_spouse_nric'             => 'nullable|string',
+            'cust_spouse_passport'         => 'nullable|string',
+            'cust_spouse_other_id'         => 'nullable|string',
+            'cust_spouse_dob'              => 'nullable|date|before:today',
+            'bank_name'                    => 'nullable|string',
+            'bank_acc_no'                  => 'nullable|string',
+            'bank_acc_type'                => 'nullable|string',
+            'bank_home_branch'             => 'nullable|string',
+            'sus_trans_producttype'        => 'required|string',
+            'sus_trans_datefrom'           => 'required|date',
+            'sus_trans_dateto'             => 'required|date|after_or_equal:sus_trans_datefrom',
+            'sus_trans_amt_myr'            => 'required|numeric',
+            'sus_trans_currency'           => 'nullable|string',
+            'sus_trans_amt_fc'             => 'nullable|numeric',
+            'sus_title'                    => 'nullable|string',
+            'sus_name'                     => 'nullable|string',
+            'sus_name_other'               => 'nullable|string',
+            'sus_gender'                   => 'nullable|string',
+            'sus_nationality'              => 'nullable|string',
+            'sus_nric'                     => 'nullable|string',
+            'sus_passport'                 => 'nullable|string',
+            'sus_other_id'                 => 'nullable|string',
+            'sus_dob'                      => 'nullable|date|before:today',
+            'sus_address'                  => 'nullable|string',
+            'sus_town'                     => 'nullable|string',
+            'sus_postcode'                 => 'nullable|string',
+            'sus_state'                    => 'nullable|string',
+            'sus_country'                  => 'nullable|string',
+            'sus_corr_address'             => 'nullable|string',
+            'sus_corr_town'                => 'nullable|string',
+            'sus_corr_postcode'            => 'nullable|string',
+            'sus_corr_state'               => 'nullable|string',
+            'sus_corr_country'             => 'nullable|string',
+            'sus_email'                    => 'nullable|email',
+            'sus_phone_country'            => 'nullable|string',
+            'sus_phone'                    => 'nullable|string',
+            'sus_occu'                     => 'nullable|string',
+            'sus_relationship'             => 'nullable|string',
+            'firm_producttype'             => 'nullable|string',
+            'firm_other'                   => 'nullable|string',
+            'firm_quantity'                => 'nullable|numeric',
+            'firm_amt'                     => 'nullable|numeric',
+            'firm_date'                    => 'nullable|date',
+            'firm_serv'                     => 'nullable|numeric',
+            'firm_trans_amt'               => 'nullable|numeric',
+        ]);
+        $data_header = $request->validate([
+            'trx_no' => 'nullable|string',
+            'sales_date' => 'nullable|date',
+            'branch' => 'nullable|string',
+            'doc_no' => 'nullable|string'
+        ]);
+        if (!empty($request['branch'])) {
+            $data_header['branch_name'] = $request['branch'];
+        };
+        $data_header['status'] = "New";
+        $data_header['form_type'] = "Form_No_4a";
+        $data_header['created_date'] = now();
+        if (!empty(request('branch'))) {
+            $data_header['branch_name'] = request('branch');
+        };
+        $submittedHeaderForm = AmlaForm::create($data_header);
+        $form_id = $submittedHeaderForm->form_id;
+        $data['form_id'] = $form_id;
+        AmlaForm4a::create($data);
+        return redirect("/createdSuspiciousTransactionReport/{$form_id}/1");
+    }
     public function uploadImages(Request $request, $form_id, $form_type)
     {
         $validator = Validator::make($request->all(), [

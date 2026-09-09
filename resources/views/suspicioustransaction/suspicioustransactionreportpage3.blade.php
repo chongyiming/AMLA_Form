@@ -79,7 +79,7 @@
                         <div style="height: 35px;">
                             <x-searchable-dropdown
                                 :options="$branch"
-                                name="branch"
+                                name="cust_AML_rating"
                                 field="Branch_Code"
                                 :form1="$form1"
                                 border="show" />
@@ -120,7 +120,7 @@
                         <div style="height: 35px;">
                             <x-searchable-dropdown
                                 :options="$branch"
-                                name="branch"
+                                name="cust_annual_income"
                                 field="Branch_Code"
                                 :form1="$form1"
                                 border="show" />
@@ -140,7 +140,7 @@
                         <div style="height: 35px;">
                             <x-searchable-dropdown
                                 :options="$branch"
-                                name="branch"
+                                name="cust_spouse_nationality"
                                 field="Branch_Code"
                                 :form1="$form1"
                                 border="show" />

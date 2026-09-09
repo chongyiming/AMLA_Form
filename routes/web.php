@@ -36,28 +36,36 @@ Route::get('/createRiskProfilingForm', [PageController::class, 'createRiskProfil
 Route::get('/showEnhancedCustomerDueDiligenceForm', [PageController::class, 'showEnhancedCustomerDueDiligenceForm']);
 Route::post('/createEnhancedCustomerDueDiligenceForm', [PageController::class, 'createEnhancedCustomerDueDiligenceForm']);
 Route::get('/showSuspiciousTransactionReport', [PageController::class, 'showSuspiciousTransactionReport']);
+Route::post('/createSuspiciousTransactionReport', [PageController::class, 'createSuspiciousTransactionReport']);
+
 
 Route::get('/createdForm/{form_id}/{state}', [PageController::class, 'createdForm']);
 Route::get('/createdCustomerRiskProfilingForm/{form_id}/{state}', [PageController::class, 'createdCustomerRiskProfilingForm']);
 Route::get('/createdEnhancedCustomerDueDiligenceForm/{form_id}/{state}', [PageController::class, 'createdEnhancedCustomerDueDiligenceForm']);
+Route::get('/createdSuspiciousTransactionReport/{form_id}/{state}', [PageController::class, 'createdSuspiciousTransactionReport']);
+
 Route::get('/submittedCustomerDueDiligenceForm/{form_id}/{state}', [PageController::class, 'submittedCustomerDueDiligenceForm']);
 Route::get('/submittedCustomerRiskProfilingForm/{form_id}/{state}', [PageController::class, 'submittedCustomerRiskProfilingForm']);
 Route::get('/submittedEnhancedCustomerDueDiligenceForm/{form_id}/{state}', [PageController::class, 'submittedEnhancedCustomerDueDiligenceForm']);
-
+Route::get('/submittedSuspiciousTransactionReport/{form_id}/{state}', [PageController::class, 'submittedSuspiciousTransactionReport']);
 
 Route::post('/submitCustomerDueDiligenceForm/{form_id}', [PageController::class, 'submitCustomerDueDiligenceForm']);
 Route::post('/submitCustomerRiskProfilingForm/{form_id}', [PageController::class, 'submitCustomerRiskProfilingForm']);
 Route::post('/submitEnhancedCustomerDueDiligenceForm/{form_id}', [PageController::class, 'submitEnhancedCustomerDueDiligenceForm']);
+Route::post('/submitSuspiciousTransactionReport/{form_id}', [PageController::class, 'submitSuspiciousTransactionReport']);
+
 
 
 Route::post('/updateCustomerDueDiligenceForm/{form_id}', [PageController::class, 'updateCustomerDueDiligenceForm']);
 Route::post('/updateCustomerRiskProfilingForm/{form_id}', [PageController::class, 'updateCustomerRiskProfilingForm']);
 Route::post('/updateEnhancedCustomerDueDiligenceForm/{form_id}', [PageController::class, 'updateEnhancedCustomerDueDiligenceForm']);
+Route::post('/updateSuspiciousTransactionReport/{form_id}', [PageController::class, 'updateSuspiciousTransactionReport']);
 
 Route::post('/{form_id}/delete', [TableController::class, 'delete']);
 Route::get('/{form_id}/editCustomerDueDiligenceForm', [TableController::class, 'editCustomerDueDiligenceForm']);
 Route::get('/{form_id}/editCustomerRiskProfilingForm', [TableController::class, 'editCustomerRiskProfilingForm']);
 Route::get('/{form_id}/editEnhancedCustomerDueDiligenceForm', [TableController::class, 'editEnhancedCustomerDueDiligenceForm']);
+Route::get('/{form_id}/editSuspiciousTransactionReport', [TableController::class, 'editSuspiciousTransactionReport']);
 
 
 Route::get('/attachments/{form_id}', [TableController::class, 'attachments']);
