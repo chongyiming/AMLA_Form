@@ -189,7 +189,7 @@
                     <td colspan="2"><input type="date" class="form-control border-0" name="date" value="{{ old('date', isset($form1->date) ? \Carbon\Carbon::parse($form1->date)->format('Y-m-d') : '') }}"></td>
                 </tr>
         </table>
-        <div class='footer'>Version 3: Dated 09/012/2025</div>
+        <div class='footer'>Version 3: Dated 09/12/2025</div>
 
 
     </div>

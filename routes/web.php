@@ -25,12 +25,17 @@ Route::get(
     '/home_enhanced_customer_due_diligence_form',
     [TableController::class, 'home_enhanced_customer_due_diligence_form']
 );
+Route::get(
+    '/home_suspicious_transaction_report',
+    [TableController::class, 'home_suspicious_transaction_report']
+);
 Route::post('/create', [PageController::class, 'create']);
 Route::post('/createCustomerRiskProfilingForm', [PageController::class, 'createCustomerRiskProfilingForm']);
 Route::get('/createForm', [PageController::class, 'createForm']);
 Route::get('/createRiskProfilingForm', [PageController::class, 'createRiskProfilingForm']);
 Route::get('/showEnhancedCustomerDueDiligenceForm', [PageController::class, 'showEnhancedCustomerDueDiligenceForm']);
 Route::post('/createEnhancedCustomerDueDiligenceForm', [PageController::class, 'createEnhancedCustomerDueDiligenceForm']);
+Route::get('/showSuspiciousTransactionReport', [PageController::class, 'showSuspiciousTransactionReport']);
 
 Route::get('/createdForm/{form_id}/{state}', [PageController::class, 'createdForm']);
 Route::get('/createdCustomerRiskProfilingForm/{form_id}/{state}', [PageController::class, 'createdCustomerRiskProfilingForm']);

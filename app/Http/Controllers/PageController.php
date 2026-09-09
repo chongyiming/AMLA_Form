@@ -158,6 +158,30 @@ class PageController extends Controller
 
         ]);
     }
+
+    public function showSuspiciousTransactionReport()
+    {
+        $branch = DB::table('Company_Setup_Workstation')
+            ->select('Branch_Code')
+            ->where('Branch_Code', 'LIKE', 'P%')
+            // ->where('Branch_Code', '!=', 'PEOS')
+            ->distinct()
+            ->get();
+
+        $sales_name = DB::table('SER_USERPROFILE')
+            ->select('USERNAME')
+            ->where('USERISACTIVE', '1')
+            ->get();
+
+        return view('suspicioustransaction.suspicioustransactionreport', [
+            'state' => 0,
+            'form1' => null,
+            'form' => null,
+            'sales_name' => $sales_name,
+            'branch' => $branch
+
+        ]);
+    }
     public function submittedCustomerDueDiligenceForm($form_id, $state)
     {
         $row = DB::table('istr_AMLAForm1 as t1')
