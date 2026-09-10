@@ -67,7 +67,7 @@
 <body>
     <x-menu-sidebar></x-menu-sidebar>
 
-    <form method="POST" action="{{ $state == 0 ? '/createSuspiciousTransactionReport' : '/submitSuspiciousTransactionReport' }}">
+    <form method="POST" action="{{ $state == 0 ? '/createSuspiciousTransactionReportNonIndividual' : '/submitSuspiciousTransactionReportNonIndividual' }}">
         @csrf
 
 
@@ -83,12 +83,13 @@
             @endif
             <br>
             <div id="print-area" style="width:100%;padding:0">
-                @include('suspicioustransaction.suspicioustransactionreportpage1')
-                @include('suspicioustransaction.suspicioustransactionreportpage2')
-                @include('suspicioustransaction.suspicioustransactionreportpage3')
-                @include('suspicioustransaction.suspicioustransactionreportpage4')
-                @include('suspicioustransaction.suspicioustransactionreportpage5')
-                @include('suspicioustransaction.suspicioustransactionreportpage6')
+                @include('suspicioustransactionnonindividual.suspicioustransactionreportnonindividualpage1')
+                @include('suspicioustransactionnonindividual.suspicioustransactionreportnonindividualpage2')
+                @include('suspicioustransactionnonindividual.suspicioustransactionreportnonindividualpage3')
+                @include('suspicioustransactionnonindividual.suspicioustransactionreportnonindividualpage4')
+                @include('suspicioustransactionnonindividual.suspicioustransactionreportnonindividualpage5')
+                @include('suspicioustransactionnonindividual.suspicioustransactionreportnonindividualpage6')
+                @include('suspicioustransactionnonindividual.suspicioustransactionreportnonindividualpage7')
 
             </div>
 
@@ -96,11 +97,11 @@
             @if (isset($row))
             <x-attachment-button :row="$row"></x-attachment-button>
             @endif
-            <x-sidepanel :form1="$form1" :form="$form" :state="$state" form_type="Form_No_4a" :branch="$branch"></x-sidepanel>
+            <x-sidepanel :form1="$form1" :form="$form" :state="$state" form_type="Form_No_4b" :branch="$branch"></x-sidepanel>
         </div>
     </form>
     @if (isset($row) && $row->isNotEmpty())
-    <x-attachment-modal :row="$row->first()" title="Enhanced Customer Due Diligence Form"></x-attachment-modal>
+    <x-attachment-modal :row="$row->first()" title="Suspicious Transaction Report - Non Individual"></x-attachment-modal>
     @endif
     <script>
         let translations = {};
@@ -112,49 +113,6 @@
             loadLocale(savedLocale);
             setupLocaleSwitchButtons();
         });
-
-        const state = @json($state);
-
-        if (state == 2) {
-            const fieldsToDisable = [
-                'input[type="text"]',
-                'input[type="button"]',
-                'input[type="date"]',
-
-                'textarea',
-                'button[id="clear-btn1"]',
-                'button[id="clear-btn"]'
-
-            ];
-
-            fieldsToDisable.forEach(selector => {
-                document.querySelectorAll(selector).forEach(el => {
-                    el.disabled = true;
-                    el.style.background = 'transparent';
-                });
-            });
-
-            const readonlySelects = [
-                '[name="attempted_not_complete"]',
-                '[name="str_reported_due"]',
-            ];
-
-
-
-            function makeSelect2Readonly(selector) {
-                $(selector).each(function() {
-                    const $el = $(this);
-                    const $container = $el.next('.select2-container');
-                    $container.addClass('select2-readonly');
-                });
-            }
-
-            $(document).ready(function() {
-                readonlySelects.forEach(makeSelect2Readonly);
-            });
-
-
-        }
     </script>
 </body>
 

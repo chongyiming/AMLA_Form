@@ -53,6 +53,11 @@ class TableController extends Controller
     {
         return redirect("/createdSuspiciousTransactionReport/{$form_id}/1");
     }
+    public function editSuspiciousTransactionReportNonIndividual($form_id)
+    {
+        return redirect("/createdSuspiciousTransactionReportNonIndividual/{$form_id}/1");
+    }
+
 
 
 
@@ -172,6 +177,36 @@ class TableController extends Controller
             ->first();
         return view('suspicioustransaction.home_suspicious_transaction_report', ['forms' => $forms, 'branch' => $branch]);
     }
+
+    public function home_suspicious_transaction_report_non_individual()
+    {
+        $forms = DB::table('istr_AMLAForm4b as t1')
+            ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
+            ->select(
+                't1.*',
+                't2.*',
+                DB::raw("
+            (
+                SELECT COUNT(*)
+                FROM istr_AMLA_Attachment as a
+                WHERE a.form_id = t1.form_id
+                AND a.deletedAt IS NULL
+                AND a.file_name NOT LIKE '%approval_signature%'
+            ) AS image_count
+        ")
+            )
+            ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
+            ->orderBy('t1.form_id', 'desc')
+            ->paginate(10);
+        $branch = DB::table('Company_Setup_Workstation')
+            ->select('Branch_Code')
+            ->where('Branch_Code', 'LIKE', 'P%')
+            ->where('Branch_Code', '!=', 'PEOS')
+            ->distinct()
+            ->first();
+        return view('suspicioustransactionnonindividual.home_suspicious_transaction_report_non_individual', ['forms' => $forms, 'branch' => $branch]);
+    }
+
     public function attachments($form_id)
     {
         $attachments = AmlaAttachment::where('form_id', $form_id)

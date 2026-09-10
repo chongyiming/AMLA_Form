@@ -117,6 +117,7 @@
             const fieldsToDisable = [
                 'input[type="text"]',
                 'input[type="button"]',
+                'input[type="date"]',
                 'textarea',
                 'button[id="clear-btn1"]',
                 'button[id="clear-btn"]'
@@ -150,6 +151,7 @@
             document.querySelectorAll('input[type="radio"]').forEach(el => {
                 el.disabled = true;
             });
+
             document.querySelectorAll('button.mark-btn').forEach(el => {
                 el.disabled = true;
                 el.style.border = 'none';
@@ -163,136 +165,6 @@
 
             });
         }
-
-        document.addEventListener('click', function(e) {
-            if (!e.target.classList.contains('mark-btn')) return;
-
-            const button = e.target;
-            const name = button.dataset.name;
-            const group = button.dataset.group;
-            const hiddenInput = document.getElementById(name + '_value');
-            const wasActive = hiddenInput.value === button.value;
-            if (group) {
-                document.querySelectorAll(`.mark-btn[data-group="${group}"]`)
-                    .forEach(btn => {
-                        const input = document.getElementById(btn.dataset.name + '_value');
-                        btn.textContent = "0";
-                        btn.classList.remove('btn-primary');
-                        btn.classList.add('btn-outline-secondary');
-                        if (input) input.value = "0";
-                    });
-            }
-
-            if (!wasActive) {
-                button.textContent = button.value;
-                button.classList.remove('btn-outline-secondary');
-                button.classList.add('btn-primary');
-                hiddenInput.value = button.value;
-            }
-            calculateTotal();
-        });
-
-
-
-        function calculateTotal() {
-            const SUM_FIELD_IDS = [
-                'type_value',
-                'legal_clubs_value',
-                'legal_arrangement_value',
-                'non_pep_value',
-                'local_pep_value',
-                'foreign_pep_value',
-                'high_net_worth_no_low_value',
-                'high_net_worth_yes_high_value',
-                'businessSize_small_low_value',
-                'businessSize_large_high_value',
-                'businessType_lowrisk_low_value',
-                'businessType_highrisk_high_value',
-                'CDD_clear_low_value',
-                'CDD_vague_high_value',
-                'beneficial_no_low_value',
-                'beneficial_yes_high_value',
-                'trade_no_low_value',
-                'trade_yes_high_value',
-                'remark_no_low_value',
-                'remark_yes_high_value',
-                'originCountry_lowrisk_low_value',
-                'originCountry_taxhaven_medium_value',
-                'originCountry_FATF_high_value',
-                'countryResidence_lowrisk_low_value',
-                'countryResidence_taxhaven_medium_value',
-                'countryResidence_FATF_high_value',
-                'product_nongold_low_value',
-                'product_diamondgem_medium_value',
-                'product_gold_high_value',
-                'delivery_face2face_low_value',
-                'delivery_behalf_medium_value',
-                'delivery_non_face2face_high_value',
-                'payment_electronic_low_value',
-                'payment_cash_medium_value',
-                'payment_cash_high_value',
-                'transaction_fundFrom_local_low_value',
-                'transaction_fundFrom_foreign_medium_value',
-                'transaction_fundFrom_high_value',
-                'transaction_fundFrom_known_low_value',
-                'transaction_fundFrom_unrelated_high_value',
-                'transaction_fundTrans_local_low_value',
-                'transaction_fundTrans_foreign_medium_value',
-                'transaction_fundTrans_highrisk_high_value',
-                'transaction_fundTrans_known_low_value',
-                'transaction_fundTrans_unrelated_high_value',
-            ];
-            const total = SUM_FIELD_IDS.reduce((sum, id) => {
-                const el = document.getElementById(id);
-                return sum + (el ? parseFloat(el.value) || 0 : 0);
-            }, 0);
-
-            console.log(total)
-            document.getElementsByName('individual_minusCash')[0].value = '';
-            document.getElementsByName('nonindividual_minusCash')[0].value = '';
-            document.getElementsByName('individual_minusnonCash')[0].value = '';
-            document.getElementsByName('nonindividual_minusnonCash')[0].value = '';
-
-            document.getElementsByName('individual_minusCash_percentage')[0].value = '';
-            document.getElementsByName('nonindividual_minusCash_percentage')[0].value = '';
-            document.getElementsByName('individual_minusnonCash_percentage')[0].value = '';
-            document.getElementsByName('nonindividual_minusnonCash_percentage')[0].value = '';
-            document.getElementsByName('total_mark')[0].value = '';
-            if (total > 0 && total <= 39) {
-                document.getElementsByName('individual_minusCash')[0].value = total;
-                document.getElementsByName('individual_minusCash_percentage')[0].value = (total / 39 * 100).toFixed(2);
-                document.getElementsByName('total_mark')[0].value = (total / 39 * 100).toFixed(2);;
-            } else if (total > 39 && total <= 42) {
-                document.getElementsByName('nonindividual_minusCash')[0].value = total;
-                document.getElementsByName('nonindividual_minusCash_percentage')[0].value = (total / 42 * 100).toFixed(2);
-                document.getElementsByName('total_mark')[0].value = (total / 42 * 100).toFixed(2);
-
-            } else if (total > 42 && total <= 45) {
-                document.getElementsByName('individual_minusnonCash')[0].value = total;
-                document.getElementsByName('individual_minusnonCash_percentage')[0].value = (total / 45 * 100).toFixed(2);
-                document.getElementsByName('total_mark')[0].value = (total / 45 * 100).toFixed(2);
-
-
-            } else if (total > 45 && total <= 48) {
-                document.getElementsByName('nonindividual_minusnonCash')[0].value = total;
-                document.getElementsByName('nonindividual_minusnonCash_percentage')[0].value = (total / 48 * 100).toFixed(2);
-                document.getElementsByName('total_mark')[0].value = (total / 48 * 100).toFixed(2);
-
-
-            }
-
-        }
-        $(function() {
-            const $sales = $('select[name="sales_name"]');
-            const $prepare = $('select[name="prepared_name"]');
-
-            $sales.on('select2:select', function(e) {
-                const selectedId = e.params.data.id;
-                const selectedText = e.params.data.text;
-                $prepare.val(selectedId).trigger('change');
-            });
-
-        });
     </script>
 </body>
 

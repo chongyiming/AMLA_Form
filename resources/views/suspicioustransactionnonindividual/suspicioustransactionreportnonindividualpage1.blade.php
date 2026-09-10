@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <x-shared-form-4
+    <x-shared-form-1
         :form_id="$form_id ?? null"
         :state="$state"
         :form="$form"
@@ -33,7 +33,7 @@
         :nationalityWithCode="$nationalityWithCode"
         :riskRating="$riskRating"
         :annualIncome="$annualIncome"
-        formNo="Form_STR-DPMS-I"></x-shared-form-4>
+        formNo="Form_STR-DPMS-NI"></x-shared-form-1>
 </body>
 
 </html>

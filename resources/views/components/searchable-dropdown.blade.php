@@ -19,8 +19,6 @@
                     var $el = $(this);
                     var $modal = $el.closest('.modal');
 
-                    // select2 measures width 0 when built inside a hidden modal,
-                    // so skip those on the initial pass and (re)build on show.
                     if ($el.data('select2')) {
                         if (!force) return;
                         $el.select2('destroy');
@@ -54,15 +52,21 @@
 
         }
 
+        .select2-readonly {
+            pointer-events: none;
+        }
+
+        .select2-readonly .select2-selection {
+            background-color: white !important;
+        }
+
+
         .select2-container--disabled .select2-selection {
             background-color: white !important;
             border: none !important;
         }
 
-        .select2-container--disabled .select2-selection--single .select2-selection__arrow {
-            display: none;
 
-        }
 
         .select2-container {
             width: 100% !important;

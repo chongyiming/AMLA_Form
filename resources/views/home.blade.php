@@ -47,7 +47,7 @@
             <button type="button" class="btn btn-secondary" onclick="window.location.href='/home_customer_risk_profiling_form'">Customer Risk Profiling Form 顾客风险分析表格_V5</button>
             <button type="button" class="btn btn-success" onclick="window.location.href='/home_enhanced_customer_due_diligence_form'">Enhanced Customer Due Diligence Form 增强客户尽职调查表格_V2</button>
             <button type="button" class="btn btn-danger" onclick="window.location.href='/home_suspicious_transaction_report'">Suspicious Transaction Report - Individual 可疑交易报告 - 个人</button>
-            <button type="button" class="btn btn-warning">Suspicious Transaction Report - Non Individual 可疑交易报告 - 非个人</button>
+            <button type="button" class="btn btn-warning" onclick="window.location.href='/home_suspicious_transaction_report_non_individual'">Suspicious Transaction Report - Non Individual 可疑交易报告 - 非个人</button>
             <button type="button" class="btn btn-info">Suspicious Transaction Report - Legal Arrangement 可疑交易报告 - 法律安排</button>
         </div>
 

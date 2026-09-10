@@ -67,7 +67,7 @@
         <table class="table table-bordered align-middle table-sm mt-1">
             <thead class="bg-light">
                 <tr>
-                    <th>
+                    <th data-i18n="messages.str_customer_info_header">
                         Customer Information
                     </th>
                 </tr>
@@ -75,7 +75,7 @@
             <tbody>
                 <tr>
                     <td>
-                        <label>Customer AML Risk Rating </label>
+                        <label data-i18n="messages.str_customer_aml_risk_rating">Customer AML Risk Rating </label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
                                 :options="$riskRating"
@@ -85,8 +85,8 @@
                                 border="show" />
                         </div>
                         <div class="d-flex gap-3 align-items-center">
-                            <label class="mt-1">Occupation</label>
-                            <div class="form-text fst-italic" style="font-size: 0.75rem;">
+                            <label class="mt-1" data-i18n="messages.str_occupation">Occupation</label>
+                            <div class="form-text fst-italic" style="font-size: 0.75rem;" data-i18n="messages.str_hint_occupation_others">
                                 Please fill in the occupation in "OTHERS" if not in the list given. e.g. OTHERS: [Doctor]</div>
                         </div>
                         <div style="height: 35px;">
@@ -97,13 +97,13 @@
                                 :form1="$form1"
                                 border="show" />
                         </div>
-                        <label class="mt-1">Occupation Description</label>
+                        <label class="mt-1" data-i18n="messages.str_occupation_description">Occupation Description</label>
                         <input type="text" name="cust_occu_desc" class="form-control" value="{{ old('cust_occu_desc', $form1->cust_occu_desc ?? '') }}">
-                        <label class="mt-1">Employer Name</label>
+                        <label class="mt-1" data-i18n="messages.str_employer_name">Employer Name</label>
                         <input type="text" name="cust_emp_name" class="form-control" value="{{ old('cust_emp_name', $form1->cust_emp_name ?? '') }}">
                         <div class="d-flex gap-3 align-items-center">
-                            <label class="mt-1">Employment Sector</label>
-                            <div class="form-text fst-italic" style="font-size: 0.75rem;">
+                            <label class="mt-1" data-i18n="messages.str_employment_sector">Employment Sector</label>
+                            <div class="form-text fst-italic" style="font-size: 0.75rem;" data-i18n="messages.str_hint_sector_others">
                                 Please fill in the sector in "OTHERS" if not in the list given. e.g. OTHERS: [Forestry]
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                                 :form1="$form1"
                                 border="show" />
                         </div>
-                        <label class="mt-1">Annual Income Range (RM) </label>
+                        <label class="mt-1" data-i18n="messages.str_annual_income_range">Annual Income Range (RM) </label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
                                 :options="$annualIncome"
@@ -125,7 +125,7 @@
                                 :form1="$form1"
                                 border="show" />
                         </div>
-                        <label class="mt-1">Marital Status </label>
+                        <label class="mt-1" data-i18n="messages.str_marital_status">Marital Status </label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
                                 :options="$marital"
@@ -134,9 +134,9 @@
                                 :form1="$form1"
                                 border="show" />
                         </div>
-                        <label class="mt-1">Spouse Name</label>
+                        <label class="mt-1" data-i18n="messages.str_spouse_name">Spouse Name</label>
                         <input type="text" name="cust_spouse_name" class="form-control" value="{{ old('cust_spouse_name', $form1->cust_spouse_name ?? '') }}">
-                        <label class="mt-1">Spouse Nationality </label>
+                        <label class="mt-1" data-i18n="messages.str_spouse_nationality">Spouse Nationality </label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
                                 :options="$nationality"
@@ -146,17 +146,17 @@
                                 border="show" />
                         </div>
                         <div class="d-flex gap-3 align-items-center">
-                            <label class="mt-1">Spouse ID No (NRIC)</label>
-                            <div class="form-text fst-italic" style="font-size: 0.75rem;">
+                            <label class="mt-1" data-i18n="messages.str_spouse_id_nric">Spouse ID No (NRIC)</label>
+                            <div class="form-text fst-italic" style="font-size: 0.75rem;" data-i18n="messages.str_hint_nric_example">
                                 e.g. 780101141234
                             </div>
                         </div>
                         <input type="text" name="cust_spouse_nric" class="form-control" value="{{ old('cust_spouse_nric', $form1->cust_spouse_nric ?? '') }}">
-                        <label class="mt-1">Spouse ID No (Passport)</label>
+                        <label class="mt-1" data-i18n="messages.str_spouse_id_passport">Spouse ID No (Passport)</label>
                         <input type="text" name="cust_spouse_passport" class="form-control" value="{{ old('cust_spouse_passport', $form1->cust_spouse_passport ?? '') }}">
-                        <label class="mt-1">Spouse Other ID</label>
+                        <label class="mt-1" data-i18n="messages.str_spouse_other_id">Spouse Other ID</label>
                         <input type="text" name="cust_spouse_other_id" class="form-control" value="{{ old('cust_spouse_other_id', $form1->cust_spouse_other_id ?? '') }}">
-                        <label class="mt-1">Spouse Date of Birth</label>
+                        <label class="mt-1" data-i18n="messages.str_spouse_dob">Spouse Date of Birth</label>
                         <input type="date" name="cust_spouse_dob" class="form-control mb-3" value="{{ old('cust_spouse_dob', $form1->cust_spouse_dob ?? '') }}">
 
                     </td>

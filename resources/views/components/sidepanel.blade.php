@@ -255,6 +255,12 @@
                 data-i18n="messages.update"
                 formaction="/updateSuspiciousTransactionReport/{{ $form1->form_id }}">
             </button>
+            @elseif ($formType == "Form_No_4b")
+            <button type="submit"
+                class="btn btn-outline-primary"
+                data-i18n="messages.update"
+                formaction="/updateSuspiciousTransactionReportNonIndividual/{{ $form1->form_id }}">
+            </button>
             @endif
 
             <button type="button" class="btn btn-outline-danger" onclick="clearForm()"
@@ -268,6 +274,8 @@
             <button type="submit" class="btn btn-outline-success" formaction="/submitEnhancedCustomerDueDiligenceForm/{{ $form1->form_id }}" data-i18n="messages.submit"></button>
             @elseif ($formType == "Form_No_4a")
             <button type="submit" class="btn btn-outline-success" formaction="/submitSuspiciousTransactionReport/{{ $form1->form_id }}" data-i18n="messages.submit"></button>
+            @elseif ($formType == "Form_No_4b")
+            <button type="submit" class="btn btn-outline-success" formaction="/submitSuspiciousTransactionReportNonIndividual/{{ $form1->form_id }}" data-i18n="messages.submit"></button>
             @endif
 
 

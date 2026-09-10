@@ -129,6 +129,8 @@
             const fieldsToDisable = [
                 'input[type="text"]',
                 'input[type="button"]',
+                'input[type="date"]',
+
                 'textarea',
                 'button[id="clear-btn1"]',
                 'button[id="clear-btn"]'

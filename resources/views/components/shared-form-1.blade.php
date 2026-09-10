@@ -66,7 +66,7 @@
         <table class="table table-bordered align-middle table-sm mt-2">
             <thead class="bg-light">
                 <tr>
-                    <th>
+                    <th data-i18n="messages.str_nature_header">
                         Nature of STR
                     </th>
                 </tr>
@@ -74,7 +74,7 @@
             <tbody>
                 <tr>
                     <td>
-                        <label>Attempted but not complete <span class="text-danger"> *</span></label>
+                        <label><span data-i18n="messages.attempted_not_complete">Attempted but not complete</span> <span class="text-danger"> *</span></label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
                                 :options="$choices"
@@ -83,7 +83,7 @@
                                 :form1="$form1"
                                 border="show" />
                         </div>
-                        <label class="mt-3">STR is reported due to <span class="text-danger"> *</span></label>
+                        <label class="mt-3"><span data-i18n="messages.str_reported_due">STR is reported due to</span> <span class="text-danger"> *</span></label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
                                 :options="$reported"
@@ -92,7 +92,7 @@
                                 :form1="$form1"
                                 border="show" />
                         </div>
-                        <label class="mt-3">Please state relevant source <span class="text-danger"> *</span></label>
+                        <label class="mt-3"><span data-i18n="messages.state_relevant_source">Please state relevant source</span> <span class="text-danger"> *</span></label>
                         <div style="height: 35px;" class="mb-3">
                             <x-searchable-dropdown
                                 :options="$source"
@@ -108,7 +108,7 @@
         <table class="table table-bordered align-middle table-sm">
             <thead class="bg-light">
                 <tr>
-                    <th>
+                    <th data-i18n="messages.basis_of_suspicion_header">
                         Basis of Suspicion
                     </th>
                 </tr>
@@ -116,7 +116,7 @@
             <tbody>
                 <tr>
                     <td>
-                        <label>Suspected Predicate Offence <span class="text-danger"> *</span></label>
+                        <label><span data-i18n="messages.suspected_predicate_offence">Suspected Predicate Offence</span> <span class="text-danger"> *</span></label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
                                 :options="$offence"
@@ -125,16 +125,16 @@
                                 :form1="$form1"
                                 border="show" />
                         </div>
-                        <label class="mt-3">Red flag indicator <span class="text-danger"> *</span></label>
+                        <label class="mt-3"><span data-i18n="messages.red_flag_indicator">Red flag indicator</span> <span class="text-danger"> *</span></label>
                         <textarea class="form-control"
                             name="red_flag_indicator">{{ old('red_flag_indicator', $form1->red_flag_indicator ?? '') }}</textarea>
-                        <label class="mt-3">Description of transaction pattern and entities connected to the suspicious activities. Max 20,000 characters. <span class="text-danger"> *</span></label>
+                        <label class="mt-3"><span data-i18n="messages.description_trans_pattern">Description of transaction pattern and entities connected to the suspicious activities. Max 20,000 characters.</span> <span class="text-danger"> *</span></label>
                         <textarea class="form-control"
                             name="description_trans_pattern">{{ old('description_trans_pattern', $form1->description_trans_pattern ?? '') }}</textarea>
-                        <label class="mt-3">Details and reasons to support basis of suspicion. Max 20,000 characters. <span class="text-danger"> *</span></label>
+                        <label class="mt-3"><span data-i18n="messages.details_reasons">Details and reasons to support basis of suspicion. Max 20,000 characters.</span> <span class="text-danger"> *</span></label>
                         <textarea class="form-control"
                             name="details_reasons">{{ old('details_reasons', $form1->details_reasons ?? '') }}</textarea>
-                        <label class="mt-3">Related to Politically Exposed Persons (PEPs) <span class="text-danger"> *</span></label>
+                        <label class="mt-3"><span data-i18n="messages.related_pep">Related to Politically Exposed Persons (PEPs)</span> <span class="text-danger"> *</span></label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
                                 :options="$choices"
@@ -143,9 +143,9 @@
                                 :form1="$form1"
                                 border="show" />
                         </div>
-                        <label class="mt-3">Description of relationship with PEPs</label>
+                        <label class="mt-3" data-i18n="messages.description_relationship_pep">Description of relationship with PEPs</label>
                         <input type="text" name="description_relationship_pep" class="form-control" value="{{ old('description_relationship_pep', $form1->description_relationship_pep ?? '') }}">
-                        <label class="mt-3">Keywords related to the report</label>
+                        <label class="mt-3" data-i18n="messages.keyword_report">Keywords related to the report</label>
                         <input type="text" name="keyword_report" class="form-control mb-3" value="{{ old('keyword_report', $form1->keyword_report ?? '') }}">
                     </td>
                 </tr>

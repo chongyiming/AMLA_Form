@@ -140,6 +140,12 @@
                             <button type="submit" class="btn btn-outline-primary" style="width: 100%;">Edit</button>
 
                         </form>
+                        @elseif ($row->form_type == "Form_No_4b")
+                        <form action="/{{ $row->form_id }}/editSuspiciousTransactionReportNonIndividual" method="GET">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-primary" style="width: 100%;">Edit</button>
+
+                        </form>
                         @endif
                         <form action="/{{ $row->form_id }}/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this form?\n\n您确定要删除此表单吗?');">
                             @csrf
