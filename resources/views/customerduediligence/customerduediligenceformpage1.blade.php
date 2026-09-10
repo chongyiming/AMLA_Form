@@ -119,7 +119,7 @@
 
             <div class="row">
                 <label data-i18n="messages.date"></label>
-                <input type="text" name="date" value="{{  old('date', $form1->date ?? '') }}" placeholder='yyyy-mm-dd'>
+                <input type="date" name="date" value="{{  old('date', $form1->date ?? '') }}" placeholder='yyyy-mm-dd'>
 
             </div>
         </div>
@@ -141,7 +141,7 @@
         [
             'label' => 'messages.date_of_birth',
             'input' => 'dob',
-            'type' => 'text',
+            'type' => 'date',
             'placeholder'=>'yyyy-mm-dd'
 
         ],

@@ -40,9 +40,7 @@
         [
             'label' => 'messages.date_of_birth',
             'input' => 'transacting_dob',
-            'type' => 'text',
-                        'placeholder'=>'yyyy-mm-dd'
-
+            'type' => 'date'
 
         ],
         [

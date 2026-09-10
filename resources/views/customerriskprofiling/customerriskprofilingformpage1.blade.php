@@ -88,7 +88,7 @@
                     <th class="bg-light" rowspan="2"><span data-i18n="messages.date">Date</span></th>
                     <td rowspan="2" colspan="2" height="1">
                         <div style="display:flex; height:100%;">
-                            <input type="text" class="form-control border-0" style="flex:1;" placeholder="yyyy-mm-dd" name="date" value="{{ old('date', $form1->date ?? '') }}">
+                            <input type="date" class="form-control border-0" style="flex:1;" name="date" value="{{ old('date', $form1->date ?? '') }}">
                         </div>
                     </td>
                 </tr>
