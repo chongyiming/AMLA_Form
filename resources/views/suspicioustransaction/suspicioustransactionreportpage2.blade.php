@@ -100,9 +100,9 @@
                         <label class="mt-1">Nationality <span class="text-danger"> *</span></label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$branch"
+                                :options="$nationality"
                                 name="cust_nationality"
-                                field="Branch_Code"
+                                field="Country_Name"
                                 :form1="$form1"
                                 border="show" />
                         </div>
@@ -146,17 +146,17 @@
                         <div class="d-flex gap-5">
                             <div style="height: 30px;width:100%">
                                 <x-searchable-dropdown
-                                    :options="$branch"
+                                    :options="$states"
                                     name="cust_res_state"
-                                    field="Branch_Code"
+                                    field="State_Name"
                                     :form1="$form1"
                                     border="show" />
                             </div>
                             <div style="height: 30px;width:100%">
                                 <x-searchable-dropdown
-                                    :options="$branch"
+                                    :options="$nationalityWithCode"
                                     name="cust_res_nationality"
-                                    field="Branch_Code"
+                                    field="Country_Name"
                                     :form1="$form1"
                                     border="show" />
                             </div>
@@ -183,17 +183,17 @@
                         <div class="d-flex gap-5">
                             <div style="height: 30px;width:100%">
                                 <x-searchable-dropdown
-                                    :options="$branch"
+                                    :options="$states"
                                     name="cust_corr_state"
-                                    field="Branch_Code"
+                                    field="State_Name"
                                     :form1="$form1"
                                     border="show" />
                             </div>
                             <div style="height: 30px;width:100%">
                                 <x-searchable-dropdown
-                                    :options="$branch"
+                                    :options="$nationalityWithCode"
                                     name="cust_corr_country"
-                                    field="Branch_Code"
+                                    field="Country_Name"
                                     :form1="$form1"
                                     border="show" />
                             </div>

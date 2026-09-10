@@ -51,13 +51,9 @@ class PageController extends Controller
             ->select('USERNAME')
             ->where('USERISACTIVE', '1')
             ->get();
-        $countries = collect([
-            (object) ['Country_Name' => 'Malaysia'],
-            (object) ['Country_Name' => 'Singapore'],
-            (object) ['Country_Name' => 'Indonesia'],
-            (object) ['Country_Name' => 'Thailand'],
-            (object) ['Country_Name' => 'Brunei'],
-        ]);
+        $countries = DB::table('MAS_Country')
+            ->select('Country_Name')
+            ->get();
         $purpose_of_trx = collect([
             (object) ['Purpose_Name' => 'Purchase of Goods'],
             (object) ['Purpose_Name' => 'Payment for Services'],
@@ -168,8 +164,21 @@ class PageController extends Controller
             // ->where('Branch_Code', '!=', 'PEOS')
             ->distinct()
             ->get();
+        $nationality = DB::table('MAS_Country')
+            ->select('Country_Name')
+            ->get();
+
+        $nationalityWithCode = DB::table('MAS_Country')
+            ->select('Country_Code', 'Country_Name')
+            ->get()
+            ->map(fn($c) => (object) [
+                'Country_Name' => $c->Country_Code . ' - ' . $c->Country_Name,
+            ]);
 
 
+        $states = DB::table('MAS_State')
+            ->select('State_Name')
+            ->get();
 
         $choices = collect([
             (object) ['Choice' => 'YES'],
@@ -190,6 +199,27 @@ class PageController extends Controller
             (object) ['Status' => 'OTHERS'],
 
 
+        ]);
+
+        $riskRating = collect([
+            (object) ['Risk_Rating' => 'UNKNOWN'],
+            (object) ['Risk_Rating' => 'LOW'],
+            (object) ['Risk_Rating' => 'MEDIUM'],
+            (object) ['Risk_Rating' => 'HIGH'],
+        ]);
+
+        $annualIncome = collect([
+            (object) ['Range' => '35,000 AND BELOW'],
+            (object) ['Range' => '35,001 - 50,000'],
+            (object) ['Range' => '50,001 - 70,000'],
+            (object) ['Range' => '70,001 - 100,000'],
+            (object) ['Range' => '101,000 - 250,000'],
+            (object) ['Range' => '250,001 - 400,000'],
+            (object) ['Range' => '400,001 - 600,000'],
+            (object) ['Range' => '600,001 - 1,000,000'],
+            (object) ['Range' => '1,000,001 - 2,000,000'],
+            (object) ['Range' => '2,000,001 - 3,000,000'],
+            (object) ['Range' => '3,000,001 AND ABOVE'],
         ]);
         $reported = DB::table('MAS_AMLA_STR')
             ->select('Dropdown_List')
@@ -257,8 +287,12 @@ class PageController extends Controller
             'bankAccount' => $bankAccount,
             'productType' => $productType,
             'currency' => $currency,
-            'relationship' => $relationship
-
+            'relationship' => $relationship,
+            'nationality' => $nationality,
+            'states' => $states,
+            'nationalityWithCode' => $nationalityWithCode,
+            'riskRating' => $riskRating,
+            'annualIncome' => $annualIncome
         ]);
     }
     public function submittedCustomerDueDiligenceForm($form_id, $state)
@@ -284,13 +318,9 @@ class PageController extends Controller
             ->select('USERNAME')
             ->where('USERISACTIVE', '1')
             ->get();
-        $countries = collect([
-            (object) ['Country_Name' => 'Malaysia'],
-            (object) ['Country_Name' => 'Singapore'],
-            (object) ['Country_Name' => 'Indonesia'],
-            (object) ['Country_Name' => 'Thailand'],
-            (object) ['Country_Name' => 'Brunei'],
-        ]);
+        $countries = DB::table('MAS_Country')
+            ->select('Country_Name')
+            ->get();
         $purpose_of_trx = collect([
             (object) ['Purpose_Name' => 'Purchase of Goods'],
             (object) ['Purpose_Name' => 'Payment for Services'],
@@ -541,6 +571,22 @@ class PageController extends Controller
             ->distinct()
             ->get();
 
+        $nationality = DB::table('MAS_Country')
+            ->select('Country_Name')
+            ->get();
+
+        $nationalityWithCode = DB::table('MAS_Country')
+            ->select('Country_Code', 'Country_Name')
+            ->get()
+            ->map(fn($c) => (object) [
+                'Country_Name' => $c->Country_Code . ' - ' . $c->Country_Name,
+            ]);
+
+
+        $states = DB::table('MAS_State')
+            ->select('State_Name')
+            ->get();
+
         $choices = collect([
             (object) ['Choice' => 'YES'],
             (object) ['Choice' => 'NO'],
@@ -561,6 +607,30 @@ class PageController extends Controller
 
 
         ]);
+
+
+        $riskRating = collect([
+            (object) ['Risk_Rating' => 'UNKNOWN'],
+            (object) ['Risk_Rating' => 'LOW'],
+            (object) ['Risk_Rating' => 'MEDIUM'],
+            (object) ['Risk_Rating' => 'HIGH'],
+        ]);
+
+        $annualIncome = collect([
+            (object) ['Range' => '35,000 AND BELOW'],
+            (object) ['Range' => '35,001 - 50,000'],
+            (object) ['Range' => '50,001 - 70,000'],
+            (object) ['Range' => '70,001 - 100,000'],
+            (object) ['Range' => '101,000 - 250,000'],
+            (object) ['Range' => '250,001 - 400,000'],
+            (object) ['Range' => '400,001 - 600,000'],
+            (object) ['Range' => '600,001 - 1,000,000'],
+            (object) ['Range' => '1,000,001 - 2,000,000'],
+            (object) ['Range' => '2,000,001 - 3,000,000'],
+            (object) ['Range' => '3,000,001 AND ABOVE'],
+        ]);
+
+
         $reported = DB::table('MAS_AMLA_STR')
             ->select('Dropdown_List')
             ->where('Type', '=', 'Reported')
@@ -634,7 +704,12 @@ class PageController extends Controller
             'bankAccount' => $bankAccount,
             'productType' => $productType,
             'currency' => $currency,
-            'relationship' => $relationship
+            'relationship' => $relationship,
+            'nationality' => $nationality,
+            'states' => $states,
+            'nationalityWithCode' => $nationalityWithCode,
+            'riskRating' => $riskRating,
+            'annualIncome' => $annualIncome
         ]);
     }
 
@@ -663,13 +738,9 @@ class PageController extends Controller
             ->select('USERNAME')
             ->where('USERISACTIVE', '1')
             ->get();
-        $countries = collect([
-            (object) ['Country_Name' => 'Malaysia'],
-            (object) ['Country_Name' => 'Singapore'],
-            (object) ['Country_Name' => 'Indonesia'],
-            (object) ['Country_Name' => 'Thailand'],
-            (object) ['Country_Name' => 'Brunei'],
-        ]);
+        $countries = DB::table('MAS_Country')
+            ->select('Country_Name')
+            ->get();
         $purpose_of_trx = collect([
             (object) ['Purpose_Name' => 'Purchase of Goods'],
             (object) ['Purpose_Name' => 'Payment for Services'],
@@ -934,6 +1005,22 @@ class PageController extends Controller
             ->distinct()
             ->get();
 
+        $nationality = DB::table('MAS_Country')
+            ->select('Country_Name')
+            ->get();
+
+        $nationalityWithCode = DB::table('MAS_Country')
+            ->select('Country_Code', 'Country_Name')
+            ->get()
+            ->map(fn($c) => (object) [
+                'Country_Name' => $c->Country_Code . ' - ' . $c->Country_Name,
+            ]);
+
+
+        $states = DB::table('MAS_State')
+            ->select('State_Name')
+            ->get();
+
         $choices = collect([
             (object) ['Choice' => 'YES'],
             (object) ['Choice' => 'NO'],
@@ -953,6 +1040,28 @@ class PageController extends Controller
             (object) ['Status' => 'OTHERS'],
 
 
+        ]);
+
+
+        $riskRating = collect([
+            (object) ['Risk_Rating' => 'UNKNOWN'],
+            (object) ['Risk_Rating' => 'LOW'],
+            (object) ['Risk_Rating' => 'MEDIUM'],
+            (object) ['Risk_Rating' => 'HIGH'],
+        ]);
+
+        $annualIncome = collect([
+            (object) ['Range' => '35,000 AND BELOW'],
+            (object) ['Range' => '35,001 - 50,000'],
+            (object) ['Range' => '50,001 - 70,000'],
+            (object) ['Range' => '70,001 - 100,000'],
+            (object) ['Range' => '101,000 - 250,000'],
+            (object) ['Range' => '250,001 - 400,000'],
+            (object) ['Range' => '400,001 - 600,000'],
+            (object) ['Range' => '600,001 - 1,000,000'],
+            (object) ['Range' => '1,000,001 - 2,000,000'],
+            (object) ['Range' => '2,000,001 - 3,000,000'],
+            (object) ['Range' => '3,000,001 AND ABOVE'],
         ]);
         $reported = DB::table('MAS_AMLA_STR')
             ->select('Dropdown_List')
@@ -1004,6 +1113,7 @@ class PageController extends Controller
             ->get();
 
 
+
         $form = AmlaForm::where('form_id', $form_id)->first();
 
         $form1 = AmlaForm4a::where('form_id', $form_id)->first();
@@ -1031,7 +1141,12 @@ class PageController extends Controller
             'bankAccount' => $bankAccount,
             'productType' => $productType,
             'currency' => $currency,
-            'relationship' => $relationship
+            'relationship' => $relationship,
+            'nationality' => $nationality,
+            'states' => $states,
+            'nationalityWithCode' => $nationalityWithCode,
+            'riskRating' => $riskRating,
+            'annualIncome' => $annualIncome
         ]);
     }
 

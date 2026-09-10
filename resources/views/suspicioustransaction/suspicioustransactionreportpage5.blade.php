@@ -122,17 +122,17 @@
                         <div class="d-flex gap-5">
                             <div style="height: 30px;width:100%">
                                 <x-searchable-dropdown
-                                    :options="$branch"
+                                    :options="$states"
                                     name="sus_state"
-                                    field="Branch_Code"
+                                    field="State_Name"
                                     :form1="$form1"
                                     border="show" />
                             </div>
                             <div style="height: 30px;width:100%">
                                 <x-searchable-dropdown
-                                    :options="$branch"
+                                    :options="$nationalityWithCode"
                                     name="sus_country"
-                                    field="Branch_Code"
+                                    field="Country_Name"
                                     :form1="$form1"
                                     border="show" />
                             </div>
@@ -159,17 +159,17 @@
                         <div class="d-flex gap-5">
                             <div style="height: 30px;width:100%">
                                 <x-searchable-dropdown
-                                    :options="$branch"
+                                    :options="$states"
                                     name="sus_corr_state"
-                                    field="Branch_Code"
+                                    field="State_Name"
                                     :form1="$form1"
                                     border="show" />
                             </div>
                             <div style="height: 30px;width:100%">
                                 <x-searchable-dropdown
-                                    :options="$branch"
+                                    :options="$nationalityWithCode"
                                     name="sus_corr_country"
-                                    field="Branch_Code"
+                                    field="Country_Name"
                                     :form1="$form1"
                                     border="show" />
                             </div>

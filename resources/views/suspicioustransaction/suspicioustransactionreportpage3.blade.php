@@ -78,9 +78,9 @@
                         <label>Customer AML Risk Rating </label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$branch"
+                                :options="$riskRating"
                                 name="cust_AML_rating"
-                                field="Branch_Code"
+                                field="Risk_Rating"
                                 :form1="$form1"
                                 border="show" />
                         </div>
@@ -119,9 +119,9 @@
                         <label class="mt-1">Annual Income Range (RM) </label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$branch"
+                                :options="$annualIncome"
                                 name="cust_annual_income"
-                                field="Branch_Code"
+                                field="Range"
                                 :form1="$form1"
                                 border="show" />
                         </div>
@@ -139,9 +139,9 @@
                         <label class="mt-1">Spouse Nationality </label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$branch"
+                                :options="$nationality"
                                 name="cust_spouse_nationality"
-                                field="Branch_Code"
+                                field="Country_Name"
                                 :form1="$form1"
                                 border="show" />
                         </div>
