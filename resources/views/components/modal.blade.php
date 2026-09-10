@@ -34,7 +34,8 @@
 
                     <div class="d-flex gap-3 mt-3 mb-3 align-items-center" style="width: 400px;">
                         <label style="min-width: 100px;">Sales Date</label>
-                        <input type="date" class="form-control" name="sales_date" value="{{ old('sales_date', data_get($form, 'sales_date')) }}">
+                        <input type="date" class="form-control" name="sales_date"
+                            value="{{ old('sales_date', $form?->sales_date ? \Carbon\Carbon::parse($form->sales_date)->format('Y-m-d') : '') }}">
                         <button type="button" class="btn btn-outline-dark align-middle" onclick="searchTrx()">Search</button>
 
                     </div>

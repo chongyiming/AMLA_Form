@@ -1,4 +1,3 @@
-@props(['options', 'name', 'field', 'form1' => null, 'border' => 'none', 'placeholder' => ''])
 <!DOCTYPE html>
 <html lang="en">
 
@@ -95,12 +94,12 @@
 <body>
 
     <select class="js-example-basic-single {{ $border === 'none' ? 'no-border' : '' }}" name="{{ $name }}"
-        data-placeholder="{{ $placeholder }}">
+        data-placeholder="{{ '' }}">
         @php
         $selectedValue = old($name, $form1->$name ?? '');
         $optionList = is_iterable($options)
-            ? $options
-            : collect([$options])->filter(fn ($o) => is_object($o) || is_array($o));
+        ? $options
+        : collect([$options])->filter(fn ($o) => is_object($o) || is_array($o));
         @endphp
 
         <option value=""></option>
