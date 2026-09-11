@@ -82,9 +82,9 @@
                         <label class="mt-1">Customer AML Risk Rating</label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$genders"
+                                :options="$riskRating"
                                 name="settlor_aml_rating"
-                                field="Gender"
+                                field="Risk_Rating"
                                 :form1="$form1"
                                 border="show" />
                         </div>
@@ -95,9 +95,9 @@
                         </div>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$genders"
+                                :options="$occupation"
                                 name="settlor_occupation"
-                                field="Gender"
+                                field="Dropdown_List"
                                 :form1="$form1"
                                 border="show" />
                         </div>
@@ -112,27 +112,27 @@
                         </div>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$genders"
+                                :options="$sector"
                                 name="settlor_emp_sector"
-                                field="Gender"
+                                field="Dropdown_List"
                                 :form1="$form1"
                                 border="show" />
                         </div>
                         <label class="mt-1">Annual Income Range (RM) </label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$genders"
+                                :options="$annualIncome"
                                 name="settlor_income_range"
-                                field="Gender"
+                                field="Range"
                                 :form1="$form1"
                                 border="show" />
                         </div>
                         <label class="mt-1">Marital Status </label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$genders"
+                                :options="$marital"
                                 name="settlor_marital_status"
-                                field="Gender"
+                                field="Status"
                                 :form1="$form1"
                                 border="show" />
                         </div>
@@ -141,9 +141,9 @@
                         <label class="mt-1">Spouse Nationality </label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$genders"
+                                :options="$nationality"
                                 name="settlor_spouse_nationality"
-                                field="Gender"
+                                field="Country_Name"
                                 :form1="$form1"
                                 border="show" />
                         </div>

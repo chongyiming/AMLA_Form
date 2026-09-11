@@ -82,9 +82,9 @@
                         <label class="mt-1">Country of Incorporation <span class="text-danger"> *</span></label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$genders"
+                                :options="$nationalityWithCode"
                                 name="cust_nationality"
-                                field="Gender"
+                                field="Country_Name"
                                 :form1="$form1"
                                 border="show" />
                         </div>
@@ -171,9 +171,9 @@
                         <label class="mt-1">Customer AML Risk Rating </label>
                         <div style="height: 35px;width:100%">
                             <x-searchable-dropdown
-                                :options="$states"
+                                :options="$riskRating"
                                 name="cust_aml_rating"
-                                field="State_Name"
+                                field="Risk_Rating"
                                 :form1="$form1"
                                 border="show" />
                         </div>
@@ -184,9 +184,9 @@
                         </div>
                         <div style="height: 35px;width:100%" class="mb-2">
                             <x-searchable-dropdown
-                                :options="$states"
+                                :options="$sector"
                                 name="cust_emp_sector"
-                                field="State_Name"
+                                field="Dropdown_List"
                                 :form1="$form1"
                                 border="show" />
                         </div>

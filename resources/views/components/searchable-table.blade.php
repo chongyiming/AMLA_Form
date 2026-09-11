@@ -182,6 +182,13 @@
                                 View
                             </button>
                         </form>
+                        @elseif ($row->form_type == "Form_No_4b")
+                        <form action="/submittedSuspiciousTransactionReportNonIndividual/{{ $row->form_id }}/2" method="GET">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-primary" style="width: 100%;">
+                                View
+                            </button>
+                        </form>
                         @endif
                         <form action="/{{ $row->form_id }}/delete" method="POST">
                             @csrf

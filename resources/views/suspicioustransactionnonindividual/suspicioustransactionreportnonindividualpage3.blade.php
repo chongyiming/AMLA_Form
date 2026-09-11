@@ -79,7 +79,7 @@
                         <label>Role <span class="text-danger"> *</span></label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
-                                :options="$title"
+                                :options="$occupation"
                                 name="settlor_role"
                                 field="Dropdown_List"
                                 :form1="$form1"

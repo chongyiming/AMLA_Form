@@ -113,6 +113,89 @@
             loadLocale(savedLocale);
             setupLocaleSwitchButtons();
         });
+
+        const state = @json($state);
+
+        if (state == 2) {
+            const fieldsToDisable = [
+                'input[type="text"]',
+                'input[type="button"]',
+                'input[type="date"]',
+                'input[type="number"]',
+
+                'textarea',
+                'button[id="clear-btn1"]',
+                'button[id="clear-btn"]'
+
+            ];
+
+            fieldsToDisable.forEach(selector => {
+                document.querySelectorAll(selector).forEach(el => {
+                    el.disabled = true;
+                    el.style.background = 'transparent';
+                });
+            });
+
+            const readonlySelects = [
+                '[name="attempted_not_complete"]',
+                '[name="str_reported_due"]',
+                '[name="state_relevant_source"]',
+                '[name="suspect_predicate"]',
+                '[name="related_pep"]',
+                '[name="cust_nationality"]',
+                '[name="cust_state"]',
+                '[name="cust_country"]',
+                '[name="cust_corr_state"]',
+                '[name="cust_corr_country"]',
+                '[name="cust_aml_rating"]',
+                '[name="cust_emp_sector"]',
+                '[name="settlor_role"]',
+                '[name="settlor_title"]',
+                '[name="settlor_gender"]',
+                '[name="settlor_nationality"]',
+                '[name="settlor_state"]',
+                '[name="settlor_country"]',
+                '[name="settlor_corr_state"]',
+                '[name="settlor_corr_country"]',
+                '[name="settlor_aml_rating"]',
+                '[name="settlor_occupation"]',
+                '[name="settlor_emp_sector"]',
+                '[name="settlor_income_range"]',
+                '[name="settlor_marital_status"]',
+                '[name="settlor_spouse_nationality"]',
+                '[name="bank_acc_type"]',
+                '[name="sus_trans_producttype"]',
+                '[name="sus_trans_currency"]',
+                '[name="sus_title"]',
+                '[name="sus_gender"]',
+                '[name="sus_nationality"]',
+                '[name="sus_state"]',
+                '[name="sus_country"]',
+                '[name="sus_corr_state"]',
+                '[name="sus_corr_country"]',
+                '[name="sus_phone_country"]',
+                '[name="sus_occu"]',
+                '[name="sus_relationship"]',
+                '[name="firm_producttype"]',
+
+            ];
+
+
+
+            function makeSelect2Readonly(selector) {
+                $(selector).each(function() {
+                    const $el = $(this);
+                    const $container = $el.next('.select2-container');
+                    $container.addClass('select2-readonly');
+                });
+            }
+
+            $(document).ready(function() {
+                readonlySelects.forEach(makeSelect2Readonly);
+            });
+
+
+        }
     </script>
 </body>
 
