@@ -338,6 +338,18 @@
   "messages.str_amount_myr": "金额（令吉）",
   "messages.str_date_relationship_established": "建立关系日期",
   "messages.str_total_services_purchases": "关系期间的服务/购买总次数",
-  "messages.str_total_transaction_amount": "关系期间的交易总金额（令吉）"
+  "messages.str_total_transaction_amount": "关系期间的交易总金额（令吉）",
+
+  "messages.str_business_company_name": "商业/公司名称",
+  "messages.str_other_name_previous_name": "其他名称/曾用名称",
+  "messages.str_country_of_incorporation": "注册成立国家",
+  "messages.str_business_registration_number": "商业注册号码",
+  "messages.str_other_registration_number": "其他注册号码",
+  "messages.str_date_of_incorporation": "注册成立日期",
+  "messages.str_business_address": "营业地址",
+  "messages.str_contact_no_office": "联络号码（办公室）",
+  "messages.str_nature_of_business": "业务性质",
+  "messages.str_signatory_director_bo_header": "签署人/董事/受益拥有人",
+  "messages.str_role": "角色"
 
 }

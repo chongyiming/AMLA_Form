@@ -67,7 +67,7 @@
         <table class="table table-bordered align-middle table-sm mt-1">
             <thead class="bg-light">
                 <tr>
-                    <th>
+                    <th data-i18n="messages.str_signatory_director_bo_header">
                         Signatory/Director/Beneficial Owner
 
                     </th>
@@ -77,9 +77,9 @@
                 <tr>
                     <td>
 
-                        <label class="mt-1">Contact No <span class="text-danger"> *</span></label>
+                        <label class="mt-1"><span data-i18n="messages.str_contact_no">Contact No</span> <span class="text-danger"> *</span></label>
                         <input type="text" name="settlor_contact" class="form-control" value="{{ old('settlor_contact', $form1->settlor_contact ?? '') }}">
-                        <label class="mt-1">Customer AML Risk Rating</label>
+                        <label class="mt-1" data-i18n="messages.str_customer_aml_risk_rating">Customer AML Risk Rating</label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
                                 :options="$riskRating"
@@ -89,8 +89,8 @@
                                 border="show" />
                         </div>
                         <div class="d-flex gap-3 align-items-center">
-                            <label class="mt-1">Occupation <span class="text-danger"> *</span></label>
-                            <div class="form-text fst-italic" style="font-size: 0.75rem;">
+                            <label class="mt-1"><span data-i18n="messages.str_occupation">Occupation</span> <span class="text-danger"> *</span></label>
+                            <div class="form-text fst-italic" style="font-size: 0.75rem;" data-i18n="messages.str_hint_occupation_others">
                                 Please fill in the occupation in "OTHERS" if not in the list given. e.g. OTHERS: [Doctor]</div>
                         </div>
                         <div style="height: 35px;">
@@ -101,13 +101,13 @@
                                 :form1="$form1"
                                 border="show" />
                         </div>
-                        <label class="mt-1">Occupation Description</label>
+                        <label class="mt-1" data-i18n="messages.str_occupation_description">Occupation Description</label>
                         <input type="text" name="settlor_occupation_desc" class="form-control" value="{{ old('settlor_occupation_desc', $form1->settlor_occupation_desc ?? '') }}">
-                        <label class="mt-1">Employer Name</label>
+                        <label class="mt-1" data-i18n="messages.str_employer_name">Employer Name</label>
                         <input type="text" name="settlor_employer" class="form-control" value="{{ old('settlor_employer', $form1->settlor_employer ?? '') }}">
                         <div class="d-flex gap-3 align-items-center">
-                            <label class="mt-1">Employment Sector</label>
-                            <div class="form-text fst-italic" style="font-size: 0.75rem;">
+                            <label class="mt-1" data-i18n="messages.str_employment_sector">Employment Sector</label>
+                            <div class="form-text fst-italic" style="font-size: 0.75rem;" data-i18n="messages.str_hint_sector_others">
                                 Please fill in the sector in "OTHERS" if not in the list given. e.g. OTHERS: [Forestry]</div>
                         </div>
                         <div style="height: 35px;">
@@ -118,7 +118,7 @@
                                 :form1="$form1"
                                 border="show" />
                         </div>
-                        <label class="mt-1">Annual Income Range (RM) </label>
+                        <label class="mt-1" data-i18n="messages.str_annual_income_range">Annual Income Range (RM) </label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
                                 :options="$annualIncome"
@@ -127,7 +127,7 @@
                                 :form1="$form1"
                                 border="show" />
                         </div>
-                        <label class="mt-1">Marital Status </label>
+                        <label class="mt-1" data-i18n="messages.str_marital_status">Marital Status </label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
                                 :options="$marital"
@@ -136,9 +136,9 @@
                                 :form1="$form1"
                                 border="show" />
                         </div>
-                        <label class="mt-1">Spouse Name</label>
+                        <label class="mt-1" data-i18n="messages.str_spouse_name">Spouse Name</label>
                         <input type="text" name="settlor_spouse_name" class="form-control" value="{{ old('settlor_spouse_name', $form1->settlor_spouse_name ?? '') }}">
-                        <label class="mt-1">Spouse Nationality </label>
+                        <label class="mt-1" data-i18n="messages.str_spouse_nationality">Spouse Nationality </label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
                                 :options="$nationality"
@@ -148,16 +148,16 @@
                                 border="show" />
                         </div>
                         <div class="d-flex gap-3 align-items-center">
-                            <label class="mt-1">Spouse ID No (NRIC)</label>
-                            <div class="form-text fst-italic" style="font-size: 0.75rem;">
+                            <label class="mt-1" data-i18n="messages.str_spouse_id_nric">Spouse ID No (NRIC)</label>
+                            <div class="form-text fst-italic" style="font-size: 0.75rem;" data-i18n="messages.str_hint_nric_example">
                                 e.g. 780101141234</div>
                         </div>
                         <input type="text" name="settlor_spouse_nric" class="form-control" value="{{ old('settlor_spouse_nric', $form1->settlor_spouse_nric ?? '') }}">
-                        <label class="mt-1">Spouse ID No (Passport)</label>
+                        <label class="mt-1" data-i18n="messages.str_spouse_id_passport">Spouse ID No (Passport)</label>
                         <input type="text" name="settlor_spouse_passport" class="form-control" value="{{ old('settlor_spouse_passport', $form1->settlor_spouse_passport ?? '') }}">
-                        <label class="mt-1">Spouse Other ID</label>
+                        <label class="mt-1" data-i18n="messages.str_spouse_other_id">Spouse Other ID</label>
                         <input type="text" name="settlor_spouse_other_id" class="form-control" value="{{ old('settlor_spouse_other_id', $form1->settlor_spouse_other_id ?? '') }}">
-                        <label class="mt-1">Spouse Date of Birth</label>
+                        <label class="mt-1" data-i18n="messages.str_spouse_dob">Spouse Date of Birth</label>
                         <input type="date" name="settlor_spouse_dob" class="form-control mb-3" value="{{ old('settlor_spouse_dob', $form1->settlor_spouse_dob ?? '') }}">
                     </td>
                 </tr>

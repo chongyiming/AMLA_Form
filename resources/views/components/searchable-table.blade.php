@@ -217,6 +217,8 @@
     <x-attachment-modal :row="$row" title="Enhanced Customer Due Diligence Form"></x-attachment-modal>
     @elseif($row->form_type === 'Form_No_4a')
     <x-attachment-modal :row="$row" title="Suspicious Transaction Report"></x-attachment-modal>
+    @elseif($row->form_type === 'Form_No_4b')
+    <x-attachment-modal :row="$row" title="Suspicious Transaction Report - Non Individual"></x-attachment-modal>
     @endif
     @endforeach
 

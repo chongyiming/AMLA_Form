@@ -338,7 +338,19 @@
   "messages.str_amount_myr": "Amount (RM)",
   "messages.str_date_relationship_established": "Date relationship established",
   "messages.str_total_services_purchases": "Total number of services/purchases throughout relationship",
-  "messages.str_total_transaction_amount": "Total transaction amount throughout relationship (RM)"
+  "messages.str_total_transaction_amount": "Total transaction amount throughout relationship (RM)",
+
+  "messages.str_business_company_name": "Business/Company Name",
+  "messages.str_other_name_previous_name": "Other Name/Previous Name",
+  "messages.str_country_of_incorporation": "Country of Incorporation",
+  "messages.str_business_registration_number": "Business Registration Number",
+  "messages.str_other_registration_number": "Other Registration Number",
+  "messages.str_date_of_incorporation": "Date of Incorporation",
+  "messages.str_business_address": "Business Address",
+  "messages.str_contact_no_office": "Contact No (Office)",
+  "messages.str_nature_of_business": "Nature of Business",
+  "messages.str_signatory_director_bo_header": "Signatory/Director/Beneficial Owner",
+  "messages.str_role": "Role"
 
 
 

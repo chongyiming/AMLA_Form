@@ -67,7 +67,7 @@
         <table class="table table-bordered align-middle table-sm mt-1">
             <thead class="bg-light">
                 <tr>
-                    <th>
+                    <th data-i18n="messages.str_customer_info_header">
                         Customer Information
                     </th>
                 </tr>
@@ -75,11 +75,11 @@
             <tbody>
                 <tr>
                     <td>
-                        <label class="mt-1">Business/Company Name <span class="text-danger"> *</span></label>
+                        <label class="mt-1"><span data-i18n="messages.str_business_company_name">Business/Company Name</span> <span class="text-danger"> *</span></label>
                         <input type="text" name="cust_name" class="form-control" value="{{ old('cust_name', $form1->cust_name ?? '') }}">
-                        <label class="mt-1">Other Name/Previous Name</label>
+                        <label class="mt-1" data-i18n="messages.str_other_name_previous_name">Other Name/Previous Name</label>
                         <input type="text" name="other_name" class="form-control" value="{{ old('other_name', $form1->other_name ?? '') }}">
-                        <label class="mt-1">Country of Incorporation <span class="text-danger"> *</span></label>
+                        <label class="mt-1"><span data-i18n="messages.str_country_of_incorporation">Country of Incorporation</span> <span class="text-danger"> *</span></label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
                                 :options="$nationalityWithCode"
@@ -88,24 +88,24 @@
                                 :form1="$form1"
                                 border="show" />
                         </div>
-                        <label class="mt-1">Business Registration Number <span class="text-danger"> *</span></label>
+                        <label class="mt-1"><span data-i18n="messages.str_business_registration_number">Business Registration Number</span> <span class="text-danger"> *</span></label>
                         <input type="text" name="cust_reg_number" class="form-control" value="{{ old('cust_reg_number', $form1->cust_reg_number ?? '') }}">
-                        <label class="mt-1">Other Registration Number </label>
+                        <label class="mt-1" data-i18n="messages.str_other_registration_number">Other Registration Number </label>
                         <input type="text" name="cust_other_reg" class="form-control" value="{{ old('cust_other_reg', $form1->cust_other_reg ?? '') }}">
-                        <label class="mt-1">Date of Incorporation <span class="text-danger"> *</span> </label>
+                        <label class="mt-1"><span data-i18n="messages.str_date_of_incorporation">Date of Incorporation</span> <span class="text-danger"> *</span> </label>
                         <input type="date" name="cust_dob" class="form-control" value="{{ old('cust_dob', $form1->cust_dob ?? '') }}">
-                        <label class="mt-1">Business Address <span class="text-danger"> *</span> </label>
+                        <label class="mt-1"><span data-i18n="messages.str_business_address">Business Address</span> <span class="text-danger"> *</span> </label>
                         <div class="input-group input-group-sm mb-1">
-                            <span class="input-group-text">Address</span>
+                            <span class="input-group-text" data-i18n="messages.str_address">Address</span>
                             <input type="text" class="form-control" name="cust_address" value="{{ old('cust_address', $form1->cust_address ?? '') }}">
                         </div>
                         <div class="d-flex gap-5">
                             <div class="input-group input-group-sm mb-1">
-                                <span class="input-group-text">Town</span>
+                                <span class="input-group-text" data-i18n="messages.str_town">Town</span>
                                 <input type="text" class="form-control" name="cust_town" value="{{ old('cust_town', $form1->cust_town ?? '') }}">
                             </div>
                             <div class="input-group input-group-sm mb-1">
-                                <span class="input-group-text">Postcode</span>
+                                <span class="input-group-text" data-i18n="messages.str_postcode">Postcode</span>
                                 <input type="text" class="form-control" name="cust_postcode" value="{{ old('cust_postcode', $form1->cust_postcode ?? '') }}">
                             </div>
                         </div>
@@ -128,21 +128,21 @@
                             </div>
                         </div>
                         <div class="d-flex gap-3 align-items-center">
-                            <label class="mt-1">Correspondence Address</label>
-                            <div class="form-text fst-italic" style="font-size: 0.75rem;">
+                            <label class="mt-1" data-i18n="messages.str_correspondence_address">Correspondence Address</label>
+                            <div class="form-text fst-italic" style="font-size: 0.75rem;" data-i18n="messages.str_hint_correspondence_address">
                                 Only fill in if the correspondence address is not same as residential address</div>
                         </div>
                         <div class="input-group input-group-sm mb-1">
-                            <span class="input-group-text">Address</span>
+                            <span class="input-group-text" data-i18n="messages.str_address">Address</span>
                             <input type="text" class="form-control" name="cust_corr_address" value="{{ old('cust_corr_address', $form1->cust_corr_address ?? '') }}">
                         </div>
                         <div class="d-flex gap-5">
                             <div class="input-group input-group-sm mb-1">
-                                <span class="input-group-text">Town</span>
+                                <span class="input-group-text" data-i18n="messages.str_town">Town</span>
                                 <input type="text" class="form-control" name="cust_corr_town" value="{{ old('cust_corr_town', $form1->cust_corr_town ?? '') }}">
                             </div>
                             <div class="input-group input-group-sm mb-1">
-                                <span class="input-group-text">Postcode</span>
+                                <span class="input-group-text" data-i18n="messages.str_postcode">Postcode</span>
                                 <input type="text" class="form-control" name="cust_corr_postcode" value="{{ old('cust_corr_postcode', $form1->cust_corr_postcode ?? '') }}">
                             </div>
                         </div>
@@ -164,11 +164,11 @@
                                     border="show" />
                             </div>
                         </div>
-                        <label class="mt-1">Email Address</label>
+                        <label class="mt-1" data-i18n="messages.str_email_address">Email Address</label>
                         <input type="text" name="cust_email" class="form-control" value="{{ old('cust_email', $form1->cust_email ?? '') }}">
-                        <label class="mt-1">Contact No (Office) <span class="text-danger"> *</span> </label>
+                        <label class="mt-1"><span data-i18n="messages.str_contact_no_office">Contact No (Office)</span> <span class="text-danger"> *</span> </label>
                         <input type="text" name="cust_contact" class="form-control" value="{{ old('cust_contact', $form1->cust_contact ?? '') }}">
-                        <label class="mt-1">Customer AML Risk Rating </label>
+                        <label class="mt-1" data-i18n="messages.str_customer_aml_risk_rating">Customer AML Risk Rating </label>
                         <div style="height: 35px;width:100%">
                             <x-searchable-dropdown
                                 :options="$riskRating"
@@ -178,8 +178,8 @@
                                 border="show" />
                         </div>
                         <div class="d-flex gap-3 align-items-center">
-                            <label class="mt-1">Nature of Business <span class="text-danger"> *</span></label>
-                            <div class="form-text fst-italic" style="font-size: 0.75rem;">
+                            <label class="mt-1"><span data-i18n="messages.str_nature_of_business">Nature of Business</span> <span class="text-danger"> *</span></label>
+                            <div class="form-text fst-italic" style="font-size: 0.75rem;" data-i18n="messages.str_hint_sector_others">
                                 Please fill in the sector in "OTHERS" if not in the list given. e.g. OTHERS: [Forestry]</div>
                         </div>
                         <div style="height: 35px;width:100%" class="mb-2">
