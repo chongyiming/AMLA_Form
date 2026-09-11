@@ -350,6 +350,7 @@
   "messages.str_contact_no_office": "联络号码（办公室）",
   "messages.str_nature_of_business": "业务性质",
   "messages.str_signatory_director_bo_header": "签署人/董事/受益拥有人",
+  "messages.str_settlor_protector_beneficiary_header": "财产授予人/保护人/受益人",
   "messages.str_role": "角色"
 
 }

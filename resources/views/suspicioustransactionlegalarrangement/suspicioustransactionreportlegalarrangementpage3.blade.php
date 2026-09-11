@@ -33,8 +33,8 @@
         :nationalityWithCode="$nationalityWithCode"
         :riskRating="$riskRating"
         :annualIncome="$annualIncome"
-        formNo="Form_STR-DPMS-I"
-        headerKey="messages.str_signatory_director_bo_header"></x-shared-form-5>
+        formNo="Form_STR-DPMS-LA"
+        headerKey="messages.str_settlor_protector_beneficiary_header"></x-shared-form-5>
 </body>
 
 </html>

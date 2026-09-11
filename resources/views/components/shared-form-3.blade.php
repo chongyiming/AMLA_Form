@@ -62,7 +62,7 @@
 
 <body>
     <div class="container" id="container">
-        <p class="fs-6 text-end">Form_STR-DPMS-I</p>
+        <p class="fs-6 text-end">{{$formNo}}</p>
 
 
         <table class="table table-bordered align-middle table-sm mt-1">

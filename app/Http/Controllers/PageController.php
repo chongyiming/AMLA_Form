@@ -437,6 +437,148 @@ class PageController extends Controller
             'annualIncome' => $annualIncome
         ]);
     }
+
+    public function showSuspiciousTransactionReportLegalArrangement()
+    {
+
+        $branch = DB::table('Company_Setup_Workstation')
+            ->select('Branch_Code')
+            ->where('Branch_Code', 'LIKE', 'P%')
+            // ->where('Branch_Code', '!=', 'PEOS')
+            ->distinct()
+            ->get();
+        $nationality = DB::table('MAS_Country')
+            ->select('Country_Name')
+            ->get();
+
+        $nationalityWithCode = DB::table('MAS_Country')
+            ->select('Country_Code', 'Country_Name')
+            ->get()
+            ->map(fn($c) => (object) [
+                'Country_Name' => $c->Country_Code . ' - ' . $c->Country_Name,
+            ]);
+
+
+        $states = DB::table('MAS_State')
+            ->select('State_Name')
+            ->get();
+
+        $choices = collect([
+            (object) ['Choice' => 'YES'],
+            (object) ['Choice' => 'NO'],
+        ]);
+        $genders = collect([
+            (object) ['Gender' => 'MALE'],
+            (object) ['Gender' => 'FEMALE'],
+            (object) ['Gender' => 'UNKNOWN'],
+
+        ]);
+
+        $marital = collect([
+            (object) ['Status' => 'SINGLE'],
+            (object) ['Status' => 'MARRIED'],
+            (object) ['Status' => 'DIVORCED'],
+            (object) ['Status' => 'WIDOWED'],
+            (object) ['Status' => 'OTHERS'],
+
+
+        ]);
+
+        $riskRating = collect([
+            (object) ['Risk_Rating' => 'UNKNOWN'],
+            (object) ['Risk_Rating' => 'LOW'],
+            (object) ['Risk_Rating' => 'MEDIUM'],
+            (object) ['Risk_Rating' => 'HIGH'],
+        ]);
+
+        $annualIncome = collect([
+            (object) ['Range' => '35,000 AND BELOW'],
+            (object) ['Range' => '35,001 - 50,000'],
+            (object) ['Range' => '50,001 - 70,000'],
+            (object) ['Range' => '70,001 - 100,000'],
+            (object) ['Range' => '101,000 - 250,000'],
+            (object) ['Range' => '250,001 - 400,000'],
+            (object) ['Range' => '400,001 - 600,000'],
+            (object) ['Range' => '600,001 - 1,000,000'],
+            (object) ['Range' => '1,000,001 - 2,000,000'],
+            (object) ['Range' => '2,000,001 - 3,000,000'],
+            (object) ['Range' => '3,000,001 AND ABOVE'],
+        ]);
+        $reported = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Reported')
+            ->get();
+
+        $source = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Source')
+            ->get();
+
+        $offence = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Offence')
+            ->get();
+
+        $title = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Title')
+            ->get();
+
+        $occupation = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Occupation')
+            ->get();
+
+        $sector = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Sector')
+            ->get();
+        $bankAccount = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'BankAccount')
+            ->get();
+
+        $productType = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'ProductType')
+            ->get();
+
+        $currency = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Currency')
+            ->get();
+
+        $relationship = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Relationship')
+            ->get();
+
+        return view('suspicioustransactionlegalarrangement.suspicioustransactionreportlegalarrangement', [
+            'state' => 0,
+            'form1' => null,
+            'form' => null,
+            'branch' => $branch,
+            'choices' => $choices,
+            'reported' => $reported,
+            'source' => $source,
+            'offence' => $offence,
+            'title' => $title,
+            'genders' => $genders,
+            'occupation' => $occupation,
+            'sector' => $sector,
+            'marital' => $marital,
+            'bankAccount' => $bankAccount,
+            'productType' => $productType,
+            'currency' => $currency,
+            'relationship' => $relationship,
+            'nationality' => $nationality,
+            'states' => $states,
+            'nationalityWithCode' => $nationalityWithCode,
+            'riskRating' => $riskRating,
+            'annualIncome' => $annualIncome
+        ]);
+    }
+
     public function submittedCustomerDueDiligenceForm($form_id, $state)
     {
         $row = DB::table('istr_AMLAForm1 as t1')

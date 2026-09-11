@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <x-shared-form-5
+    <x-shared-form-3
         :form_id="$form_id ?? null"
         :state="$state"
         :form="$form"
@@ -33,8 +33,7 @@
         :nationalityWithCode="$nationalityWithCode"
         :riskRating="$riskRating"
         :annualIncome="$annualIncome"
-        formNo="Form_STR-DPMS-I"
-        headerKey="messages.str_signatory_director_bo_header"></x-shared-form-5>
+        formNo="Form_STR-DPMS-LA"></x-shared-form-3>
 </body>
 
 </html>

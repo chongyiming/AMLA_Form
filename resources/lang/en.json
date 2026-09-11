@@ -350,6 +350,7 @@
   "messages.str_contact_no_office": "Contact No (Office)",
   "messages.str_nature_of_business": "Nature of Business",
   "messages.str_signatory_director_bo_header": "Signatory/Director/Beneficial Owner",
+  "messages.str_settlor_protector_beneficiary_header": "Settlor/Protector/Beneficiary",
   "messages.str_role": "Role"
 
 

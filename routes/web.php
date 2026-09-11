@@ -33,7 +33,10 @@ Route::get(
     '/home_suspicious_transaction_report_non_individual',
     [TableController::class, 'home_suspicious_transaction_report_non_individual']
 );
-
+Route::get(
+    '/home_suspicious_transaction_report_legal_arrangement',
+    [TableController::class, 'home_suspicious_transaction_report_legal_arrangement']
+);
 
 Route::post('/create', [PageController::class, 'create']);
 Route::post('/createCustomerRiskProfilingForm', [PageController::class, 'createCustomerRiskProfilingForm']);
@@ -45,6 +48,7 @@ Route::get('/showSuspiciousTransactionReport', [PageController::class, 'showSusp
 Route::post('/createSuspiciousTransactionReport', [PageController::class, 'createSuspiciousTransactionReport']);
 Route::get('/showSuspiciousTransactionReportNonIndividual', [PageController::class, 'showSuspiciousTransactionReportNonIndividual']);
 Route::post('/createSuspiciousTransactionReportNonIndividual', [PageController::class, 'createSuspiciousTransactionReportNonIndividual']);
+Route::get('/showSuspiciousTransactionReportLegalArrangement', [PageController::class, 'showSuspiciousTransactionReportLegalArrangement']);
 
 
 

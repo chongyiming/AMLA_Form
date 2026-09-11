@@ -207,6 +207,36 @@ class TableController extends Controller
         return view('suspicioustransactionnonindividual.home_suspicious_transaction_report_non_individual', ['forms' => $forms, 'branch' => $branch]);
     }
 
+    public function home_suspicious_transaction_report_legal_arrangement()
+    {
+        $forms = DB::table('istr_AMLAForm4c as t1')
+            ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
+            ->select(
+                't1.*',
+                't2.*',
+                DB::raw("
+            (
+                SELECT COUNT(*)
+                FROM istr_AMLA_Attachment as a
+                WHERE a.form_id = t1.form_id
+                AND a.deletedAt IS NULL
+                AND a.file_name NOT LIKE '%approval_signature%'
+            ) AS image_count
+        ")
+            )
+            ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
+            ->orderBy('t1.form_id', 'desc')
+            ->paginate(10);
+        $branch = DB::table('Company_Setup_Workstation')
+            ->select('Branch_Code')
+            ->where('Branch_Code', 'LIKE', 'P%')
+            ->where('Branch_Code', '!=', 'PEOS')
+            ->distinct()
+            ->first();
+        return view('suspicioustransactionlegalarrangement.home_suspicious_transaction_report_legal_arrangement', ['forms' => $forms, 'branch' => $branch]);
+    }
+
+
     public function attachments($form_id)
     {
         $attachments = AmlaAttachment::where('form_id', $form_id)
