@@ -3252,7 +3252,6 @@ class PageController extends Controller
 
     public function createCustomerRiskProfilingForm(Request $request)
     {
-
         $data = $request->validate([
             'branch_name' => 'nullable|string',
             'cust_name' => 'required|string',
