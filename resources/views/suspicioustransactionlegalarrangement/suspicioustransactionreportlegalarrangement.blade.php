@@ -67,7 +67,7 @@
 <body>
     <x-menu-sidebar></x-menu-sidebar>
 
-    <form method="POST" action="{{ $state == 0 ? '/createSuspiciousTransactionReportNonIndividual' : '/submitSuspiciousTransactionReportNonIndividual' }}">
+    <form method="POST" action="{{ $state == 0 ? '/createSuspiciousTransactionReportLegalArrangement' : '/submitSuspiciousTransactionReportLegalArrangement' }}">
         @csrf
 
 
@@ -98,7 +98,7 @@
             @if (isset($row))
             <x-attachment-button :row="$row"></x-attachment-button>
             @endif
-            <x-sidepanel :form1="$form1" :form="$form" :state="$state" form_type="Form_No_4b" :branch="$branch"></x-sidepanel>
+            <x-sidepanel :form1="$form1" :form="$form" :state="$state" form_type="Form_No_4c" :branch="$branch"></x-sidepanel>
         </div>
     </form>
     @if (isset($row) && $row->isNotEmpty())

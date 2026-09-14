@@ -61,7 +61,7 @@
 
 <body>
     <div class="container" id="container">
-        <p class="fs-6 text-end">Form_STR-DPMS-I</p>
+        <p class="fs-6 text-end">{{$formNo}}</p>
 
 
         <table class="table table-bordered align-middle table-sm mt-1">
@@ -162,8 +162,8 @@
                         @elseif (($headerKey ?? null) === 'messages.str_settlor_protector_beneficiary_header')
                         <label class="mt-1" data-i18n="messages.str_spouse_dob">Spouse Date of Birth</label>
                         <input type="date" name="settlor_spouse_dob" class="form-control" value="{{ old('settlor_spouse_dob', $form1->settlor_spouse_dob ?? '') }}">
-                        <label class="mt-1">Relationship with Settlor</label>
-                        <input type="date" name="settlor_spouse_relationship" class="form-control" value="{{ old('settlor_spouse_relationship', $form1->settlor_spouse_relationship ?? '') }}">
+                        <label class="mt-1" data-i18n="messages.str_la_relationship_with_settlor">Relationship with Settlor</label>
+                        <input type="text" name="settlor_spouse_relationship" class="form-control" value="{{ old('settlor_spouse_relationship', $form1->settlor_spouse_relationship ?? '') }}">
                         @endif
 
                     </td>

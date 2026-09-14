@@ -113,27 +113,53 @@
                                 :form1="$form1"
                                 border="show" />
                         </div>
+
+                        @if (($headerKey ?? null) === 'messages.str_signatory_director_bo_header')
                         <div class="d-flex gap-3 align-items-center">
                             <label class="mt-1"><span data-i18n="messages.str_id_no_nric">Identification No (NRIC)</span> <span class="text-danger"> *</span></label>
                             <div class="form-text fst-italic" style="font-size: 0.75rem;" data-i18n="messages.str_hint_nric_example">
                                 e.g. 780101141234</div>
                         </div>
                         <input type="text" name="settlor_id" class="form-control" value="{{ old('settlor_id', $form1->settlor_id ?? '') }}">
+                        @elseif (($headerKey ?? null) === 'messages.str_settlor_protector_beneficiary_header')
+                        <div class="d-flex gap-3 align-items-center">
+                            <label class="mt-1"><span data-i18n="messages.str_la_id_no_nric_brn">Identification No (NRIC/BRN)</span> <span class="text-danger"> *</span></label>
+                            <div class="form-text fst-italic" style="font-size: 0.75rem;" data-i18n="messages.str_hint_nric_example">
+                                e.g. 780101141234</div>
+                        </div>
+                        <input type="text" name="settlor_id" class="form-control" value="{{ old('settlor_id', $form1->settlor_id ?? '') }}">
+                        @endif
                         <div class="d-flex gap-3 align-items-center">
                             <label class="mt-1" data-i18n="messages.str_id_no_passport">Identification No (Passport) </label>
                             <div class="form-text fst-italic" style="font-size: 0.75rem;" data-i18n="messages.str_hint_passport_optional">
                                 Non-mandatory field if customer is Malaysian. Mandatory if they are foreigner</div>
                         </div>
-                        <input type="date" name="settlor_passport" class="form-control" value="{{ old('settlor_passport', $form1->settlor_passport ?? '') }}">
+                        <input type="text" name="settlor_passport" class="form-control" value="{{ old('settlor_passport', $form1->settlor_passport ?? '') }}">
+
                         <label class="mt-1" data-i18n="messages.str_other_id">Other ID </label>
-                        <input type="date" name="settlor_other_id" class="form-control" value="{{ old('settlor_other_id', $form1->settlor_other_id ?? '') }}">
+                        <input type="text" name="settlor_other_id" class="form-control" value="{{ old('settlor_other_id', $form1->settlor_other_id ?? '') }}">
+
+                        @if (($headerKey ?? null) === 'messages.str_signatory_director_bo_header')
                         <label class="mt-1"><span data-i18n="messages.str_date_of_birth">Date of Birth</span> <span class="text-danger"> *</span> </label>
                         <input type="date" name="settlor_dob" class="form-control" value="{{ old('settlor_dob', $form1->settlor_dob ?? '') }}">
+                        @elseif (($headerKey ?? null) === 'messages.str_settlor_protector_beneficiary_header')
+                        <label class="mt-1"><span data-i18n="messages.str_la_date_of_birth_establishment">Date of Birth/Establishment</span> <span class="text-danger"> *</span> </label>
+                        <input type="date" name="settlor_dob" class="form-control" value="{{ old('settlor_dob', $form1->settlor_dob ?? '') }}">
+                        @endif
+
+                        @if (($headerKey ?? null) === 'messages.str_signatory_director_bo_header')
                         <label class="mt-1"><span data-i18n="messages.str_residential_address">Residential Address</span> <span class="text-danger"> *</span> </label>
                         <div class="input-group input-group-sm mb-1">
                             <span class="input-group-text" data-i18n="messages.str_address">Address</span>
                             <input type="text" class="form-control" name="settlor_address" value="{{ old('settlor_address', $form1->settlor_address ?? '') }}">
                         </div>
+                        @elseif (($headerKey ?? null) === 'messages.str_settlor_protector_beneficiary_header')
+                        <label class="mt-1"><span data-i18n="messages.str_la_residential_business_address">Residential/Business Address</span> <span class="text-danger"> *</span> </label>
+                        <div class="input-group input-group-sm mb-1">
+                            <span class="input-group-text" data-i18n="messages.str_address">Address</span>
+                            <input type="text" class="form-control" name="settlor_address" value="{{ old('settlor_address', $form1->settlor_address ?? '') }}">
+                        </div>
+                        @endif
                         <div class="d-flex gap-5">
                             <div class="input-group input-group-sm mb-1">
                                 <span class="input-group-text" data-i18n="messages.str_town">Town</span>

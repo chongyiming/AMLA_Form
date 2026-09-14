@@ -56,7 +56,8 @@
         }
     </style>
     <link rel="shortcut icon" sizes="114x114" href="{{ asset('/form.png') }}">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -159,101 +160,14 @@
 
         if (state == 2) {
             const fieldsToDisable = [
-                '[name="trx_no"]',
-                '[name="branch_name"]',
-                '[name="preparer_name"]',
-                '[name="doc_no"]',
-                '[name="date"]',
-                '[name="full_name"]',
-                '[name="nric_passport"]',
-                '[name="dob"]',
+                'input[type="text"]',
+                'input[type="button"]',
+                'input[type="date"]',
 
-                '[name="residential_add"]',
-                '[name="residential_town"]',
-                '[name="residential_state"]',
-                '[name="residential_postcode"]',
+                'textarea',
+                'button[id="clear-btn1"]',
+                'button[id="clear-btn"]'
 
-                '[name="mailing_add"]',
-                '[name="mailing_town"]',
-                '[name="mailing_state"]',
-                '[name="mailing_postcode"]',
-
-
-
-                '[name="rank_reference"]',
-                '[name="employer"]',
-
-                '[name="nature_of_business_select"]',
-                '[name="nature_of_business_text"]',
-
-                '[name="contact_number"]',
-
-                '[name="transaction_purpose"]',
-                '[name="business_name"]',
-                '[name="brn"]',
-                '[name="business_type"]',
-                '[name="other_text"]',
-
-
-                '[name="registered_address"]',
-                '[name="registered_town"]',
-                '[name="registered_state"]',
-                '[name="registered_postcode"]',
-
-                '[name="principal_address"]',
-                '[name="principal_town"]',
-                '[name="principal_state"]',
-                '[name="principal_postcode"]',
-
-                '[name="principle_business"]',
-
-                '[name="contact_no_2"]',
-
-                '[name="director_name"]',
-
-
-
-
-                '[name="senior_name"]',
-                '[name="senior_type"]',
-                '[name="arrangement_name"]',
-                '[name="arrangement_registration"]',
-                '[name="arrangement_type"]',
-                '[name="arrangement_other_text"]',
-
-
-                '[name="arrangement_address"]',
-                '[name="arrangement_town"]',
-                '[name="arrangement_state"]',
-                '[name="arrangement_postcode"]',
-
-                '[name="principal_address_arrangement"]',
-                '[name="principal_town_arrangement"]',
-                '[name="principal_state_arrangement"]',
-                '[name="principal_postcode_arrangement"]',
-
-
-                '[name="principle_activity"]',
-
-                '[name="contact_no_3"]',
-
-
-
-
-                '[name="trust_text"]',
-                '[name="transacting_name"]',
-                '[name="transacting_nric_passport"]',
-                '[name="transacting_dob"]',
-
-                '[name="transacting_address"]',
-                '[name="transacting_town"]',
-                '[name="transacting_state"]',
-                '[name="transacting_postcode"]',
-
-
-                '[name="transacting_employer"]',
-                '[name="transacting_contact"]',
-                'input[type="checkbox"]'
             ];
 
             fieldsToDisable.forEach(selector => {
@@ -264,65 +178,18 @@
                 });
             });
 
-            const remainBorder = [
-                '[name="occupation_type"]',
-                '[name="transacting_occupation_status"]',
-                '[name="residential_country"]',
-                '[name="mailing_country"]',
-                '[name="registered_country"]',
-                '[name="principal_country"]',
-                '[name="arrangement_country"]',
-                '[name="principal_country_arrangement"]',
-                '[name="transacting_country"]',
-                '[name^="shareholder["][name$="[shareholder_name]"]',
-                '[name^="shareholder["][name$="[share_type]"]',
-                '[name^="shareholder["][name$="[share_percent]"]',
-                '[name^="nominee["][name$="[nominee_name]"]',
-                '[name^="nominee["][name$="[nominee_type]"]',
-
-                '[name="settlor[name]"]',
-                '[name="settlor[id]"]',
-                '[name="settlor[address]"]',
-
-                '[name="trustee[name]"]',
-                '[name="trustee[id]"]',
-                '[name="trustee[address]"]',
-
-                '[name="protector[name]"]',
-                '[name="protector[id]"]',
-                '[name="protector[address]"]',
-
-                '[name="beneficiary_class_of_beneficiary[name]"]',
-                '[name="beneficiary_class_of_beneficiary[id]"]',
-                '[name="beneficiary_class_of_beneficiary[address]"]',
-
-                '[name="other_bo_information[name]"]',
-                '[name="other_bo_information[id]"]',
-                '[name="other_bo_information[address]"]',
-
-
-
-            ]
-
-            remainBorder.forEach(selector => {
-                document.querySelectorAll(selector).forEach(el => {
-                    el.disabled = true;
-                    el.style.background = 'transparent';
-                });
-            });
-
-
             const dropdownBorder = [
+                '[name="preparer_name"]',
                 '[name="nationality"]',
                 '[name="occupation_status"]',
+                '[name="nature_of_business_select"]',
+                '[name="transaction_purpose"]',
                 '[name="country_incorp"]',
                 '[name="transaction_purpose_2"]',
                 '[name="country_registration"]',
                 '[name="transaction_purpose_3"]',
                 '[name="transacting_nationality"]',
-
                 '[name="transacting_occupation"]',
-
             ]
 
 
@@ -332,23 +199,15 @@
                 });
             });
 
+            document.querySelectorAll('input[type="radio"]').forEach(el => {
+                el.disabled = true;
+            });
+            document.querySelectorAll('input[type="checkbox"]').forEach(el => {
+                el.disabled = true;
+            });
 
-            // const removeDropdownBorder = [
-            //     '[name="preparer_name"]',
-            // ];
 
-            // removeDropdownBorder.forEach(selector => {
-            //     document.querySelectorAll(selector).forEach(el => {
-            //         el.disabled = true;
 
-            //         // remove border on the select2 rendered container
-            //         const container = el.nextElementSibling; // .select2-container
-            //         if (container) {
-            //             container.querySelector('.select2-selection--single')
-            //                 .style.border = 'none';
-            //         }
-            //     });
-            // });
         }
     </script>
 </body>

@@ -58,6 +58,11 @@ class TableController extends Controller
         return redirect("/createdSuspiciousTransactionReportNonIndividual/{$form_id}/1");
     }
 
+    public function editSuspiciousTransactionReportLegalArrangement($form_id)
+    {
+        return redirect("/createdSuspiciousTransactionReportLegalArrangement/{$form_id}/1");
+    }
+
 
 
 

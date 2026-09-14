@@ -49,6 +49,7 @@ Route::post('/createSuspiciousTransactionReport', [PageController::class, 'creat
 Route::get('/showSuspiciousTransactionReportNonIndividual', [PageController::class, 'showSuspiciousTransactionReportNonIndividual']);
 Route::post('/createSuspiciousTransactionReportNonIndividual', [PageController::class, 'createSuspiciousTransactionReportNonIndividual']);
 Route::get('/showSuspiciousTransactionReportLegalArrangement', [PageController::class, 'showSuspiciousTransactionReportLegalArrangement']);
+Route::post('/createSuspiciousTransactionReportLegalArrangement', [PageController::class, 'createSuspiciousTransactionReportLegalArrangement']);
 
 
 
@@ -57,6 +58,7 @@ Route::get('/createdCustomerRiskProfilingForm/{form_id}/{state}', [PageControlle
 Route::get('/createdEnhancedCustomerDueDiligenceForm/{form_id}/{state}', [PageController::class, 'createdEnhancedCustomerDueDiligenceForm']);
 Route::get('/createdSuspiciousTransactionReport/{form_id}/{state}', [PageController::class, 'createdSuspiciousTransactionReport']);
 Route::get('/createdSuspiciousTransactionReportNonIndividual/{form_id}/{state}', [PageController::class, 'createdSuspiciousTransactionReportNonIndividual']);
+Route::get('/createdSuspiciousTransactionReportLegalArrangement/{form_id}/{state}', [PageController::class, 'createdSuspiciousTransactionReportLegalArrangement']);
 
 
 
@@ -65,12 +67,15 @@ Route::get('/submittedCustomerRiskProfilingForm/{form_id}/{state}', [PageControl
 Route::get('/submittedEnhancedCustomerDueDiligenceForm/{form_id}/{state}', [PageController::class, 'submittedEnhancedCustomerDueDiligenceForm']);
 Route::get('/submittedSuspiciousTransactionReport/{form_id}/{state}', [PageController::class, 'submittedSuspiciousTransactionReport']);
 Route::get('/submittedSuspiciousTransactionReportNonIndividual/{form_id}/{state}', [PageController::class, 'submittedSuspiciousTransactionReportNonIndividual']);
+Route::get('/submittedSuspiciousTransactionReportLegalArrangement/{form_id}/{state}', [PageController::class, 'submittedSuspiciousTransactionReportLegalArrangement']);
+
 
 Route::post('/submitCustomerDueDiligenceForm/{form_id}', [PageController::class, 'submitCustomerDueDiligenceForm']);
 Route::post('/submitCustomerRiskProfilingForm/{form_id}', [PageController::class, 'submitCustomerRiskProfilingForm']);
 Route::post('/submitEnhancedCustomerDueDiligenceForm/{form_id}', [PageController::class, 'submitEnhancedCustomerDueDiligenceForm']);
 Route::post('/submitSuspiciousTransactionReport/{form_id}', [PageController::class, 'submitSuspiciousTransactionReport']);
 Route::post('/submitSuspiciousTransactionReportNonIndividual/{form_id}', [PageController::class, 'submitSuspiciousTransactionReportNonIndividual']);
+Route::post('/submitSuspiciousTransactionReportLegalArrangement/{form_id}', [PageController::class, 'submitSuspiciousTransactionReportLegalArrangement']);
 
 
 
@@ -79,6 +84,7 @@ Route::post('/updateCustomerRiskProfilingForm/{form_id}', [PageController::class
 Route::post('/updateEnhancedCustomerDueDiligenceForm/{form_id}', [PageController::class, 'updateEnhancedCustomerDueDiligenceForm']);
 Route::post('/updateSuspiciousTransactionReport/{form_id}', [PageController::class, 'updateSuspiciousTransactionReport']);
 Route::post('/updateSuspiciousTransactionReportNonIndividual/{form_id}', [PageController::class, 'updateSuspiciousTransactionReportNonIndividual']);
+Route::post('/updateSuspiciousTransactionReportLegalArrangement/{form_id}', [PageController::class, 'updateSuspiciousTransactionReportLegalArrangement']);
 
 
 
@@ -88,6 +94,8 @@ Route::get('/{form_id}/editCustomerRiskProfilingForm', [TableController::class, 
 Route::get('/{form_id}/editEnhancedCustomerDueDiligenceForm', [TableController::class, 'editEnhancedCustomerDueDiligenceForm']);
 Route::get('/{form_id}/editSuspiciousTransactionReport', [TableController::class, 'editSuspiciousTransactionReport']);
 Route::get('/{form_id}/editSuspiciousTransactionReportNonIndividual', [TableController::class, 'editSuspiciousTransactionReportNonIndividual']);
+Route::get('/{form_id}/editSuspiciousTransactionReportLegalArrangement', [TableController::class, 'editSuspiciousTransactionReportLegalArrangement']);
+
 
 
 Route::get('/attachments/{form_id}', [TableController::class, 'attachments']);

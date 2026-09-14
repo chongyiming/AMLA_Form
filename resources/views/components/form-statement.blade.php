@@ -6,104 +6,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        body {
-            font-family: "Times New Roman", Times, serif;
-
-        }
-
-        .statement {
-            margin-top: 20px;
-
-        }
-
-        .statement_title {
-            color: white;
-            background-color: #2E74B5;
-            padding: 7px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .statement_content {
-            margin-top: 10px;
-            border: 1px solid #CCCCCC;
-            display: grid;
-            grid-template-columns: 50% 50%;
-        }
-
-        .statement_column {
-
-            border-right: 1px solid #CCCCCC;
-        }
-
-        .statement_column_label {
-            padding: 5px;
-            background-color: #F1F1F1;
-            font-weight: bold;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid #CCCCCC;
-
-        }
-
         .white_bullet {
             list-style-type: circle;
             margin-left: 14px;
-            font-size: 10px;
         }
     </style>
 </head>
 
-
 <body>
-    <div class="statement">
-        @if(isset($title) && isset($section))
-        <div class="statement_title">
-            <span data-i18n="{{ $section }}"></span> ) <span data-i18n="{{ $title }}"></span>
-        </div>
-        @elseif(isset($title))
-        <div class="statement_title">
-            <span data-i18n="{{ $title }}"></span>
-        </div>
-        @endif
-        <div class="statement_content">
-            @foreach($columns as $column)
-            <div class="statement_column">
-                <div class="statement_column_label">
-                    <span data-i18n="{{ $column['title'] }}"></span>
+    <table class="table table-bordered align-middle">
+        <thead style="background-color:#2E74B5;color:white">
+            <tr>
+                <th><span data-i18n="messages.verification_for_office_use"></span></th>
+            </tr>
+    </table>
+    <table class="table table-bordered align-middle table-sm">
+        <colgroup>
+            <col style="width: 50%;">
+            <col style="width: 50%;">
 
-                    <!-- {{ $column['title'] }} -->
-                </div>
-                <div style='padding:5px'>
-                    @foreach($column['sections'] as $section)
+        </colgroup>
+        <tbody>
+            <tr>
+                <th class="bg-light" data-i18n="messages.individual"></th>
+                <th class="bg-light" data-i18n="messages.legal_persons_legal_arrangement"></th>
+            </tr>
+            <tr>
+                <td class="align-top">
                     <ul>
                         <li>
-                            <!-- {!! $section['description'] !!} -->
-                            <span data-i18n="{{ $section['description'] }}" data-i18n-html style="font-size: 12px;"></span>
+                            <span data-i18n="messages.verify_individual_legal_person_legal_arrangement_identity" data-i18n-html></span>
                         </li>
                     </ul>
-
-                    @if(!empty($section['items']))
                     <ul class="white_bullet">
-                        @foreach($section['items'] as $item)
                         <li>
-                            <!-- {{ $item }} -->
-                            <span data-i18n="{{ $item }}"></span>
-
+                            <span data-i18n="messages.identity_card_malaysian_government"></span>
                         </li>
-                        @endforeach
+                        <li>
+                            <span data-i18n="messages.employee_identity_card_ministries_statutory_bodies"></span>
+                        </li>
+                        <li>
+                            <span data-i18n="messages.foreign_passport_un_identity_card"></span>
+                        </li>
+                        <li>
+                            <span data-i18n="messages.documents_issued_by_malaysian_government"></span>
+                        </li>
+                        <li>
+                            <span data-i18n="messages.biometric_identification"></span>
+                        </li>
+                        <li>
+                            <span data-i18n="messages.organisation_reliable_electronic_data"></span>
+                        </li>
                     </ul>
-                    @endif
 
-                    @endforeach
-                </div>
+                </td>
+                <td class="align-top">
+                    <ul>
+                        <li>
+                            <span data-i18n="messages.verify_legal_person_identity_information_documents"></span>
+                        </li>
+                    </ul>
+                    <ul class="white_bullet">
+                        <li>
+                            <span data-i18n="messages.constitution_certificate_incorporation_partnership"></span>
+                        </li>
+                        <li>
+                            <span data-i18n="messages.reliable_references_verify_customer_identity"></span>
+                        </li>
 
+                    </ul>
+                    <ul>
+                        <li>
+                            <span data-i18n="messages.verify_directors_shareholders_partners_documents"></span>
+                        </li>
+                    </ul>
+                    <ul class="white_bullet">
+                        <li>
+                            <span data-i18n="messages.companies_commission_forms"></span>
+                        </li>
+                        <li>
+                            <span data-i18n="messages.other_equivalent_documents_legal_person"></span>
+                        </li>
+                        <li>
+                            <span data-i18n="messages.authorisation_represent_person"></span>
+                        </li>
+                        <li>
+                            <span data-i18n="messages.letter_of_authority_directors_resolution"></span>
+                        </li>
 
-            </div>
-            @endforeach
-        </div>
-    </div>
+                    </ul>
+                </td>
+            </tr>
+
+    </table>
 </body>
 
 </html>

@@ -351,7 +351,20 @@
   "messages.str_nature_of_business": "Nature of Business",
   "messages.str_signatory_director_bo_header": "Signatory/Director/Beneficial Owner",
   "messages.str_settlor_protector_beneficiary_header": "Settlor/Protector/Beneficiary",
-  "messages.str_role": "Role"
+  "messages.str_role": "Role",
+
+  "messages.str_la_trustee_name": "Trustee Name",
+  "messages.str_la_country_of_establishment": "Country of Establishment/Nationality",
+  "messages.str_la_registration_number_nric": "Registration Number/NRIC",
+  "messages.str_la_other_registration_id": "Other Registration/ID Number",
+  "messages.str_la_date_of_establishment": "Date of Establishment/Birth",
+  "messages.str_la_business_residential_address": "Business/Residential Address",
+  "messages.str_la_contact_no_office_mobile": "Contact No (Office/Mobile)",
+  "messages.str_la_nature_of_business_sector": "Nature of Business/Employment Sector",
+  "messages.str_la_id_no_nric_brn": "Identification No (NRIC/BRN)",
+  "messages.str_la_date_of_birth_establishment": "Date of Birth/Establishment",
+  "messages.str_la_residential_business_address": "Residential/Business Address",
+  "messages.str_la_relationship_with_settlor": "Relationship with Settlor"
 
 
 

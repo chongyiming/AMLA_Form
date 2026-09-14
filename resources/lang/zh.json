@@ -351,6 +351,19 @@
   "messages.str_nature_of_business": "业务性质",
   "messages.str_signatory_director_bo_header": "签署人/董事/受益拥有人",
   "messages.str_settlor_protector_beneficiary_header": "财产授予人/保护人/受益人",
-  "messages.str_role": "角色"
+  "messages.str_role": "角色",
+
+  "messages.str_la_trustee_name": "受托人名称",
+  "messages.str_la_country_of_establishment": "设立国家/国籍",
+  "messages.str_la_registration_number_nric": "注册号码/身份证号码（NRIC）",
+  "messages.str_la_other_registration_id": "其他注册/身份证明号码",
+  "messages.str_la_date_of_establishment": "设立/出生日期",
+  "messages.str_la_business_residential_address": "营业/居住地址",
+  "messages.str_la_contact_no_office_mobile": "联络号码（办公室/手机）",
+  "messages.str_la_nature_of_business_sector": "业务性质/就业领域",
+  "messages.str_la_id_no_nric_brn": "身份证号码（NRIC/BRN）",
+  "messages.str_la_date_of_birth_establishment": "出生/设立日期",
+  "messages.str_la_residential_business_address": "居住/营业地址",
+  "messages.str_la_relationship_with_settlor": "与财产授予人的关系"
 
 }

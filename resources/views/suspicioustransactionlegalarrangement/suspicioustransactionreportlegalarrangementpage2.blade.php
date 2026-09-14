@@ -75,11 +75,11 @@
             <tbody>
                 <tr>
                     <td>
-                        <label class="mt-1"><span data-i18n="messages.str_business_company_name">Trustee Name</span> <span class="text-danger"> *</span></label>
-                        <input type="text" name="cust_name" class="form-control" value="{{ old('cust_name', $form1->cust_name ?? '') }}">
+                        <label class="mt-1"><span data-i18n="messages.str_la_trustee_name">Trustee Name</span> <span class="text-danger"> *</span></label>
+                        <input type="text" name="trustee_name" class="form-control" value="{{ old('trustee_name', $form1->trustee_name ?? '') }}">
                         <label class="mt-1" data-i18n="messages.str_other_name_previous_name">Other Name/Previous Name</label>
                         <input type="text" name="other_name" class="form-control" value="{{ old('other_name', $form1->other_name ?? '') }}">
-                        <label class="mt-1"><span data-i18n="messages.str_country_of_incorporation">Country of Establishment/Nationality</span> <span class="text-danger"> *</span></label>
+                        <label class="mt-1"><span data-i18n="messages.str_la_country_of_establishment">Country of Establishment/Nationality</span> <span class="text-danger"> *</span></label>
                         <div style="height: 35px;">
                             <x-searchable-dropdown
                                 :options="$nationalityWithCode"
@@ -88,13 +88,13 @@
                                 :form1="$form1"
                                 border="show" />
                         </div>
-                        <label class="mt-1"><span data-i18n="messages.str_business_registration_number">Registration Number/NRIC</label>
+                        <label class="mt-1"><span data-i18n="messages.str_la_registration_number_nric">Registration Number/NRIC</span></label>
                         <input type="text" name="cust_reg_number" class="form-control" value="{{ old('cust_reg_number', $form1->cust_reg_number ?? '') }}">
-                        <label class="mt-1" data-i18n="messages.str_other_registration_number">Other Registration/ID Number</label>
+                        <label class="mt-1" data-i18n="messages.str_la_other_registration_id">Other Registration/ID Number</label>
                         <input type="text" name="cust_other_reg" class="form-control" value="{{ old('cust_other_reg', $form1->cust_other_reg ?? '') }}">
-                        <label class="mt-1"><span data-i18n="messages.str_date_of_incorporation">Date of Establishment/Birth</span> <span class="text-danger"> *</span> </label>
+                        <label class="mt-1"><span data-i18n="messages.str_la_date_of_establishment">Date of Establishment/Birth</span> <span class="text-danger"> *</span> </label>
                         <input type="date" name="cust_dob" class="form-control" value="{{ old('cust_dob', $form1->cust_dob ?? '') }}">
-                        <label class="mt-1"><span data-i18n="messages.str_business_address">Business/Residential Address</span> <span class="text-danger"> *</span> </label>
+                        <label class="mt-1"><span data-i18n="messages.str_la_business_residential_address">Business/Residential Address</span> <span class="text-danger"> *</span> </label>
                         <div class="input-group input-group-sm mb-1">
                             <span class="input-group-text" data-i18n="messages.str_address">Address</span>
                             <input type="text" class="form-control" name="cust_address" value="{{ old('cust_address', $form1->cust_address ?? '') }}">
@@ -166,9 +166,9 @@
                         </div>
                         <label class="mt-1" data-i18n="messages.str_email_address">Email Address</label>
                         <input type="text" name="cust_email" class="form-control" value="{{ old('cust_email', $form1->cust_email ?? '') }}">
-                        <label class="mt-1"><span data-i18n="messages.str_contact_no_office">Contact No (Office/Mobile)</span> <span class="text-danger"> *</span> </label>
+                        <label class="mt-1"><span data-i18n="messages.str_la_contact_no_office_mobile">Contact No (Office/Mobile)</span> <span class="text-danger"> *</span> </label>
                         <input type="text" name="cust_contact" class="form-control" value="{{ old('cust_contact', $form1->cust_contact ?? '') }}">
-                        <label class="mt-1" data-i18n="messages.str_customer_aml_risk_rating">Customer AML Risk Rating </label>
+                        <label class="mt-1" data-i18n="messages.str_customer_aml_risk_rating">Customer AML Risk Rating</label>
                         <div style="height: 35px;width:100%">
                             <x-searchable-dropdown
                                 :options="$riskRating"
@@ -178,7 +178,7 @@
                                 border="show" />
                         </div>
                         <div class="d-flex gap-3 align-items-center">
-                            <label class="mt-1"><span data-i18n="messages.str_nature_of_business">Nature of Business/Employment Sector</span> <span class="text-danger"> *</span></label>
+                            <label class="mt-1"><span data-i18n="messages.str_la_nature_of_business_sector">Nature of Business/Employment Sector</span> <span class="text-danger"> *</span></label>
                             <div class="form-text fst-italic" style="font-size: 0.75rem;" data-i18n="messages.str_hint_sector_others">
                                 Please fill in the sector in "OTHERS" if not in the list given. e.g. OTHERS: [Forestry]</div>
                         </div>

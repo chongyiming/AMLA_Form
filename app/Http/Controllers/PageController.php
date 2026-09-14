@@ -14,6 +14,7 @@ use App\Models\AmlaForm2;
 use App\Models\AmlaForm3;
 use App\Models\AmlaForm4a;
 use App\Models\AmlaForm4b;
+use App\Models\AmlaForm4c;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -56,18 +57,11 @@ class PageController extends Controller
             ->select('Country_Name')
             ->get();
         $purpose_of_trx = collect([
-            (object) ['Purpose_Name' => 'Purchase of Goods'],
-            (object) ['Purpose_Name' => 'Payment for Services'],
-            (object) ['Purpose_Name' => 'Business Investment'],
-            (object) ['Purpose_Name' => 'Loan Repayment'],
-            (object) ['Purpose_Name' => 'Salary Payment'],
-            (object) ['Purpose_Name' => 'Property Purchase'],
-            (object) ['Purpose_Name' => 'Property Rental'],
-            (object) ['Purpose_Name' => 'Transfer to Family'],
-            (object) ['Purpose_Name' => 'Personal Expenses'],
-            (object) ['Purpose_Name' => 'Savings'],
-            (object) ['Purpose_Name' => 'Donation'],
-            (object) ['Purpose_Name' => 'Other'],
+            (object) ['Purpose_Name' => 'Own Use'],
+            (object) ['Purpose_Name' => 'Investment'],
+            (object) ['Purpose_Name' => 'Gift'],
+            (object) ['Purpose_Name' => 'Trade In For Cash'],
+            (object) ['Purpose_Name' => 'Collectible'],
         ]);
         $occupation_type = collect([
             (object) ['Occupation_Name' => 'Business Owner'],
@@ -97,6 +91,21 @@ class PageController extends Controller
             // ->where('Branch_Code', '!=', 'PEOS')
             ->distinct()
             ->get();
+
+        $nationality = DB::table('MAS_Country')
+            ->select('Country_Name')
+            ->get();
+
+        $occupation = DB::table('MAS_AMLA_CDD')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'occupation_status')
+            ->get();
+
+        $natureOfBusiness = DB::table('MAS_AMLA_CDD')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'nature_of_business')
+            ->get();
+
         return view('customerduediligence.customerduediligenceform', [
             'state' => 0,
             'form1' => null,
@@ -105,7 +114,10 @@ class PageController extends Controller
             'countries' => $countries,
             'purposeOfTrx' => $purpose_of_trx,
             'occupationType' => $occupation_type,
-            'branch' => $branch
+            'branch' => $branch,
+            'nationality' => $nationality,
+            'occupation' => $occupation,
+            'natureOfBusiness' => $natureOfBusiness
         ]);
     }
 
@@ -606,18 +618,11 @@ class PageController extends Controller
             ->select('Country_Name')
             ->get();
         $purpose_of_trx = collect([
-            (object) ['Purpose_Name' => 'Purchase of Goods'],
-            (object) ['Purpose_Name' => 'Payment for Services'],
-            (object) ['Purpose_Name' => 'Business Investment'],
-            (object) ['Purpose_Name' => 'Loan Repayment'],
-            (object) ['Purpose_Name' => 'Salary Payment'],
-            (object) ['Purpose_Name' => 'Property Purchase'],
-            (object) ['Purpose_Name' => 'Property Rental'],
-            (object) ['Purpose_Name' => 'Transfer to Family'],
-            (object) ['Purpose_Name' => 'Personal Expenses'],
-            (object) ['Purpose_Name' => 'Savings'],
-            (object) ['Purpose_Name' => 'Donation'],
-            (object) ['Purpose_Name' => 'Other'],
+            (object) ['Purpose_Name' => 'Own Use'],
+            (object) ['Purpose_Name' => 'Investment'],
+            (object) ['Purpose_Name' => 'Gift'],
+            (object) ['Purpose_Name' => 'Trade In For Cash'],
+            (object) ['Purpose_Name' => 'Collectible'],
         ]);
         $occupation_type = collect([
             (object) ['Occupation_Name' => 'Business Owner'],
@@ -650,61 +655,21 @@ class PageController extends Controller
         $form = AmlaForm::where('form_id', $form_id)->first();
 
         $form1 = AmlaForm1::where('form_id', $form_id)->first();
-        $form1['shareholder'] = [
-            [
-                "shareholder_name" => $form1['shareholder_name'],
-                "share_type" => $form1['share_type'],
-                "share_percent" => $form1['share_percent'],
-            ],
-            [
-                "shareholder_name" => $form1['shareholder_name2'],
-                "share_type" => $form1['share_type2'],
-                "share_percent" => $form1['share_percent2'],
-            ],
-        ];
 
 
-        $form1['nominee'] = [
-            [
-                "nominee_name" => $form1['nominee_name'],
-                "nominee_type" => $form1['nominee_type'],
-            ],
-            [
-                "nominee_name" => $form1['nominee_name2'],
-                "nominee_type" => $form1['nominee_type2'],
-            ],
-        ];
+        $nationality = DB::table('MAS_Country')
+            ->select('Country_Name')
+            ->get();
 
+        $occupation = DB::table('MAS_AMLA_CDD')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'occupation_status')
+            ->get();
 
-        $form1['settlor'] = [
-            "name" => $form1['settlor_name'],
-            "id" => $form1['settlor_id'],
-            "address" => $form1['settlor_address'],
-        ];
-
-        $form1['trustee'] = [
-            "name" => $form1['trustee_name'],
-            "id" => $form1['trustee_id'],
-            "address" => $form1['trustee_address'],
-        ];
-
-        $form1['protector'] = [
-            "name" => $form1['protector_name'],
-            "id" => $form1['protector_id'],
-            "address" => $form1['protector_address'],
-        ];
-
-        $form1['beneficiary_class_of_beneficiary'] = [
-            "name" => $form1['beneficiary_name'],
-            "id" => $form1['beneficiary_id'],
-            "address" => $form1['beneficiary_address'],
-        ];
-
-        $form1['other_bo_information'] = [
-            "name" => $form1['bo_name'],
-            "id" => $form1['bo_id'],
-            "address" => $form1['bo_address'],
-        ];
+        $natureOfBusiness = DB::table('MAS_AMLA_CDD')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'nature_of_business')
+            ->get();
 
 
         return view('customerduediligence.customerduediligenceform', [
@@ -717,7 +682,10 @@ class PageController extends Controller
             'purposeOfTrx' => $purpose_of_trx,
             'occupationType' => $occupation_type,
             'row' => $row,
-            'branch' => $branch
+            'branch' => $branch,
+            'nationality' => $nationality,
+            'occupation' => $occupation,
+            'natureOfBusiness' => $natureOfBusiness
 
         ]);
     }
@@ -1170,6 +1138,177 @@ class PageController extends Controller
         ]);
     }
 
+    public function submittedSuspiciousTransactionReportLegalArrangement($form_id, $state)
+    {
+        $row = DB::table('istr_AMLAForm4c as t1')
+            ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
+            ->select(
+                't1.*',
+                't2.*',
+                DB::raw("
+            (
+                SELECT COUNT(*)
+                FROM istr_AMLA_Attachment as a
+                WHERE a.form_id = t1.form_id
+                AND a.deletedAt IS NULL
+                AND a.file_name NOT LIKE '%approval_signature%'
+
+            ) AS image_count
+        ")
+            )
+            ->where('t1.form_id', $form_id)
+            ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
+            ->get();
+
+        $branch = DB::table('Company_Setup_Workstation')
+            ->select('Branch_Code')
+            ->where('Branch_Code', 'LIKE', 'P%')
+            // ->where('Branch_Code', '!=', 'PEOS')
+            ->distinct()
+            ->get();
+
+        $nationality = DB::table('MAS_Country')
+            ->select('Country_Name')
+            ->get();
+
+        $nationalityWithCode = DB::table('MAS_Country')
+            ->select('Country_Code', 'Country_Name')
+            ->get()
+            ->map(fn($c) => (object) [
+                'Country_Name' => $c->Country_Code . ' - ' . $c->Country_Name,
+            ]);
+
+
+        $states = DB::table('MAS_State')
+            ->select('State_Name')
+            ->get();
+
+        $choices = collect([
+            (object) ['Choice' => 'YES'],
+            (object) ['Choice' => 'NO'],
+        ]);
+        $genders = collect([
+            (object) ['Gender' => 'MALE'],
+            (object) ['Gender' => 'FEMALE'],
+            (object) ['Gender' => 'UNKNOWN'],
+
+        ]);
+
+        $marital = collect([
+            (object) ['Status' => 'SINGLE'],
+            (object) ['Status' => 'MARRIED'],
+            (object) ['Status' => 'DIVORCED'],
+            (object) ['Status' => 'WIDOWED'],
+            (object) ['Status' => 'OTHERS'],
+
+
+        ]);
+
+
+        $riskRating = collect([
+            (object) ['Risk_Rating' => 'UNKNOWN'],
+            (object) ['Risk_Rating' => 'LOW'],
+            (object) ['Risk_Rating' => 'MEDIUM'],
+            (object) ['Risk_Rating' => 'HIGH'],
+        ]);
+
+        $annualIncome = collect([
+            (object) ['Range' => '35,000 AND BELOW'],
+            (object) ['Range' => '35,001 - 50,000'],
+            (object) ['Range' => '50,001 - 70,000'],
+            (object) ['Range' => '70,001 - 100,000'],
+            (object) ['Range' => '101,000 - 250,000'],
+            (object) ['Range' => '250,001 - 400,000'],
+            (object) ['Range' => '400,001 - 600,000'],
+            (object) ['Range' => '600,001 - 1,000,000'],
+            (object) ['Range' => '1,000,001 - 2,000,000'],
+            (object) ['Range' => '2,000,001 - 3,000,000'],
+            (object) ['Range' => '3,000,001 AND ABOVE'],
+        ]);
+
+
+        $reported = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Reported')
+            ->get();
+
+        $source = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Source')
+            ->get();
+
+        $offence = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Offence')
+            ->get();
+
+        $title = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Title')
+            ->get();
+
+        $occupation = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Occupation')
+            ->get();
+
+        $sector = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Sector')
+            ->get();
+        $bankAccount = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'BankAccount')
+            ->get();
+
+        $productType = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'ProductType')
+            ->get();
+
+        $currency = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Currency')
+            ->get();
+
+        $relationship = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Relationship')
+            ->get();
+
+
+        $form = AmlaForm::where('form_id', $form_id)->first();
+
+        $form1 = AmlaForm4c::where('form_id', $form_id)->first();
+
+        return view('suspicioustransactionlegalarrangement.suspicioustransactionreportlegalarrangement', [
+            'form_id' => $form_id,
+            'state' => $state,
+            'form' => $form,
+            'form1' => $form1,
+            'row' => $row,
+            'branch' => $branch,
+            'choices' => $choices,
+            'reported' => $reported,
+            'source' => $source,
+            'offence' => $offence,
+            'title' => $title,
+            'genders' => $genders,
+            'occupation' => $occupation,
+            'sector' => $sector,
+            'marital' => $marital,
+            'bankAccount' => $bankAccount,
+            'productType' => $productType,
+            'currency' => $currency,
+            'relationship' => $relationship,
+            'nationality' => $nationality,
+            'states' => $states,
+            'nationalityWithCode' => $nationalityWithCode,
+            'riskRating' => $riskRating,
+            'annualIncome' => $annualIncome
+        ]);
+    }
+
     public function createdForm($form_id, $state)
 
     {
@@ -1199,18 +1338,11 @@ class PageController extends Controller
             ->select('Country_Name')
             ->get();
         $purpose_of_trx = collect([
-            (object) ['Purpose_Name' => 'Purchase of Goods'],
-            (object) ['Purpose_Name' => 'Payment for Services'],
-            (object) ['Purpose_Name' => 'Business Investment'],
-            (object) ['Purpose_Name' => 'Loan Repayment'],
-            (object) ['Purpose_Name' => 'Salary Payment'],
-            (object) ['Purpose_Name' => 'Property Purchase'],
-            (object) ['Purpose_Name' => 'Property Rental'],
-            (object) ['Purpose_Name' => 'Transfer to Family'],
-            (object) ['Purpose_Name' => 'Personal Expenses'],
-            (object) ['Purpose_Name' => 'Savings'],
-            (object) ['Purpose_Name' => 'Donation'],
-            (object) ['Purpose_Name' => 'Other'],
+            (object) ['Purpose_Name' => 'Own Use'],
+            (object) ['Purpose_Name' => 'Investment'],
+            (object) ['Purpose_Name' => 'Gift'],
+            (object) ['Purpose_Name' => 'Trade In For Cash'],
+            (object) ['Purpose_Name' => 'Collectible'],
         ]);
         $occupation_type = collect([
             (object) ['Occupation_Name' => 'Business Owner'],
@@ -1243,61 +1375,6 @@ class PageController extends Controller
         $form = AmlaForm::where('form_id', $form_id)->first();
 
         $form1 = AmlaForm1::where('form_id', $form_id)->first();
-        $form1['shareholder'] = [
-            [
-                "shareholder_name" => $form1['shareholder_name'],
-                "share_type" => $form1['share_type'],
-                "share_percent" => $form1['share_percent'],
-            ],
-            [
-                "shareholder_name" => $form1['shareholder_name2'],
-                "share_type" => $form1['share_type2'],
-                "share_percent" => $form1['share_percent2'],
-            ],
-        ];
-
-
-        $form1['nominee'] = [
-            [
-                "nominee_name" => $form1['nominee_name'],
-                "nominee_type" => $form1['nominee_type'],
-            ],
-            [
-                "nominee_name" => $form1['nominee_name2'],
-                "nominee_type" => $form1['nominee_type2'],
-            ],
-        ];
-
-
-        $form1['settlor'] = [
-            "name" => $form1['settlor_name'],
-            "id" => $form1['settlor_id'],
-            "address" => $form1['settlor_address'],
-        ];
-
-        $form1['trustee'] = [
-            "name" => $form1['trustee_name'],
-            "id" => $form1['trustee_id'],
-            "address" => $form1['trustee_address'],
-        ];
-
-        $form1['protector'] = [
-            "name" => $form1['protector_name'],
-            "id" => $form1['protector_id'],
-            "address" => $form1['protector_address'],
-        ];
-
-        $form1['beneficiary_class_of_beneficiary'] = [
-            "name" => $form1['beneficiary_name'],
-            "id" => $form1['beneficiary_id'],
-            "address" => $form1['beneficiary_address'],
-        ];
-
-        $form1['other_bo_information'] = [
-            "name" => $form1['bo_name'],
-            "id" => $form1['bo_id'],
-            "address" => $form1['bo_address'],
-        ];
 
 
         if (!empty($form['branch_name'])) {
@@ -1305,6 +1382,20 @@ class PageController extends Controller
         } else {
             $form1['branch'] = null;
         }
+
+        $nationality = DB::table('MAS_Country')
+            ->select('Country_Name')
+            ->get();
+
+        $occupation = DB::table('MAS_AMLA_CDD')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'occupation_status')
+            ->get();
+
+        $natureOfBusiness = DB::table('MAS_AMLA_CDD')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'nature_of_business')
+            ->get();
         return view('customerduediligence.customerduediligenceform', [
             'form_id' => $form_id,
             'state' => $state,
@@ -1315,7 +1406,10 @@ class PageController extends Controller
             'purposeOfTrx' => $purpose_of_trx,
             'occupationType' => $occupation_type,
             'row' => $row,
-            'branch' => $branch
+            'branch' => $branch,
+            'nationality' => $nationality,
+            'occupation' => $occupation,
+            'natureOfBusiness' => $natureOfBusiness
 
         ]);
     }
@@ -1781,6 +1875,179 @@ class PageController extends Controller
         ]);
     }
 
+    public function createdSuspiciousTransactionReportLegalArrangement($form_id, $state)
+    {
+        $row = DB::table('istr_AMLAForm4c as t1')
+            ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
+            ->select(
+                't1.*',
+                't2.*',
+                DB::raw("
+            (
+                SELECT COUNT(*)
+                FROM istr_AMLA_Attachment as a
+                WHERE a.form_id = t1.form_id
+                AND a.deletedAt IS NULL
+                AND a.file_name NOT LIKE '%approval_signature%'
+
+            ) AS image_count
+        ")
+            )
+            ->where('t1.form_id', $form_id)
+            ->whereRaw("(t2.status != 'Deleted' OR t2.status IS NULL)")
+            ->get();
+
+
+        $branch = DB::table('Company_Setup_Workstation')
+            ->select('Branch_Code')
+            ->where('Branch_Code', 'LIKE', 'P%')
+            // ->where('Branch_Code', '!=', 'PEOS')
+            ->distinct()
+            ->get();
+        $nationality = DB::table('MAS_Country')
+            ->select('Country_Name')
+            ->get();
+
+        $nationalityWithCode = DB::table('MAS_Country')
+            ->select('Country_Code', 'Country_Name')
+            ->get()
+            ->map(fn($c) => (object) [
+                'Country_Name' => $c->Country_Code . ' - ' . $c->Country_Name,
+            ]);
+
+
+        $states = DB::table('MAS_State')
+            ->select('State_Name')
+            ->get();
+
+        $choices = collect([
+            (object) ['Choice' => 'YES'],
+            (object) ['Choice' => 'NO'],
+        ]);
+        $genders = collect([
+            (object) ['Gender' => 'MALE'],
+            (object) ['Gender' => 'FEMALE'],
+            (object) ['Gender' => 'UNKNOWN'],
+
+        ]);
+
+        $marital = collect([
+            (object) ['Status' => 'SINGLE'],
+            (object) ['Status' => 'MARRIED'],
+            (object) ['Status' => 'DIVORCED'],
+            (object) ['Status' => 'WIDOWED'],
+            (object) ['Status' => 'OTHERS'],
+
+
+        ]);
+
+        $riskRating = collect([
+            (object) ['Risk_Rating' => 'UNKNOWN'],
+            (object) ['Risk_Rating' => 'LOW'],
+            (object) ['Risk_Rating' => 'MEDIUM'],
+            (object) ['Risk_Rating' => 'HIGH'],
+        ]);
+
+        $annualIncome = collect([
+            (object) ['Range' => '35,000 AND BELOW'],
+            (object) ['Range' => '35,001 - 50,000'],
+            (object) ['Range' => '50,001 - 70,000'],
+            (object) ['Range' => '70,001 - 100,000'],
+            (object) ['Range' => '101,000 - 250,000'],
+            (object) ['Range' => '250,001 - 400,000'],
+            (object) ['Range' => '400,001 - 600,000'],
+            (object) ['Range' => '600,001 - 1,000,000'],
+            (object) ['Range' => '1,000,001 - 2,000,000'],
+            (object) ['Range' => '2,000,001 - 3,000,000'],
+            (object) ['Range' => '3,000,001 AND ABOVE'],
+        ]);
+        $reported = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Reported')
+            ->get();
+
+        $source = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Source')
+            ->get();
+
+        $offence = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Offence')
+            ->get();
+
+        $title = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Title')
+            ->get();
+
+        $occupation = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Occupation')
+            ->get();
+
+        $sector = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Sector')
+            ->get();
+        $bankAccount = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'BankAccount')
+            ->get();
+
+        $productType = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'ProductType')
+            ->get();
+
+        $currency = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Currency')
+            ->get();
+
+        $relationship = DB::table('MAS_AMLA_STR')
+            ->select('Dropdown_List')
+            ->where('Type', '=', 'Relationship')
+            ->get();
+
+
+
+        $form = AmlaForm::where('form_id', $form_id)->first();
+
+        $form1 = AmlaForm4c::where('form_id', $form_id)->first();
+        if (!empty($form['branch_name'])) {
+            $form1['branch'] = $form['branch_name'];
+        } else {
+            $form1['branch'] = null;
+        }
+
+        return view('suspicioustransactionlegalarrangement.suspicioustransactionreportlegalarrangement', [
+            'state' => $state,
+            'form1' => $form1,
+            'form' => $form,
+            'row' => $row,
+            'branch' => $branch,
+            'choices' => $choices,
+            'reported' => $reported,
+            'source' => $source,
+            'offence' => $offence,
+            'title' => $title,
+            'genders' => $genders,
+            'occupation' => $occupation,
+            'sector' => $sector,
+            'marital' => $marital,
+            'bankAccount' => $bankAccount,
+            'productType' => $productType,
+            'currency' => $currency,
+            'relationship' => $relationship,
+            'nationality' => $nationality,
+            'states' => $states,
+            'nationalityWithCode' => $nationalityWithCode,
+            'riskRating' => $riskRating,
+            'annualIncome' => $annualIncome
+        ]);
+    }
+
 
 
     public function updateCustomerDueDiligenceForm(Request $request, $form_id)
@@ -1847,13 +2114,19 @@ class PageController extends Controller
 
             'director_name' => 'nullable|string',
 
-            'shareholder.*.shareholder_name' => 'nullable|string',
-            'shareholder.*.share_type' => 'nullable|string',
-            'shareholder.*.share_percent' => 'nullable|numeric',
+            'shareholder_name' => 'nullable|string',
+            'share_type' => 'nullable|string',
+            'share_percent' => 'nullable|numeric',
 
-            'nominee' => 'nullable|array',
-            'nominee.*.nominee_name' => 'nullable|string',
-            'nominee.*.nominee_type' => 'nullable|string',
+            'shareholder_name2' => 'nullable|string',
+            'share_type2' => 'nullable|string',
+            'share_percent2' => 'nullable|numeric',
+
+            'nominee_name' => 'nullable|string',
+            'nominee_type' => 'nullable|string',
+
+            'nominee_name2' => 'nullable|string',
+            'nominee_type2' => 'nullable|string',
 
             'senior_name' => 'nullable|string',
             'senior_type' => 'nullable|string',
@@ -1881,26 +2154,25 @@ class PageController extends Controller
             'contact_no_3' => 'nullable|string',
             'transaction_purpose_3' => 'nullable|string',
 
-            'settlor.name' => 'nullable|string',
-            'settlor.id' => 'nullable|string',
-            'settlor.address' => 'nullable|string',
+            'settlor_name' => 'nullable|string',
+            'settlor_id' => 'nullable|string',
+            'settlor_address' => 'nullable|string',
 
-            'trustee.name' => 'nullable|string',
-            'trustee.id' => 'nullable|string',
-            'trustee.address' => 'nullable|string',
+            'trustee_name' => 'nullable|string',
+            'trustee_id' => 'nullable|string',
+            'trustee_address' => 'nullable|string',
 
-            'protector.name' => 'nullable|string',
-            'protector.id' => 'nullable|string',
-            'protector.address' => 'nullable|string',
+            'protector_name' => 'nullable|string',
+            'protector_id' => 'nullable|string',
+            'protector_address' => 'nullable|string',
 
-            'beneficiary_class_of_beneficiary.name' => 'nullable|string',
-            'beneficiary_class_of_beneficiary.id' => 'nullable|string',
-            'beneficiary_class_of_beneficiary.address' => 'nullable|string',
+            'beneficiary_name' => 'nullable|string',
+            'beneficiary_id' => 'nullable|string',
+            'beneficiary_address' => 'nullable|string',
 
-            'other_bo_information.name' => 'nullable|string',
-            'other_bo_information.id' => 'nullable|string',
-            'other_bo_information.address' => 'nullable|string',
-
+            'bo_name' => 'nullable|string',
+            'bo_id' => 'nullable|string',
+            'bo_address' => 'nullable|string',
 
             'trust_text' => 'nullable|string',
             'transacting_name' => 'nullable|string',
@@ -1927,57 +2199,6 @@ class PageController extends Controller
             'doc_no' => 'nullable|string'
         ]);
 
-        $shareholders = $data['shareholder'] ?? [];
-
-        $data['shareholder_name'] = $shareholders[0]['shareholder_name'] ?? null;
-        $data['share_type'] = $shareholders[0]['share_type'] ?? null;
-        $data['share_percent'] = $shareholders[0]['share_percent'] ?? null;
-
-        $data['shareholder_name2'] = $shareholders[1]['shareholder_name'] ?? null;
-        $data['share_type2'] = $shareholders[1]['share_type'] ?? null;
-        $data['share_percent2'] = $shareholders[1]['share_percent'] ?? null;
-
-
-        $nominees = $data['nominee'] ?? [];
-
-        $data['nominee_name'] = $nominees[0]['nominee_name'] ?? null;
-        $data['nominee_type'] = $nominees[0]['nominee_type'] ?? null;
-
-        $data['nominee_name2'] = $nominees[1]['nominee_name'] ?? null;
-        $data['nominee_type2'] = $nominees[1]['nominee_type'] ?? null;
-
-
-        $settlor = $data['settlor'] ?? [];
-
-        $data['settlor_name'] = $settlor['name'] ?? null;
-        $data['settlor_id'] = $settlor['id'] ?? null;
-        $data['settlor_address'] = $settlor['address'] ?? null;
-
-        $trustee = $data['trustee'] ?? [];
-
-        $data['trustee_name'] = $trustee['name'] ?? null;
-        $data['trustee_id'] = $trustee['id'] ?? null;
-        $data['trustee_address'] = $trustee['address'] ?? null;
-
-
-        $protector = $data['protector'] ?? [];
-
-        $data['protector_name'] = $protector['name'] ?? null;
-        $data['protector_id'] = $protector['id'] ?? null;
-        $data['protector_address'] = $protector['address'] ?? null;
-
-
-        $beneficiary = $data['beneficiary_class_of_beneficiary'] ?? [];
-
-        $data['beneficiary_name'] = $beneficiary['name'] ?? null;
-        $data['beneficiary_id'] = $beneficiary['id'] ?? null;
-        $data['beneficiary_address'] = $beneficiary['address'] ?? null;
-
-        $otherBO = $data['other_bo_information'] ?? [];
-
-        $data['bo_name'] = $otherBO['name'] ?? null;
-        $data['bo_id'] = $otherBO['id'] ?? null;
-        $data['bo_address'] = $otherBO['address'] ?? null;
         $data['isMyKadReader'] = 0;
         $data_header['status'] = "New";
         $data_header['updated_date'] = now();
@@ -2503,6 +2724,141 @@ class PageController extends Controller
 
         return redirect()->back();
     }
+
+    public function updateSuspiciousTransactionReportLegalArrangement(Request $request, $form_id)
+    {
+        $data = $request->validate([
+            'attempted_not_complete'       => 'required|string',
+            'str_reported_due'             => 'required|string',
+            'state_relevant_source'        => 'required|string',
+            'suspect_predicate'            => 'required|string',
+            'red_flag_indicator'           => 'required|string',
+            'description_trans_pattern'    => 'required|string',
+            'details_reasons'              => 'required|string',
+            'related_pep'                  => 'required|string',
+            'description_relationship_pep' => 'nullable|string',
+            'keyword_report'               => 'nullable|string',
+            'trustee_name'                 => 'required|string',
+            'other_name'                   => 'nullable|string',
+            'cust_nationality'             => 'required|string',
+            'cust_reg_number'              => 'nullable|string',
+            'cust_other_reg'               => 'nullable|string',
+            'cust_dob'                     => 'required|date|before:today',
+            'cust_address'                 => 'required|string',
+            'cust_town'                    => 'required|string',
+            'cust_postcode'                => 'required|string',
+            'cust_state'                   => 'required|string',
+            'cust_country'                 => 'required|string',
+            'cust_corr_address'            => 'nullable|string',
+            'cust_corr_town'               => 'nullable|string',
+            'cust_corr_postcode'           => 'nullable|string',
+            'cust_corr_state'              => 'nullable|string',
+            'cust_corr_country'            => 'nullable|string',
+            'cust_email'                   => 'nullable|email',
+            'cust_contact'                 => 'required|string',
+            'cust_aml_rating'              => 'nullable|string',
+            'cust_emp_sector'              => 'required|string',
+            'settlor_role'                 => 'required|string',
+            'settlor_title'                => 'nullable|string',
+            'settlor_name'                 => 'required|string',
+            'settlor_alias'                => 'nullable|string',
+            'settlor_gender'               => 'required|string',
+            'settlor_nationality'          => 'required|string',
+            'settlor_id'                   => 'required|string',
+            'settlor_passport'             => 'nullable|string',
+            'settlor_other_id'             => 'nullable|string',
+            'settlor_dob'                  => 'required|date|before:today',
+            'settlor_address'              => 'required|string',
+            'settlor_town'                 => 'required|string',
+            'settlor_postcode'             => 'required|string',
+            'settlor_state'                => 'required|string',
+            'settlor_country'              => 'required|string',
+            'settlor_corr_address'         => 'nullable|string',
+            'settlor_corr_town'            => 'nullable|string',
+            'settlor_corr_postcode'        => 'nullable|string',
+            'settlor_corr_state'           => 'nullable|string',
+            'settlor_corr_country'         => 'nullable|string',
+            'settlor_email'                => 'nullable|email',
+            'settlor_contact'              => 'required|string',
+            'settlor_aml_rating'           => 'nullable|string',
+            'settlor_occupation'           => 'required|string',
+            'settlor_occupation_desc'      => 'nullable|string',
+            'settlor_employer'             => 'nullable|string',
+            'settlor_emp_sector'           => 'nullable|string',
+            'settlor_income_range'         => 'nullable|string',
+            'settlor_marital_status'       => 'nullable|string',
+            'settlor_spouse_name'          => 'nullable|string',
+            'settlor_spouse_nationality'   => 'nullable|string',
+            'settlor_spouse_nric'          => 'nullable|string',
+            'settlor_spouse_passport'      => 'nullable|string',
+            'settlor_spouse_other_id'      => 'nullable|string',
+            'settlor_spouse_dob'           => 'nullable|date|before:today',
+            'settlor_spouse_relationship'  => 'nullable|string',
+            'bank_name'                    => 'nullable|string',
+            'bank_acc_no'                  => 'nullable|string',
+            'bank_acc_type'                => 'nullable|string',
+            'bank_home_branch'             => 'nullable|string',
+            'sus_trans_producttype'        => 'required|string',
+            'sus_trans_datefrom'           => 'required|date',
+            'sus_trans_dateto'             => 'required|date|after_or_equal:sus_trans_datefrom',
+            'sus_trans_amt_myr'            => 'required|numeric|decimal:0,2',
+            'sus_trans_currency'           => 'nullable|string',
+            'sus_trans_amt_fc'             => 'nullable|numeric|decimal:0,2',
+            'sus_title'                    => 'nullable|string',
+            'sus_name'                     => 'nullable|string',
+            'sus_name_other'               => 'nullable|string',
+            'sus_gender'                   => 'nullable|string',
+            'sus_nationality'              => 'nullable|string',
+            'sus_nric'                     => 'nullable|string',
+            'sus_passport'                 => 'nullable|string',
+            'sus_other_id'                 => 'nullable|string',
+            'sus_dob'                      => 'nullable|date|before:today',
+            'sus_address'                  => 'nullable|string',
+            'sus_town'                     => 'nullable|string',
+            'sus_postcode'                 => 'nullable|string',
+            'sus_state'                    => 'nullable|string',
+            'sus_country'                  => 'nullable|string',
+            'sus_corr_address'             => 'nullable|string',
+            'sus_corr_town'                => 'nullable|string',
+            'sus_corr_postcode'            => 'nullable|string',
+            'sus_corr_state'               => 'nullable|string',
+            'sus_corr_country'             => 'nullable|string',
+            'sus_email'                    => 'nullable|email',
+            'sus_phone_country'            => 'nullable|string',
+            'sus_phone'                    => 'nullable|string',
+            'sus_occu'                     => 'nullable|string',
+            'sus_relationship'             => 'nullable|string',
+            'firm_producttype'             => 'nullable|string',
+            'firm_other'                   => 'nullable|string',
+            'firm_quantity'                => 'required|numeric',
+            'firm_amt'                     => 'required|numeric|decimal:0,2',
+            'firm_date'                    => 'required|date',
+            'firm_serv'                    => 'nullable|numeric',
+            'firm_trans_amt'               => 'nullable|numeric|decimal:0,2',
+        ]);
+        $data_header = $request->validate([
+            'trx_no' => 'nullable|string',
+            'sales_date' => 'nullable|date',
+            'branch' => 'nullable|string',
+            'doc_no' => 'nullable|string'
+        ]);
+        $data_header['status'] = "New";
+        $data_header['updated_date'] = now();
+
+        $data['form_id'] = $form_id;
+        if (!empty($request['branch'])) {
+            $data_header['branch_name'] = $request['branch'];
+        } else {
+            $data_header['branch_name'] = null;
+        }
+        $form = AmlaForm::findOrFail($form_id);
+        $form->update($data_header);
+        $form4b = AmlaForm4c::findOrFail($form_id);
+        $form4b->update($data);
+
+
+        return redirect()->back();
+    }
     public function submitCustomerDueDiligenceForm(Request $request, $form_id)
     {
         $data_header['status'] = "Submitted";
@@ -2556,6 +2912,16 @@ class PageController extends Controller
         $form->update($data_header);
 
         return redirect("/submittedSuspiciousTransactionReportNonIndividual/{$form_id}/2");
+    }
+
+    public function submitSuspiciousTransactionReportLegalArrangement(Request $request, $form_id)
+    {
+
+        $data_header['status'] = "Submitted";
+        $form = AmlaForm::findOrFail($form_id);
+        $form->update($data_header);
+
+        return redirect("/submittedSuspiciousTransactionReportLegalArrangement/{$form_id}/2");
     }
 
 
@@ -2721,13 +3087,19 @@ class PageController extends Controller
 
             'director_name' => 'nullable|string',
 
-            'shareholder.*.shareholder_name' => 'nullable|string',
-            'shareholder.*.share_type' => 'nullable|string',
-            'shareholder.*.share_percent' => 'nullable|numeric',
+            'shareholder_name' => 'nullable|string',
+            'share_type' => 'nullable|string',
+            'share_percent' => 'nullable|numeric',
 
-            'nominee' => 'nullable|array',
-            'nominee.*.nominee_name' => 'nullable|string',
-            'nominee.*.nominee_type' => 'nullable|string',
+            'shareholder_name2' => 'nullable|string',
+            'share_type2' => 'nullable|string',
+            'share_percent2' => 'nullable|numeric',
+
+            'nominee_name' => 'nullable|string',
+            'nominee_type' => 'nullable|string',
+
+            'nominee_name2' => 'nullable|string',
+            'nominee_type2' => 'nullable|string',
 
             'senior_name' => 'nullable|string',
             'senior_type' => 'nullable|string',
@@ -2755,26 +3127,25 @@ class PageController extends Controller
             'contact_no_3' => 'nullable|string',
             'transaction_purpose_3' => 'nullable|string',
 
-            'settlor.name' => 'nullable|string',
-            'settlor.id' => 'nullable|string',
-            'settlor.address' => 'nullable|string',
+            'settlor_name' => 'nullable|string',
+            'settlor_id' => 'nullable|string',
+            'settlor_address' => 'nullable|string',
 
-            'trustee.name' => 'nullable|string',
-            'trustee.id' => 'nullable|string',
-            'trustee.address' => 'nullable|string',
+            'trustee_name' => 'nullable|string',
+            'trustee_id' => 'nullable|string',
+            'trustee_address' => 'nullable|string',
 
-            'protector.name' => 'nullable|string',
-            'protector.id' => 'nullable|string',
-            'protector.address' => 'nullable|string',
+            'protector_name' => 'nullable|string',
+            'protector_id' => 'nullable|string',
+            'protector_address' => 'nullable|string',
 
-            'beneficiary_class_of_beneficiary.name' => 'nullable|string',
-            'beneficiary_class_of_beneficiary.id' => 'nullable|string',
-            'beneficiary_class_of_beneficiary.address' => 'nullable|string',
+            'beneficiary_name' => 'nullable|string',
+            'beneficiary_id' => 'nullable|string',
+            'beneficiary_address' => 'nullable|string',
 
-            'other_bo_information.name' => 'nullable|string',
-            'other_bo_information.id' => 'nullable|string',
-            'other_bo_information.address' => 'nullable|string',
-
+            'bo_name' => 'nullable|string',
+            'bo_id' => 'nullable|string',
+            'bo_address' => 'nullable|string',
 
             'trust_text' => 'nullable|string',
             'transacting_name' => 'nullable|string',
@@ -2802,57 +3173,6 @@ class PageController extends Controller
             'doc_no' => 'nullable|string'
         ]);
 
-        $shareholders = $data['shareholder'] ?? [];
-
-        $data['shareholder_name'] = $shareholders[0]['shareholder_name'] ?? null;
-        $data['share_type'] = $shareholders[0]['share_type'] ?? null;
-        $data['share_percent'] = $shareholders[0]['share_percent'] ?? null;
-
-        $data['shareholder_name2'] = $shareholders[1]['shareholder_name'] ?? null;
-        $data['share_type2'] = $shareholders[1]['share_type'] ?? null;
-        $data['share_percent2'] = $shareholders[1]['share_percent'] ?? null;
-
-
-        $nominees = $data['nominee'] ?? [];
-
-        $data['nominee_name'] = $nominees[0]['nominee_name'] ?? null;
-        $data['nominee_type'] = $nominees[0]['nominee_type'] ?? null;
-
-        $data['nominee_name2'] = $nominees[1]['nominee_name'] ?? null;
-        $data['nominee_type2'] = $nominees[1]['nominee_type'] ?? null;
-
-
-        $settlor = $data['settlor'] ?? [];
-
-        $data['settlor_name'] = $settlor['name'] ?? null;
-        $data['settlor_id'] = $settlor['id'] ?? null;
-        $data['settlor_address'] = $settlor['address'] ?? null;
-
-        $trustee = $data['trustee'] ?? [];
-
-        $data['trustee_name'] = $trustee['name'] ?? null;
-        $data['trustee_id'] = $trustee['id'] ?? null;
-        $data['trustee_address'] = $trustee['address'] ?? null;
-
-
-        $protector = $data['protector'] ?? [];
-
-        $data['protector_name'] = $protector['name'] ?? null;
-        $data['protector_id'] = $protector['id'] ?? null;
-        $data['protector_address'] = $protector['address'] ?? null;
-
-
-        $beneficiary = $data['beneficiary_class_of_beneficiary'] ?? [];
-
-        $data['beneficiary_name'] = $beneficiary['name'] ?? null;
-        $data['beneficiary_id'] = $beneficiary['id'] ?? null;
-        $data['beneficiary_address'] = $beneficiary['address'] ?? null;
-
-        $otherBO = $data['other_bo_information'] ?? [];
-
-        $data['bo_name'] = $otherBO['name'] ?? null;
-        $data['bo_id'] = $otherBO['id'] ?? null;
-        $data['bo_address'] = $otherBO['address'] ?? null;
         $data['isMyKadReader'] = 0;
         $data_header['status'] = "New";
         $data_header['form_type'] = "Form_No_1";
@@ -3366,6 +3686,138 @@ class PageController extends Controller
         AmlaForm4b::create($data);
         return redirect("/createdSuspiciousTransactionReportNonIndividual/{$form_id}/1");
     }
+
+    public function createSuspiciousTransactionReportLegalArrangement(Request $request)
+    {
+        $data = $request->validate([
+            'attempted_not_complete'       => 'required|string',
+            'str_reported_due'             => 'required|string',
+            'state_relevant_source'        => 'required|string',
+            'suspect_predicate'            => 'required|string',
+            'red_flag_indicator'           => 'required|string',
+            'description_trans_pattern'    => 'required|string',
+            'details_reasons'              => 'required|string',
+            'related_pep'                  => 'required|string',
+            'description_relationship_pep' => 'nullable|string',
+            'keyword_report'               => 'nullable|string',
+            'trustee_name'                 => 'required|string',
+            'other_name'                   => 'nullable|string',
+            'cust_nationality'             => 'required|string',
+            'cust_reg_number'              => 'nullable|string',
+            'cust_other_reg'               => 'nullable|string',
+            'cust_dob'                     => 'required|date|before:today',
+            'cust_address'                 => 'required|string',
+            'cust_town'                    => 'required|string',
+            'cust_postcode'                => 'required|string',
+            'cust_state'                   => 'required|string',
+            'cust_country'                 => 'required|string',
+            'cust_corr_address'            => 'nullable|string',
+            'cust_corr_town'               => 'nullable|string',
+            'cust_corr_postcode'           => 'nullable|string',
+            'cust_corr_state'              => 'nullable|string',
+            'cust_corr_country'            => 'nullable|string',
+            'cust_email'                   => 'nullable|email',
+            'cust_contact'                 => 'required|string',
+            'cust_aml_rating'              => 'nullable|string',
+            'cust_emp_sector'              => 'required|string',
+            'settlor_role'                 => 'required|string',
+            'settlor_title'                => 'nullable|string',
+            'settlor_name'                 => 'required|string',
+            'settlor_alias'                => 'nullable|string',
+            'settlor_gender'               => 'required|string',
+            'settlor_nationality'          => 'required|string',
+            'settlor_id'                   => 'required|string',
+            'settlor_passport'             => 'nullable|string',
+            'settlor_other_id'             => 'nullable|string',
+            'settlor_dob'                  => 'required|date|before:today',
+            'settlor_address'              => 'required|string',
+            'settlor_town'                 => 'required|string',
+            'settlor_postcode'             => 'required|string',
+            'settlor_state'                => 'required|string',
+            'settlor_country'              => 'required|string',
+            'settlor_corr_address'         => 'nullable|string',
+            'settlor_corr_town'            => 'nullable|string',
+            'settlor_corr_postcode'        => 'nullable|string',
+            'settlor_corr_state'           => 'nullable|string',
+            'settlor_corr_country'         => 'nullable|string',
+            'settlor_email'                => 'nullable|email',
+            'settlor_contact'              => 'required|string',
+            'settlor_aml_rating'           => 'nullable|string',
+            'settlor_occupation'           => 'required|string',
+            'settlor_occupation_desc'      => 'nullable|string',
+            'settlor_employer'             => 'nullable|string',
+            'settlor_emp_sector'           => 'nullable|string',
+            'settlor_income_range'         => 'nullable|string',
+            'settlor_marital_status'       => 'nullable|string',
+            'settlor_spouse_name'          => 'nullable|string',
+            'settlor_spouse_nationality'   => 'nullable|string',
+            'settlor_spouse_nric'          => 'nullable|string',
+            'settlor_spouse_passport'      => 'nullable|string',
+            'settlor_spouse_other_id'      => 'nullable|string',
+            'settlor_spouse_dob'           => 'nullable|date|before:today',
+            'settlor_spouse_relationship'  => 'nullable|string',
+            'bank_name'                    => 'nullable|string',
+            'bank_acc_no'                  => 'nullable|string',
+            'bank_acc_type'                => 'nullable|string',
+            'bank_home_branch'             => 'nullable|string',
+            'sus_trans_producttype'        => 'required|string',
+            'sus_trans_datefrom'           => 'required|date',
+            'sus_trans_dateto'             => 'required|date|after_or_equal:sus_trans_datefrom',
+            'sus_trans_amt_myr'            => 'required|numeric|decimal:0,2',
+            'sus_trans_currency'           => 'nullable|string',
+            'sus_trans_amt_fc'             => 'nullable|numeric|decimal:0,2',
+            'sus_title'                    => 'nullable|string',
+            'sus_name'                     => 'nullable|string',
+            'sus_name_other'               => 'nullable|string',
+            'sus_gender'                   => 'nullable|string',
+            'sus_nationality'              => 'nullable|string',
+            'sus_nric'                     => 'nullable|string',
+            'sus_passport'                 => 'nullable|string',
+            'sus_other_id'                 => 'nullable|string',
+            'sus_dob'                      => 'nullable|date|before:today',
+            'sus_address'                  => 'nullable|string',
+            'sus_town'                     => 'nullable|string',
+            'sus_postcode'                 => 'nullable|string',
+            'sus_state'                    => 'nullable|string',
+            'sus_country'                  => 'nullable|string',
+            'sus_corr_address'             => 'nullable|string',
+            'sus_corr_town'                => 'nullable|string',
+            'sus_corr_postcode'            => 'nullable|string',
+            'sus_corr_state'               => 'nullable|string',
+            'sus_corr_country'             => 'nullable|string',
+            'sus_email'                    => 'nullable|email',
+            'sus_phone_country'            => 'nullable|string',
+            'sus_phone'                    => 'nullable|string',
+            'sus_occu'                     => 'nullable|string',
+            'sus_relationship'             => 'nullable|string',
+            'firm_producttype'             => 'nullable|string',
+            'firm_other'                   => 'nullable|string',
+            'firm_quantity'                => 'required|numeric',
+            'firm_amt'                     => 'required|numeric|decimal:0,2',
+            'firm_date'                    => 'required|date',
+            'firm_serv'                    => 'nullable|numeric',
+            'firm_trans_amt'               => 'nullable|numeric|decimal:0,2',
+        ]);
+        $data_header = $request->validate([
+            'trx_no' => 'nullable|string',
+            'sales_date' => 'nullable|date',
+            'branch' => 'nullable|string',
+            'doc_no' => 'nullable|string'
+        ]);
+        if (!empty($request['branch'])) {
+            $data_header['branch_name'] = $request['branch'];
+        };
+        $data_header['status'] = "New";
+        $data_header['form_type'] = "Form_No_4c";
+        $data_header['created_date'] = now();
+
+        $submittedHeaderForm = AmlaForm::create($data_header);
+        $form_id = $submittedHeaderForm->form_id;
+        $data['form_id'] = $form_id;
+        AmlaForm4c::create($data);
+        return redirect("/createdSuspiciousTransactionReportLegalArrangement/{$form_id}/1");
+    }
+
     public function uploadImages(Request $request, $form_id, $form_type)
     {
         $validator = Validator::make($request->all(), [
