@@ -157,20 +157,8 @@ class TableController extends Controller
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
             ->select(
                 't1.*',
-                't2.form_id',
-                't2.form_type',
-                't2.doc_no',
-                't2.trx_no',
-                't2.created_by',
-                't2.status',
-                't2.created_date',
-                't2.updated_date',
-                't2.uuid',
-                't2.sales_date',
-                't2.reviewed_by',
-                't2.reviewed_date',
-                't2.related_form_id',
-                't2.reviewed_comment',
+                't2.*',
+
                 DB::raw("
             (
                 SELECT COUNT(*)
@@ -199,20 +187,8 @@ class TableController extends Controller
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
             ->select(
                 't1.*',
-                't2.form_id',
-                't2.form_type',
-                't2.doc_no',
-                't2.trx_no',
-                't2.created_by',
-                't2.status',
-                't2.created_date',
-                't2.updated_date',
-                't2.uuid',
-                't2.sales_date',
-                't2.reviewed_by',
-                't2.reviewed_date',
-                't2.related_form_id',
-                't2.reviewed_comment',
+                't2.*',
+
                 DB::raw("
             (
                 SELECT COUNT(*)
@@ -241,20 +217,8 @@ class TableController extends Controller
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
             ->select(
                 't1.*',
-                't2.form_id',
-                't2.form_type',
-                't2.doc_no',
-                't2.trx_no',
-                't2.created_by',
-                't2.status',
-                't2.created_date',
-                't2.updated_date',
-                't2.uuid',
-                't2.sales_date',
-                't2.reviewed_by',
-                't2.reviewed_date',
-                't2.related_form_id',
-                't2.reviewed_comment',
+                't2.*',
+
                 DB::raw("
             (
                 SELECT COUNT(*)
@@ -283,20 +247,8 @@ class TableController extends Controller
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
             ->select(
                 't1.*',
-                't2.form_id',
-                't2.form_type',
-                't2.doc_no',
-                't2.trx_no',
-                't2.created_by',
-                't2.status',
-                't2.created_date',
-                't2.updated_date',
-                't2.uuid',
-                't2.sales_date',
-                't2.reviewed_by',
-                't2.reviewed_date',
-                't2.related_form_id',
-                't2.reviewed_comment',
+                't2.*',
+
                 DB::raw("
             (
                 SELECT COUNT(*)
