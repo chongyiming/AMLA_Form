@@ -17,7 +17,7 @@
 
 <body>
     <div class="container" id="container" style="margin-top:30px">
-        <p class="fs-6 text-end" data-i18n="messages.formNo2">Form No2</p>
+        <p class="fs-6 text-end">Form No. 2</p>
         <span data-i18n="messages.comments_label">Comments:</span>
         <textarea class="form-control"
             name="conclusion_comment">{{ old('conclusion_comment', $form1->conclusion_comment ?? '') }}</textarea>

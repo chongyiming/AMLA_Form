@@ -58,7 +58,7 @@
 
 <body>
     <div class="container" id="container">
-        <p class="fs-6 text-end" data-i18n="messages.formNo3">Form No. 3</p>
+        <p class="fs-6 text-end">Form No. 3</p>
 
         <img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(public_path('pk-logo.jpeg'))) }}"
             style="width: 150px; margin: 0 auto;">

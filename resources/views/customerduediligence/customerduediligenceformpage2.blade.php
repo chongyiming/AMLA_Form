@@ -150,11 +150,12 @@
                     <td colspan="4">
                         <div style="height: 25px;">
                             <x-searchable-dropdown
-                                :options="$natureOfBusiness"
+                                :options="$purposeOfTrx"
                                 name="transaction_purpose_2"
-                                field="Dropdown_List"
+                                field="Purpose_Name"
                                 :form1="$form1"
                                 border="none" />
+
                         </div>
                     </td>
                 </tr>

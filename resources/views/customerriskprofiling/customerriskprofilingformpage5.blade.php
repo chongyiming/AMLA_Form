@@ -14,7 +14,7 @@
 
 <body>
     <div class="container" id="container" style="margin-top:30px">
-        <p class="fs-6 text-end" data-i18n="messages.formNo2">Form No2</p>
+        <p class="fs-6 text-end">Form No. 2</p>
         <table class="table table-bordered align-middle">
             <colgroup>
                 <col style="width: 20%;">

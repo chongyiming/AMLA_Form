@@ -53,8 +53,21 @@
         textarea {
             resize: none !important;
         }
+
+        #cust_phone_country {
+            width: 0 !important;
+            padding-right: 0 !important;
+
+        }
+
+        .iti__country-selector {
+            width: 200px !important;
+        }
+
+        .iti__country-container {
+            height: 30px;
+        }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad/dist/signature_pad.umd.min.js"></script>
 
 
 </head>
@@ -202,14 +215,11 @@
                         <input type="text" name="cust_email" class="form-control" value="{{ old('cust_email', $form1->cust_email ?? '') }}">
                         <label class="mt-1"><span data-i18n="messages.str_contact_no">Contact No</span> <span class="text-danger"> *</span> </label>
                         <div class="d-flex gap-5">
-                            <div style="height: 30px;width:100%">
-                                <x-searchable-dropdown
-                                    :options="$branch"
-                                    name="cust_phone_country"
-                                    field="Branch_Code"
-                                    :form1="$form1"
-                                    border="show" />
-                            </div>
+
+                            <input type="hidden" id="cust_phone_country_value" name="cust_phone_country" value="{{ old('cust_phone_country', $form1->cust_phone_country ?? '') }}">
+                            <input type="text" id="cust_phone_country" class="form-control" autocomplete="off" style="height: 30px" tabindex="-1">
+
+
                             <div class="input-group input-group-sm mb-2">
                                 <span class="input-group-text" data-i18n="messages.str_phone_no">Phone No</span>
                                 <input type="text" class="form-control" name="cust_phone" value="{{ old('cust_phone', $form1->cust_phone ?? '') }}">
@@ -227,5 +237,42 @@
     </div>
 
 </body>
+<script>
+    (function() {
+        const input = document.querySelector("#cust_phone_country");
+        const dialCodeInput = document.querySelector("#cust_phone_country_value");
+        const iti = window.intlTelInput(input, {
+            separateDialCode: true,
+            loadUtils: () => import("https://cdn.jsdelivr.net/npm/intl-tel-input@29.2.3/dist/js/utils.js"),
+        });
+
+        function syncDialCode() {
+            const country = iti.getSelectedCountry();
+            if (country && country.dialCode) {
+                dialCodeInput.value = country.name + ' (' + country.dialCode + ')';
+            }
+        }
+
+        if (dialCodeInput.value) {
+            const saved = dialCodeInput.value.match(/^(.+?)\s*\((\d+)\)$/);
+            if (saved) {
+                const country = window.intlTelInput.getAllCountries().find(function(c) {
+                    return c.name === saved[1] && c.dialCode === saved[2];
+                });
+                if (country) {
+                    iti.setSelectedCountry(country.iso2);
+                } else {
+                    iti.setNumber('+' + saved[2]);
+                }
+            }
+            input.value = '';
+            syncDialCode();
+        }
+
+        input.addEventListener('countrychange', syncDialCode);
+
+
+    })();
+</script>
 
 </html>
