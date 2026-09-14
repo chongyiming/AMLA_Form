@@ -45,7 +45,7 @@ class PageController extends Controller
 
         return view('home', ['branch' => $branch]);
     }
-    public function createForm()
+    public function showCustomerDueDiligenceForm()
     {
         // dd(session('form_data'));
         // dd(request()->all());
@@ -121,7 +121,7 @@ class PageController extends Controller
         ]);
     }
 
-    public function createRiskProfilingForm()
+    public function showCustomerRiskProfilingForm()
     {
         $branch = DB::table('Company_Setup_Workstation')
             ->select('Branch_Code')
@@ -597,7 +597,20 @@ class PageController extends Controller
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
             ->select(
                 't1.*',
-                't2.*',
+                't2.form_id',
+                't2.form_type',
+                't2.doc_no',
+                't2.trx_no',
+                't2.created_by',
+                't2.status',
+                't2.created_date',
+                't2.updated_date',
+                't2.uuid',
+                't2.sales_date',
+                't2.reviewed_by',
+                't2.reviewed_date',
+                't2.related_form_id',
+                't2.reviewed_comment',
                 DB::raw("
             (
                 SELECT COUNT(*)
@@ -697,7 +710,20 @@ class PageController extends Controller
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
             ->select(
                 't1.*',
-                't2.*',
+                't2.form_id',
+                't2.form_type',
+                't2.doc_no',
+                't2.trx_no',
+                't2.created_by',
+                't2.status',
+                't2.created_date',
+                't2.updated_date',
+                't2.uuid',
+                't2.sales_date',
+                't2.reviewed_by',
+                't2.reviewed_date',
+                't2.related_form_id',
+                't2.reviewed_comment',
                 DB::raw("
             (
                 SELECT COUNT(*)
@@ -749,7 +775,20 @@ class PageController extends Controller
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
             ->select(
                 't1.*',
-                't2.*',
+                't2.form_id',
+                't2.form_type',
+                't2.doc_no',
+                't2.trx_no',
+                't2.created_by',
+                't2.status',
+                't2.created_date',
+                't2.updated_date',
+                't2.uuid',
+                't2.sales_date',
+                't2.reviewed_by',
+                't2.reviewed_date',
+                't2.related_form_id',
+                't2.reviewed_comment',
                 DB::raw("
             (
                 SELECT COUNT(*)
@@ -799,7 +838,20 @@ class PageController extends Controller
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
             ->select(
                 't1.*',
-                't2.*',
+                't2.form_id',
+                't2.form_type',
+                't2.doc_no',
+                't2.trx_no',
+                't2.created_by',
+                't2.status',
+                't2.created_date',
+                't2.updated_date',
+                't2.uuid',
+                't2.sales_date',
+                't2.reviewed_by',
+                't2.reviewed_date',
+                't2.related_form_id',
+                't2.reviewed_comment',
                 DB::raw("
             (
                 SELECT COUNT(*)
@@ -972,7 +1024,20 @@ class PageController extends Controller
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
             ->select(
                 't1.*',
-                't2.*',
+                't2.form_id',
+                't2.form_type',
+                't2.doc_no',
+                't2.trx_no',
+                't2.created_by',
+                't2.status',
+                't2.created_date',
+                't2.updated_date',
+                't2.uuid',
+                't2.sales_date',
+                't2.reviewed_by',
+                't2.reviewed_date',
+                't2.related_form_id',
+                't2.reviewed_comment',
                 DB::raw("
             (
                 SELECT COUNT(*)
@@ -1144,7 +1209,20 @@ class PageController extends Controller
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
             ->select(
                 't1.*',
-                't2.*',
+                't2.form_id',
+                't2.form_type',
+                't2.doc_no',
+                't2.trx_no',
+                't2.created_by',
+                't2.status',
+                't2.created_date',
+                't2.updated_date',
+                't2.uuid',
+                't2.sales_date',
+                't2.reviewed_by',
+                't2.reviewed_date',
+                't2.related_form_id',
+                't2.reviewed_comment',
                 DB::raw("
             (
                 SELECT COUNT(*)
@@ -1309,7 +1387,7 @@ class PageController extends Controller
         ]);
     }
 
-    public function createdForm($form_id, $state)
+    public function createdCustomerDueDiligenceForm($form_id, $state)
 
     {
 
@@ -1317,7 +1395,20 @@ class PageController extends Controller
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
             ->select(
                 't1.*',
-                't2.*',
+                't2.form_id',
+                't2.form_type',
+                't2.doc_no',
+                't2.trx_no',
+                't2.created_by',
+                't2.status',
+                't2.created_date',
+                't2.updated_date',
+                't2.uuid',
+                't2.sales_date',
+                't2.reviewed_by',
+                't2.reviewed_date',
+                't2.related_form_id',
+                't2.reviewed_comment',
                 DB::raw("
             (
                 SELECT COUNT(*)
@@ -1424,7 +1515,20 @@ class PageController extends Controller
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
             ->select(
                 't1.*',
-                't2.*',
+                't2.form_id',
+                't2.form_type',
+                't2.doc_no',
+                't2.trx_no',
+                't2.created_by',
+                't2.status',
+                't2.created_date',
+                't2.updated_date',
+                't2.uuid',
+                't2.sales_date',
+                't2.reviewed_by',
+                't2.reviewed_date',
+                't2.related_form_id',
+                't2.reviewed_comment',
                 DB::raw("
             (
                 SELECT COUNT(*)
@@ -1480,7 +1584,20 @@ class PageController extends Controller
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
             ->select(
                 't1.*',
-                't2.*',
+                't2.form_id',
+                't2.form_type',
+                't2.doc_no',
+                't2.trx_no',
+                't2.created_by',
+                't2.status',
+                't2.created_date',
+                't2.updated_date',
+                't2.uuid',
+                't2.sales_date',
+                't2.reviewed_by',
+                't2.reviewed_date',
+                't2.related_form_id',
+                't2.reviewed_comment',
                 DB::raw("
             (
                 SELECT COUNT(*)
@@ -1532,7 +1649,20 @@ class PageController extends Controller
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
             ->select(
                 't1.*',
-                't2.*',
+                't2.form_id',
+                't2.form_type',
+                't2.doc_no',
+                't2.trx_no',
+                't2.created_by',
+                't2.status',
+                't2.created_date',
+                't2.updated_date',
+                't2.uuid',
+                't2.sales_date',
+                't2.reviewed_by',
+                't2.reviewed_date',
+                't2.related_form_id',
+                't2.reviewed_comment',
                 DB::raw("
             (
                 SELECT COUNT(*)
@@ -1708,7 +1838,20 @@ class PageController extends Controller
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
             ->select(
                 't1.*',
-                't2.*',
+                't2.form_id',
+                't2.form_type',
+                't2.doc_no',
+                't2.trx_no',
+                't2.created_by',
+                't2.status',
+                't2.created_date',
+                't2.updated_date',
+                't2.uuid',
+                't2.sales_date',
+                't2.reviewed_by',
+                't2.reviewed_date',
+                't2.related_form_id',
+                't2.reviewed_comment',
                 DB::raw("
             (
                 SELECT COUNT(*)
@@ -1881,7 +2024,20 @@ class PageController extends Controller
             ->join('istr_AMLAForms as t2', 't1.form_id', '=', 't2.form_id')
             ->select(
                 't1.*',
-                't2.*',
+                't2.form_id',
+                't2.form_type',
+                't2.doc_no',
+                't2.trx_no',
+                't2.created_by',
+                't2.status',
+                't2.created_date',
+                't2.updated_date',
+                't2.uuid',
+                't2.sales_date',
+                't2.reviewed_by',
+                't2.reviewed_date',
+                't2.related_form_id',
+                't2.reviewed_comment',
                 DB::raw("
             (
                 SELECT COUNT(*)
@@ -3024,7 +3180,7 @@ class PageController extends Controller
         }
     }
 
-    public function create(Request $request)
+    public function createCustomerDueDiligenceForm(Request $request)
     {
         $data = $request->validate([
             'branch_name' => 'nullable|string',
@@ -3187,7 +3343,7 @@ class PageController extends Controller
             $data
         );
 
-        return redirect("/createdForm/{$form_id}/1");
+        return redirect("/createdCustomerDueDiligenceForm/{$form_id}/1");
     }
 
     public function createCustomerRiskProfilingForm(Request $request)

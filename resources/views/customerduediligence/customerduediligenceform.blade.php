@@ -63,7 +63,7 @@
 <body>
     <x-menu-sidebar></x-menu-sidebar>
 
-    <form method="POST" action="{{ $state == 0 ? '/create' : '/submitCustomerDueDiligenceForm' }}">
+    <form method="POST" action="{{ $state == 0 ? '/createCustomerDueDiligenceForm' : '/submitCustomerDueDiligenceForm' }}">
         @csrf
 
 

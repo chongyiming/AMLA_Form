@@ -33,7 +33,7 @@
     <x-menu-sidebar></x-menu-sidebar>
     <div class="header">
         <h1>{{ $branch->Branch_Code }} Customer Due Diligence Form</h1>
-        <button type="button" class="btn btn-outline-success" onclick="window.location.href = '/createForm'">Create Form</button>
+        <button type="button" class="btn btn-outline-success" onclick="window.location.href = '/showCustomerDueDiligenceForm'">Create Form</button>
 
 
     </div>

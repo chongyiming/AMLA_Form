@@ -10,16 +10,6 @@ class TrxController extends Controller
 {
 
 
-    public function branches()
-    {
-        $branches = DB::table('Company_Setup_Workstation')
-            ->select('Branch_Code')
-            ->distinct()
-            ->get();
-
-        return response()->json($branches);
-    }
-
     public function search(Request $request)
     {
         $trxDate = $request->sales_date;
